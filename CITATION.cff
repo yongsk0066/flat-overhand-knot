@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the accompanying paper."
+title: "Two notions of tightness for the flat overhand knot"
+authors:
+  - family-names: Jang
+    given-names: Yongseok
+    email: yongsk0066@gmail.com
+year: 2026
+repository-code: "https://github.com/yongsk0066/flat-overhand-knot"
+notes: "arXiv identifier and Zenodo DOI will be added at submission."

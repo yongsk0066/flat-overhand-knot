@@ -1,0 +1,8 @@
+Certificate manifest for "Two notions of tightness for the flat overhand knot"
+
+- hashes-verify.txt : SHA-256 of every verification script (verify/*.py, verify/referee/*.py)
+- hashes-logs.txt   : SHA-256 of every certificate output log (logs/*.log)
+- The repository commit is recorded by the Git tag / Zenodo deposit of the release,
+  not embedded here.
+
+Verify with:  sha256sum -c logs/hashes-verify.txt && sha256sum -c logs/hashes-logs.txt

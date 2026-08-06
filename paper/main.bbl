@@ -1,0 +1,140 @@
+\providecommand{\bysame}{\leavevmode\hbox to3em{\hrulefill}\thinspace}
+\providecommand{\MR}{\relax\ifhmode\unskip\space\fi MR }
+% \MRhref is called by the amsart/book/proc definition of \MR.
+\providecommand{\MRhref}[2]{%
+  \href{http://www.ams.org/mathscinet-getitem?mr=#1}{#2}
+}
+\providecommand{\href}[2]{#2}
+\begin{thebibliography}{DHLM22}
+
+\bibitem[AKR25]{immersed2020}
+Jos{\'e} Ayala, David Kirszenblat, and Joachim~Hyam Rubinstein, \emph{Immersed
+  flat ribbon knots}, Israel Journal of Mathematics \textbf{270} (2025),
+  257--292, arXiv:2005.13168.
+
+\bibitem[Aya25]{ayala2025}
+Jos{\'e} Ayala, \emph{Profiles of critical flat ribbon knots},
+  arXiv:2506.04403, 2025.
+
+\bibitem[Bar02]{barvinok2002}
+Alexander Barvinok, \emph{A course in convexity}, Graduate Studies in
+  Mathematics, vol.~54, American Mathematical Society, 2002.
+
+\bibitem[CDPP25]{chen2025}
+Zhicheng Chen, Elizabeth Denne, Kyle Patterson, and Timi Patterson,
+  \emph{Ribbonlength upper bounds for small crossing knots and links},
+  arXiv:2510.16190, 2025.
+
+\bibitem[CDR03]{cdr2003}
+Robert Connelly, Erik~D. Demaine, and G{\"u}nter Rote, \emph{Straightening
+  polygonal arcs and convexifying polygonal cycles}, Discrete Comput. Geom.
+  \textbf{30} (2003), 205--239.
+
+\bibitem[CKS02]{cks2002}
+Jason Cantarella, Robert~B. Kusner, and John~M. Sullivan, \emph{On the minimum
+  ropelength of knots and links}, Invent. Math. \textbf{150} (2002), 257--286.
+
+\bibitem[dC76]{docarmo1976}
+Manfredo~P. do~Carmo, \emph{Differential geometry of curves and surfaces},
+  Prentice-Hall, 1976.
+
+\bibitem[Den18]{denne2018}
+Elizabeth Denne, \emph{Folded ribbon knots in the plane}, arXiv:1807.00691,
+  2018.
+
+\bibitem[DHLM22]{denne2020}
+Elizabeth Denne, John~Carr Haden, Troy Larsen, and Emily Meehan,
+  \emph{Ribbonlength of families of folded ribbon knots}, Involve \textbf{15}
+  (2022), 591--628, arXiv:2010.04188.
+
+\bibitem[DM96]{dixonmortimer1996}
+John~D. Dixon and Brian Mortimer, \emph{Permutation groups}, Graduate Texts in
+  Mathematics, vol. 163, Springer, 1996.
+
+\bibitem[DO07]{demaine2007}
+Erik~D. Demaine and Joseph O'Rourke, \emph{Geometric folding algorithms:
+  Linkages, origami, polyhedra}, Cambridge University Press, 2007.
+
+\bibitem[DP25]{dennepatterson2025}
+Elizabeth Denne and Timi Patterson, \emph{Bounded ribbonlength for knot
+  families and multi-twist {M}\"obius bands}, arXiv:2509.18370, 2025.
+
+\bibitem[FBA99]{fba1999}
+Helaman R.~P. Ferguson, David~H. Bailey, and Steve Arno, \emph{Analysis of
+  {PSLQ}, an integer relation finding algorithm}, Math. Comp. \textbf{68}
+  (1999), 351--369.
+
+\bibitem[GP74]{gp1974}
+Victor Guillemin and Alan Pollack, \emph{Differential topology}, Prentice-Hall,
+  1974.
+
+\bibitem[Hul02]{hull2002}
+Thomas~C. Hull, \emph{The combinatorics of flat folds: a survey}, Origami$^3$:
+  Third International Meeting of Origami Science, Mathematics, and Education, A
+  K Peters, 2002, pp.~29--38.
+
+\bibitem[IGT15]{ida2015}
+Tetsuo Ida, Fadoua Ghourabi, and Kazuko Takahashi, \emph{Formalizing polygonal
+  knot origami}, Journal of Symbolic Computation \textbf{69} (2015), 93--108.
+
+\bibitem[Jan26]{anc}
+Yongseok Jang, \emph{Ancillary material: verification suite, exact
+  certificates, and {L}ean formalization}, Public repository:
+  \url{https://github.com/yongsk0066/flat-overhand-knot}, 2026, Public
+  repository with pinned dependencies, SHA-256 manifests, and step-by-step
+  reproduction instructions; Zenodo DOI and archived Git commit to be fixed at
+  submission.
+
+\bibitem[Jus97]{justin1997}
+Jacques Justin, \emph{Toward a mathematical theory of origami}, Origami Science
+  and Art: Proceedings of the Second International Meeting of Origami Science
+  and Scientific Origami, Seian University of Art and Design, 1997, pp.~15--29.
+
+\bibitem[Kau05]{kauffman2004}
+Louis~H. Kauffman, \emph{Minimal flat knotted ribbons}, Physical and Numerical
+  Models in Knot Theory, Series on Knots and Everything, vol.~36, World
+  Scientific, 2005, arXiv:math/0403028 (2004), pp.~495--506.
+
+\bibitem[KNY26]{kimnoyoo2026}
+Hyoungjun Kim, Sungjong No, and Hyungkee Yoo, \emph{Linear upper bounds on the
+  ribbonlength of knots and links}, Algebraic \& Geometric Topology \textbf{26}
+  (2026), 553--563.
+
+\bibitem[Kui55]{kuiper1955}
+Nicolaas~H. Kuiper, \emph{On {$C^1$}-isometric imbeddings. {I}, {II}}, Nederl.
+  Akad. Wetensch. Proc. Ser. A {\bf 58} = Indag. Math. \textbf{17} (1955),
+  545--556, 683--689.
+
+\bibitem[Nas54]{nash1954}
+John Nash, \emph{{$C^1$} isometric imbeddings}, Annals of Mathematics
+  \textbf{60} (1954), no.~3, 383--396.
+
+\bibitem[Neu90]{neumaier1990}
+Arnold Neumaier, \emph{Interval methods for systems of equations}, Cambridge
+  University Press, 1990.
+
+\bibitem[NW06]{nocedal2006}
+Jorge Nocedal and Stephen~J. Wright, \emph{Numerical optimization}, 2nd ed.,
+  Springer, 2006.
+
+\bibitem[SvdM04]{svdm2004}
+Friedemann Schuricht and Heiko von~der Mosel, \emph{Characterization of ideal
+  knots}, Calc. Var. Partial Differential Equations \textbf{19} (2004),
+  281--305.
+
+\bibitem[{The}20]{mathlib2020}
+{The mathlib Community}, \emph{The {L}ean mathematical library}, CPP 2020:
+  Proceedings of the 9th ACM SIGPLAN International Conference on Certified
+  Programs and Proofs, 2020, pp.~367--381.
+
+\bibitem[Yoo26a]{yoo2026b}
+Hyungkee Yoo, \emph{Four-page index and linear upper bounds for ribbonlength},
+  Journal of Knot Theory and its Ramifications (2026), 2650037,
+  arXiv:2602.13973.
+
+\bibitem[Yoo26b]{yoo2026}
+\bysame, \emph{New upper bounds on the ribbonlength of alternating links with
+  bipartite dual graphs}, Topology and its Applications \textbf{386} (2026),
+  109827, arXiv:2601.10278.
+
+\end{thebibliography}

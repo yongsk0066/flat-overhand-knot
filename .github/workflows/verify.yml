@@ -1,0 +1,19 @@
+name: verify
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - name: Install locked environment
+        run: uv sync --locked
+      - name: Syntax-check the whole suite
+        run: uv run python -m compileall -q verify
+      - name: Certificate smoke test (exact validity at the figure-eight tight state)
+        run: uv run python verify/n4_exact_valid.py
+      - name: Script hash manifest integrity
+        run: sha256sum -c logs/hashes-verify.txt

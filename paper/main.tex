@@ -1,0 +1,65 @@
+\documentclass[11pt]{amsart}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Two notions of tightness for the flat overhand knot},pdfauthor={Yongseok Jang}}
+\usepackage{microtype}
+\graphicspath{{./}{figs/}}
+\allowdisplaybreaks
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{observation}[theorem]{Observation}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{mainthm}{Theorem}
+\newtheorem{compres}[theorem]{Computational Result}
+\renewcommand{\themainthm}{\Alph{mainthm}}
+
+\newcommand{\core}{\ell_{\mathrm{core}}}
+\newcommand{\trunc}{L_{\mathrm{trunc}}}
+\newcommand{\M}{M(\mathcal{B})}
+\newcommand{\Mhon}{M_{\mathrm{hon}}(\mathcal{B})}
+\newcommand{\Mplus}{M_{+}(\mathcal{B})}
+\newcommand{\Mhat}{\widehat{M}(\mathcal{B})}
+\newcommand{\td}{\theta^\dagger}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+
+\title[Two notions of tightness for the flat overhand knot]{Two notions of tightness for the flat overhand knot:\\ Kauffman's pentagon and an $S_6$-algebraic\\ core-length critical state}
+\author{Yongseok Jang}
+\address{Independent researcher, Republic of Korea}
+\email{yongsk0066@gmail.com}
+\date{}
+\subjclass[2020]{57K10, 52C25, 90C30, 68V15}
+\keywords{folded ribbon knot, flat folding, ribbonlength, figure-eight knot, semialgebraic optimization, exact certificates}
+
+\begin{document}
+
+\begin{abstract}
+Tying an overhand knot in a paper strip and pulling it tight famously produces a regular pentagon, which Kauffman conjectured minimizes the length-to-width ratio of the flattened truncated trefoil. We model flat folded overhand knots as a five-dimensional semialgebraic moduli space with classified non-penetration walls: six endpoint slivers and a disjunctive taco pair. Two functionals then compete: Kauffman's truncation length $\trunc$, the material that builds the knot, and the core length $\core$, the material pulling extracts; they select different strict local optima on the three-crease branch. For $\trunc$ we prove what is, to our knowledge, the first optimality result toward Kauffman's conjecture: the pentagon is a strict local minimizer on the three-crease branch, certified by an exact Farkas system in powers of the golden ratio. For $\core$ the pentagon is no local minimum: a certified pulling path crosses it and continues to a reachable strict local minimizer $\td$ whose coordinate field has degree twelve over $\Q$ and whose defining sextic has Galois group $S_6$, so the state admits no expression by radicals; its outline is a notched heptagon, and the exact V-notch is a falsifiable prediction separating the two functionals. The framework extends beyond the trefoil: in a numerically identified cell of the four-crease figure-eight branch we certify an exact blocked strict local minimizer, solvable in the quadratic field $\Q(\sqrt{15})$---core length $4\sqrt{15}/3$, a centrally symmetric hexagonal outline, no notch. A realization theorem, a stratified census with certified exclusions and a localized numerical residue, and machine-checked certificate suites support the analysis.
+\end{abstract}
+
+\maketitle
+
+\input{sec1-2}
+\input{sec3-5}
+\input{sec6-8}
+\input{sec9-app}
+
+\section*{Data and code availability}
+All symbolic derivations, interval certificates, verification logs, and Lean sources used in this paper are collected in the ancillary repository \cite{anc}, publicly available at \url{https://github.com/yongsk0066/flat-overhand-knot}, together with pinned interpreter and library versions, SHA-256 manifests for every certificate input and log, a theorem-to-script correspondence (Table~\ref{tab:suite}), and step-by-step reproduction instructions. A Zenodo DOI at a fixed Git commit will be minted at submission, and the entry \cite{anc} updated to the archived version.
+
+\section*{Use of generative AI}
+Generative AI tools were used during exploratory investigation, manuscript drafting and editing, internal adversarial review, and candidate-reference search. All definitions, computations, proofs, certificates, software outputs, citations, and final claims were independently verified and remain the sole responsibility of the author.
+
+\bibliographystyle{amsalpha}
+\bibliography{references}
+
+\end{document}

@@ -1,0 +1,571 @@
+{
+ "script": "verify/exact_elim.py",
+ "summary": {
+  "x_minpoly": "x^12 + 4x^10 - 7x^4 + 20x^2 - 2",
+  "all_coordinates_degree": 12,
+  "field": "Q(theta†) = Q(x†), [Q(x†):Q] = 12; x†^2 는 차수 6",
+  "sqrt5_in_field": false,
+  "identities": [
+   "족 전체: ell = h + b [기호 증명]",
+   "가지 위: b = (x^2+1)/(2x) = g + x [기호 증명]",
+   "족 전체: a = h [기호 증명]"
+  ]
+ },
+ "system": {
+  "N4_degrees": [
+   10,
+   6,
+   2
+  ],
+  "N4_terms": 32,
+  "N6_degrees": [
+   14,
+   7,
+   2
+  ],
+  "N6_terms": 88,
+  "L_degrees": [
+   33,
+   16,
+   4
+  ],
+  "L_terms": 666,
+  "N5": "8*h**3*x**3 + 4*h**2*x**4 + 4*h**2*x**2 + 2*h*x**5 - 4*h*x**3 - 6*h*x + x**6 + 3*x**4 + 3*x**2 + 1"
+ },
+ "newton": {
+  "iters": 5,
+  "steps": [
+   "1.648e-38",
+   "2.87e-75",
+   "1.554e-149",
+   "1.136e-297",
+   "9.909e-359"
+  ],
+  "residual": "1.1615e-360"
+ },
+ "theta_dagger_300digits": {
+  "x": "0.322127497311227179239714205780123513701618554104928135750937002439728464667476113869824181796767798066446931597032713861242973809675113392352100448493206928565213645313297186474843378012180337410007790022506786517445987860780853127755948298800486657843687590293063371939010894607858971292560335400503",
+  "h": "1.03638630043079710444525276139863690843538090901786895096719638776753063021864527415166120587264166907855885636313498462587391164711346590105313469911966447135537375444082600273612324820680406164716005796211876246959762530643649392823426209876575261595770262995753283393601326248070998822073662176256",
+  "b": "1.7132441870641958302195597692169231872105226405412176942312030650025649252405972888346257718672042738057046231003894347936029366209365691305948387615505580853265412028754042037675096585186811776755766297978498654202280157250079234375709519517971376352431172419912127059851394629054516714817550338787",
+  "ell": "2.74963048749499293466481253061556009564590354955908664519839945277009555545924256298628697773984594288426347946352441941947684826805003503164797346067022255668191495731623020650363290672548523932273668775996862788982564103144441736580521405056289025120081987194874553992115272538616165970249165564126",
+  "a": "1.03638630043079710444525276139863690843538090901786895096719638776753063021864527415166120587264166907855885636313498462587391164711346590105313469911966447135537375444082600273612324820680406164716005796211876246959762530643649392823426209876575261595770262995753283393601326248070998822073662176256",
+  "g": "1.3911166897529686509798455634367996735089040864362895584802660625628364605731211749648015900704364757392576915033567209323599628112614557382427383130573511567613275575621070172926662805065008402655688397753430789027820278642270703098150036529966509773994296516981493340461285682975927001891946984782"
+ },
+ "track_B": {
+  "a_eq_h": {
+   "vanishing_factor_is_N5": true,
+   "N5_divides_R1": true,
+   "R1_factor_degrees": [
+    [
+     1,
+     0
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     6,
+     3
+    ]
+   ],
+   "numeric_a_minus_h": "-2.114e-359"
+  },
+  "px_search": {
+   "Rx_factor_degrees": [
+    [
+     1
+    ],
+    [
+     2
+    ],
+    [
+     12
+    ],
+    [
+     20
+    ]
+   ]
+  },
+  "min_polys": {
+   "x": {
+    "var": "x",
+    "degree": 12,
+    "coeffs_desc": [
+     1,
+     0,
+     4,
+     0,
+     0,
+     0,
+     0,
+     0,
+     -7,
+     0,
+     20,
+     0,
+     -2
+    ],
+    "irreducible": true,
+    "even_powers_only": true,
+    "abs_residual_at_350digits": "5.645e-359"
+   },
+   "h": {
+    "var": "h",
+    "degree": 12,
+    "coeffs_desc": [
+     32,
+     0,
+     -80,
+     0,
+     67,
+     0,
+     -36,
+     0,
+     40,
+     0,
+     -20,
+     0,
+     -4
+    ],
+    "irreducible": true,
+    "even_powers_only": true,
+    "abs_residual_at_350digits": "6.914e-358"
+   },
+   "a": {
+    "var": "a",
+    "degree": 12,
+    "coeffs_desc": [
+     32,
+     0,
+     -80,
+     0,
+     67,
+     0,
+     -36,
+     0,
+     40,
+     0,
+     -20,
+     0,
+     -4
+    ],
+    "irreducible": true,
+    "even_powers_only": true,
+    "abs_residual_at_350digits": "6.914e-358"
+   },
+   "b": {
+    "var": "b",
+    "degree": 12,
+    "coeffs_desc": [
+     32,
+     0,
+     -144,
+     0,
+     155,
+     0,
+     -8,
+     0,
+     -52,
+     0,
+     20,
+     0,
+     -4
+    ],
+    "irreducible": true,
+    "even_powers_only": true,
+    "abs_residual_at_350digits": "1.922e-356"
+   },
+   "g": {
+    "var": "g",
+    "degree": 12,
+    "coeffs_desc": [
+     32,
+     0,
+     48,
+     0,
+     -85,
+     0,
+     -188,
+     0,
+     -106,
+     0,
+     -16,
+     0,
+     -1
+    ],
+    "irreducible": true,
+    "even_powers_only": true,
+    "abs_residual_at_350digits": "2.468e-355"
+   },
+   "ell": {
+    "var": "ell",
+    "degree": 12,
+    "coeffs_desc": [
+     8,
+     0,
+     -88,
+     0,
+     267,
+     0,
+     -456,
+     0,
+     88,
+     0,
+     -80,
+     0,
+     -16
+    ],
+    "irreducible": true,
+    "even_powers_only": true,
+    "abs_residual_at_350digits": "1.597e-353"
+   }
+  },
+  "x_squared": {
+   "degree": 6,
+   "coeffs_desc": [
+    1,
+    4,
+    0,
+    0,
+    -7,
+    20,
+    -2
+   ],
+   "irreducible": true,
+   "abs_residual": "5.645e-359",
+   "galois": {
+    "order": 720,
+    "is_solvable": false,
+    "name": "S6",
+    "radical_expressible": false
+   }
+  },
+  "golden_field": {
+   "px_irreducible_over_Q_sqrt5": true,
+   "qy_irreducible_over_Q_sqrt5": true,
+   "conclusion": "sqrt5 not in Q(theta†) — theta† 는 오각형의 체 Q(sqrt5) 밖"
+  },
+  "px_real_roots": {
+   "count": 2,
+   "roots_40d": [
+    "-0.3221274973112271792397142057801235137016",
+    "0.3221274973112271792397142057801235137016"
+   ]
+  }
+ },
+ "family_lemmas": {
+  "L1_b_closed_form": {
+   "C_b": "-2*b*x + x**2 + 1",
+   "b_on_branch": "(x**2 + 1)/(2*x)",
+   "equals_g_plus_x": true
+  },
+  "L2_ell_eq_h_plus_b": {
+   "Z_terms": 12,
+   "remainder_zero": true
+  },
+  "third_derivation": {
+   "K": "48*h**3*x**4 + 8*h**2*x**5 + 40*h**2*x**3 + 12*h*x**6 - 24*h*x**4 - 4*h*x**2 + 10*x**7 + 30*x**5 + 14*x**3 - 6*x",
+   "px_matches_lagrange_route": true
+  }
+ },
+ "field_structure": {
+  "expressions": {
+   "h": {
+    "pslq_vector": [
+     -12,
+     0,
+     40,
+     0,
+     -13,
+     0,
+     -4,
+     0,
+     -1,
+     0,
+     8,
+     0,
+     2
+    ],
+    "expr": "x**11/6 + 2*x**9/3 - x**7/12 - x**5/3 - 13*x**3/12 + 10*x/3",
+    "abs_residual_at_300digits": "3.642e-301"
+   },
+   "b": {
+    "pslq_vector": [
+     -4,
+     0,
+     22,
+     0,
+     -7,
+     0,
+     0,
+     0,
+     0,
+     0,
+     4,
+     0,
+     1
+    ],
+    "expr": "x**11/4 + x**9 - 7*x**3/4 + 11*x/2",
+    "abs_residual_at_300digits": "8.893e-301"
+   },
+   "ell": {
+    "pslq_vector": [
+     12,
+     0,
+     -106,
+     0,
+     34,
+     0,
+     4,
+     0,
+     1,
+     0,
+     -20,
+     0,
+     -5
+    ],
+    "expr": "5*x**11/12 + 5*x**9/3 - x**7/12 - x**5/3 - 17*x**3/6 + 53*x/6",
+    "abs_residual_at_300digits": "1.453e-300"
+   }
+  },
+  "membership_verified_mod_px": {
+   "h": true,
+   "b": true,
+   "ell": true,
+   "ell_eq_h_plus_b_expr": true
+  },
+  "h_expr_satisfies_N5_mod_px": true
+ },
+ "track_A_pslq": {
+  "x": {
+   "found": {
+    "degree": 12,
+    "maxcoeff": 1000000.0,
+    "coeffs_desc": [
+     1,
+     0,
+     4,
+     0,
+     0,
+     0,
+     0,
+     0,
+     -7,
+     0,
+     20,
+     0,
+     -2
+    ],
+    "abs_residual_at_350digits": "5.645e-359"
+   },
+   "agrees_with_track_B": true,
+   "search_log": [
+    {
+     "degree": 2,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 3,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 4,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 6,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 8,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 10,
+     "maxcoeff": 1000000.0,
+     "found": false
+    }
+   ]
+  },
+  "h": {
+   "found": {
+    "degree": 12,
+    "maxcoeff": 1000000.0,
+    "coeffs_desc": [
+     32,
+     0,
+     -80,
+     0,
+     67,
+     0,
+     -36,
+     0,
+     40,
+     0,
+     -20,
+     0,
+     -4
+    ],
+    "abs_residual_at_350digits": "6.914e-358"
+   },
+   "agrees_with_track_B": true,
+   "search_log": [
+    {
+     "degree": 2,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 3,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 4,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 6,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 8,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 10,
+     "maxcoeff": 1000000.0,
+     "found": false
+    }
+   ]
+  },
+  "b": {
+   "found": {
+    "degree": 12,
+    "maxcoeff": 1000000.0,
+    "coeffs_desc": [
+     32,
+     0,
+     -144,
+     0,
+     155,
+     0,
+     -8,
+     0,
+     -52,
+     0,
+     20,
+     0,
+     -4
+    ],
+    "abs_residual_at_350digits": "1.922e-356"
+   },
+   "agrees_with_track_B": true,
+   "search_log": [
+    {
+     "degree": 2,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 3,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 4,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 6,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 8,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 10,
+     "maxcoeff": 1000000.0,
+     "found": false
+    }
+   ]
+  },
+  "ell": {
+   "found": {
+    "degree": 12,
+    "maxcoeff": 1000000.0,
+    "coeffs_desc": [
+     -8,
+     0,
+     88,
+     0,
+     -267,
+     0,
+     456,
+     0,
+     -88,
+     0,
+     80,
+     0,
+     16
+    ],
+    "abs_residual_at_350digits": "1.597e-353"
+   },
+   "agrees_with_track_B": true,
+   "search_log": [
+    {
+     "degree": 2,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 3,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 4,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 6,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 8,
+     "maxcoeff": 1000000.0,
+     "found": false
+    },
+    {
+     "degree": 10,
+     "maxcoeff": 1000000.0,
+     "found": false
+    }
+   ]
+  },
+  "note": "mpmath findpoly 기본 maxsteps=100 으로는 차수 12 관계 탐지 불가. 08 의 'PSLQ 소득 없음' = 차수<=8 상한 + maxsteps 기본값의 결과."
+ }
+}

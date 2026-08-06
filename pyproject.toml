@@ -1,0 +1,18 @@
+[project]
+name = "flat-overhand-knot"
+version = "1.0.0"
+description = "Verification suite for 'Two notions of tightness for the flat overhand knot'"
+requires-python = ">=3.12"
+license = "MIT"
+authors = [{ name = "Yongseok Jang", email = "yongsk0066@gmail.com" }]
+dependencies = [
+  "mpmath==1.3.0",
+  "numpy==2.5.1",
+  "python-flint==0.9.0",
+  "scipy==1.18.0",
+  "shapely==2.1.2",
+  "sympy==1.14.0",
+]
+
+[tool.uv]
+package = false

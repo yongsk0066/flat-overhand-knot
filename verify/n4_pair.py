@@ -1,21 +1,22 @@
-# n4_pair.py — 논문 본판: figure-8 (a) top view | (b) hidden-line 페어 — paper master version: figure-8 (a) top view | (b) hidden-line pair
+"""Draw the loose and tight figure-eight states in top and hidden-line views."""
 import argparse
+import json
+import math
 from pathlib import Path
-import sys, json, math
 from svg_labels import math_text, save_svg
-sys.path.insert(0,'verify')
-from n4_tighten2 import config, pieces
+from n4_exact_state import tight_state
+from n4_tighten2 import config
 from n4_render import band_quads
 from shapely.geometry import Polygon, LineString
-import math as _math
+from shapely.ops import unary_union
 HATCH_ANG={0:0,1:45,2:90,3:135,4:20}
 def hatch_segs(T, quad, ang, gap):
     P=Polygon([T(p) for p in quad])
     if not P.is_valid: P=P.buffer(0)
     minx,miny,maxx,maxy=P.bounds
     cx,cy=(minx+maxx)/2,(miny+maxy)/2
-    L=_math.hypot(maxx-minx,maxy-miny)
-    dx,dy=_math.cos(_math.radians(ang)),_math.sin(_math.radians(ang))
+    L=math.hypot(maxx-minx,maxy-miny)
+    dx,dy=math.cos(math.radians(ang)),math.sin(math.radians(ang))
     nx,ny=-dy,dx
     out=[]
     k0=int(-L/gap)-1; k1=int(L/gap)+1
@@ -27,12 +28,12 @@ def hatch_segs(T, quad, ang, gap):
             if g.geom_type=='LineString' and g.length>1e-6:
                 (a,b)=(g.coords[0],g.coords[-1]); out.append((a[0],a[1],b[0],b[1]))
     return out
-from shapely.ops import unary_union
 
 cols={0:"#8ecae6",1:"#219ebc",2:"#ffb703",3:"#fb8500",4:"#c1121f"}
 
 def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labels_b=None, check=False, pdf=False):
-    c=config(tuple(th)); q=band_quads(c)
+    c = th if isinstance(th, dict) else config(tuple(th))
+    q = band_quads(c)
     PW,PH=560,520; GAP=36; W=PW*2+GAP+30; H=PH+56
     pts=[p for k in q for p in q[k]]
     if hexoverlay: pts=pts+hexoverlay
@@ -84,8 +85,8 @@ def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labe
     Tb=mkT(10+PW+GAP)
     for k in b2t:
         S.append(f'<polygon points="{ps(Tb,q[k])}" fill="{cols[k]}" fill-opacity="0.22" stroke="none"/>')
-        for x1,y1,x2,y2 in hatch_segs(Tb,q[k],HATCH_ANG[k],9.0):
-            S.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#333" stroke-width="0.8" opacity="0.32"/>')
+        for hx1,hy1,hx2,hy2 in hatch_segs(Tb,q[k],HATCH_ANG[k],9.0):
+            S.append(f'<line x1="{hx1:.1f}" y1="{hy1:.1f}" x2="{hx2:.1f}" y2="{hy2:.1f}" stroke="#333" stroke-width="0.8" opacity="0.32"/>')
     for depth,k in enumerate(order):
         above=[Polygon(q[j]) for j in order[:depth]]
         U=unary_union(above) if above else None
@@ -96,9 +97,8 @@ def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labe
             hid=e.intersection(U) if U else None
             def emit(geom,style):
                 if geom is None or geom.is_empty: return
-                gs=[geom] if geom.geom_type=="LineString" else [g for g in geom.geoms if g.geom_type=="LineString"]
-                for g in gs:
-                    if g.length<1e-9: continue
+                for g in getattr(geom, "geoms", (geom,)):
+                    if g.geom_type != "LineString" or g.length < 1e-9: continue
                     d=" ".join(f"{Tb(p)[0]:.1f},{Tb(p)[1]:.1f}" for p in g.coords)
                     S.append(f'<polyline points="{d}" fill="none" {style}/>')
             emit(vis, f'stroke="{cols[k]}" stroke-width="2.4"')
@@ -108,6 +108,27 @@ def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labe
     S.append('</svg>')
     save_svg('\n'.join(S),out,check=check,pdf=pdf)
 
+
+def tight_drawing():
+    exact = tight_state()
+
+    def point(vector):
+        return tuple(map(float, vector))
+
+    # Convert each exact endpoint once so coincident boundaries stay coincident
+    # during clipping. The plotting convention reverses the two negative turns.
+    chords = [(point(a), point(b)) if i < 2 else (point(b), point(a))
+              for i, (a, b) in enumerate(exact["CH"])]
+    (e1m, e1p), (e2m, e2p), (_, e3p), (e4m, _) = chords
+    corners = [e4m, e2p, e2m, e1p, e1m, e3p]
+    state = {
+        "d": [point(v) for v in exact["d"]],
+        "M": [point(v) for v in exact["M"]],
+        "L": list(map(float, exact["L"])),
+        "CH": chords,
+    }
+    return state, corners
+
 if __name__=="__main__":
     parser=argparse.ArgumentParser(description='Render paired figure-eight diagrams, retaining the stored geometry.')
     group=parser.add_mutually_exclusive_group()
@@ -116,18 +137,14 @@ if __name__=="__main__":
     parser.add_argument('--only',choices=('loose','tight','all'),default='all')
     args=parser.parse_args()
     root=Path(__file__).resolve().parents[1]
-    h=json.loads((root/'verify/n4_valid41.json').read_text())
-    th,order=h[1]
     if args.only in ('loose','all'):
+        th,order=json.loads((root/'verify/n4_valid41.json').read_text())[1]
         render_pair(th, order, root/'paper/figs/fig41-loose.svg',check=args.check,pdf=args.pdf)
-    t=math.acos(-0.25); s=2*math.pi-2*t
-    L1=2*math.sqrt(15)/5; L2=8*math.sqrt(15)/15
-    TH=[t,s,-s,-t,L1,L2,L1]
-    r15=math.sqrt(15)
-    HEX=[(-13*r15/30,0.5),(-7*r15/30,1.5),(r15/30,1.5),(3*r15/30,0.5),(-3*r15/30,-0.5),(-11*r15/30,-0.5)]
-    DBL=[(-7*r15/30,1.5),(-3*r15/30,-0.5)]
+    if args.only == 'loose':
+        raise SystemExit(0)
+    state, HEX = tight_drawing()
+    DBL = [HEX[1], HEX[4]]
     LB=[('E_4^{−}',HEX[0],-13,0,'end'),('E_4^{+} = E_2^{+}',HEX[1],-14,-28,'end'),
         ('E_2^{−}',HEX[2],12,-17,'start'),('E_1^{+}',HEX[3],14,19,'start'),
         ('E_1^{−} = E_3^{−}',HEX[4],8,35,'start'),('E_3^{+}',HEX[5],-13,30,'end')]
-    if args.only in ('tight','all'):
-        render_pair(TH, [1,4,2,0,3], root/'paper/figs/fig41-tight.svg', hexoverlay=HEX, doubles=DBL, tails=True, labels_b=LB,check=args.check,pdf=args.pdf)
+    render_pair(state, [1,4,2,0,3], root/'paper/figs/fig41-tight.svg', hexoverlay=HEX, doubles=DBL, tails=True, labels_b=LB,check=args.check,pdf=args.pdf)

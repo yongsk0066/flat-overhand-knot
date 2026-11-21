@@ -6,27 +6,12 @@ The eight lateral contacts are checked separately from full nonpenetration.
 """
 import sympy as sp
 from sympy import Rational as R
+from n4_exact_state import tight_state
 r15=sp.sqrt(15)
 RAY=None
 
-# θ* 정확 데이터 — exact data for θ*
-c1,s1=-R(1,4),r15/4
-c2,s2=-R(7,8),r15/8
-c3,s3=-R(7,8),-r15/8
-c4,s4=-R(1,4),-r15/4
-def rot(c,s,v): return sp.Matrix([c*v[0]-s*v[1], s*v[0]+c*v[1]])
-d=[sp.Matrix([1,0])]
-for c_,s_ in ((c1,s1),(c2,s2),(c3,s3),(c4,s4)):
-    d.append(rot(c_,s_,d[-1]))
-L=[2*r15/5, 8*r15/15, 2*r15/5]
-M=[sp.Matrix([0,0])]
-for i in range(3): M.append(sp.expand(M[-1]+L[i]*d[i+1]))
-SIN=[s1,s2,s3,s4]
-CH=[]
-for i in range(4):
-    CV=(d[i]+d[i+1])/(2*SIN[i])
-    A=sp.expand(M[i]-CV); B=sp.expand(M[i]+CV)
-    CH.append((A,B))
+config_exact = tight_state()
+d, M, CH, L = (config_exact[k] for k in ("d", "M", "CH", "L"))
 PIECES={0:(M[0],-d[0],RAY),1:(M[0],d[1],L[0]),2:(M[1],d[2],L[1]),3:(M[2],d[3],L[2]),4:(M[3],d[4],RAY)}
 
 def simp(e):
@@ -50,7 +35,6 @@ def sgn_exact(e):
 from n4_geometry import halfplanes, open_chord_interval, forbidden_pairs
 
 ORDER = [1, 4, 2, 0, 3]
-config_exact = dict(d=d, M=M, CH=CH, L=L)
 planes = [halfplanes(config_exact, k, sign=sgn_exact, half=R(1, 2))
           for k in range(5)]
 

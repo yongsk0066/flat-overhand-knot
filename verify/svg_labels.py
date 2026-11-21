@@ -4,6 +4,7 @@ Scripts are native SVG tspans, not baseline digits or font-specific Unicode
 substitutes. This keeps subscripts and superscripts legible in librsvg PDFs.
 """
 from html import escape
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -46,5 +47,7 @@ def save_svg(content, path, check=False, pdf=False, pdf_path=None):
     print("saved", path)
     if pdf:
         output = Path(pdf_path) if pdf_path else path.with_suffix(".pdf")
-        subprocess.run(["rsvg-convert", "-f", "pdf", str(path), "-o", str(output)], check=True)
+        env = os.environ.copy()
+        env.setdefault("SOURCE_DATE_EPOCH", "0")
+        subprocess.run(["rsvg-convert", "-f", "pdf", str(path), "-o", str(output)], check=True, env=env)
         print("saved", output)

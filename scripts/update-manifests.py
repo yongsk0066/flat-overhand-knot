@@ -25,6 +25,8 @@ groups = {
         *ROOT.joinpath("verify").rglob("*.jsonl"),
         *ROOT.joinpath("paper/figs").glob("*.svg"),
         *ROOT.joinpath("paper/figs").glob("*.pdf"),
+        *ROOT.joinpath("verify/artifacts/figure-history").glob("*.svg"),
+        *ROOT.joinpath("verify/artifacts/figure-history").glob("*.pdf"),
     ],
 }
 

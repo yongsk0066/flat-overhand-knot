@@ -227,7 +227,14 @@ curves; the continuum path proofs are `exact_reach.py` and `exact_branch.py`.
 
 ## Figures (SVG → PDF)
 
+Figure 9 uses the same algebraic crease endpoints as the exact figure-eight
+validity check. Converting those endpoints to drawing coordinates preserves
+the coincident horizontal edges when the hidden-line view is clipped. The
+[earlier SVG and PDF](verify/artifacts/figure-history/) preserve the rendering
+that used rounded trigonometric coordinates.
+
 ```bash
+export SOURCE_DATE_EPOCH=0
 uv run python verify/tref_render.py        # fig1-pentagon.svg, theta-dagger-heptagon.svg
 uv run python verify/render_families.py --pdf  # computed family curves and vertical zoom
 uv run python verify/n4_pair.py --pdf      # fig41-loose/tight SVG and PDF

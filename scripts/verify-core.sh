@@ -37,4 +37,5 @@ uv run python verify/render_families.py --check
 uv run python verify/make_fig_notation.py --check
 uv run python verify/render_junction.py --check
 uv run python verify/n4_pair.py --check
+uv run python verify/test_n4_figure.py
 printf "%s\n" "PASS: core certificates, mutation controls and figure checks"

@@ -148,8 +148,8 @@
 <polyline points="976.2,244.2 1006.3,360.7" fill="none" stroke="#219ebc" stroke-width="2.4"/>
 <polyline points="1006.3,360.7 916.1,477.2" fill="none" stroke="#219ebc" stroke-width="2.4"/>
 <polyline points="765.7,360.7 855.9,244.2" fill="none" stroke="#c1121f" stroke-width="2.4"/>
-<polyline points="916.1,244.2 1112.2,244.2" fill="none" stroke="#c1121f" stroke-width="2.4"/>
-<polyline points="855.9,244.2 916.1,244.2" fill="none" stroke="#c1121f" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
+<polyline points="976.2,244.2 1112.2,244.2" fill="none" stroke="#c1121f" stroke-width="2.4"/>
+<polyline points="855.9,244.2 976.2,244.2" fill="none" stroke="#c1121f" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="1112.2,244.2 1022.0,360.7" fill="none" stroke="#c1121f" stroke-width="2.4"/>
 <polyline points="1022.0,360.7 1006.3,360.7" fill="none" stroke="#c1121f" stroke-width="2.4"/>
 <polyline points="886.0,360.7 765.7,360.7" fill="none" stroke="#c1121f" stroke-width="2.4"/>
@@ -158,20 +158,18 @@
 <polyline points="916.1,477.2 795.8,477.2" fill="none" stroke="#ffb703" stroke-width="2.4"/>
 <polyline points="795.8,477.2 825.8,360.7" fill="none" stroke="#ffb703" stroke-width="2.4"/>
 <polyline points="825.8,360.7 855.9,244.2" fill="none" stroke="#ffb703" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
-<polyline points="855.9,244.2 916.1,244.2" fill="none" stroke="#ffb703" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
-<polyline points="916.1,244.2 976.2,244.2" fill="none" stroke="#ffb703" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
+<polyline points="855.9,244.2 976.2,244.2" fill="none" stroke="#ffb703" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="916.1,477.2 1006.3,360.7" fill="none" stroke="#8ecae6" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="765.7,360.7 750.0,360.7" fill="none" stroke="#8ecae6" stroke-width="2.4"/>
 <polyline points="1006.3,360.7 825.8,360.7" fill="none" stroke="#8ecae6" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="825.8,360.7 765.7,360.7" fill="none" stroke="#8ecae6" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="750.0,360.7 659.8,477.2" fill="none" stroke="#8ecae6" stroke-width="2.4"/>
-<polyline points="659.8,477.2 855.9,477.2" fill="none" stroke="#8ecae6" stroke-width="2.4"/>
-<polyline points="855.9,477.2 916.1,477.2" fill="none" stroke="#8ecae6" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
+<polyline points="659.8,477.2 795.8,477.2" fill="none" stroke="#8ecae6" stroke-width="2.4"/>
+<polyline points="795.8,477.2 916.1,477.2" fill="none" stroke="#8ecae6" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="795.8,477.2 765.7,360.7" fill="none" stroke="#fb8500" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="765.7,360.7 855.9,244.2" fill="none" stroke="#fb8500" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <polyline points="855.9,244.2 916.1,477.2" fill="none" stroke="#fb8500" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
-<polyline points="916.1,477.2 855.9,477.2" fill="none" stroke="#fb8500" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
-<polyline points="855.9,477.2 795.8,477.2" fill="none" stroke="#fb8500" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
+<polyline points="916.1,477.2 795.8,477.2" fill="none" stroke="#fb8500" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"/>
 <line x1="916.1" y1="477.2" x2="1006.3" y2="360.7" stroke="#111" stroke-width="2.4"/>
 <line x1="976.2" y1="244.2" x2="855.9" y2="244.2" stroke="#111" stroke-width="2.4"/>
 <line x1="916.1" y1="477.2" x2="795.8" y2="477.2" stroke="#111" stroke-width="2.4"/>
@@ -190,7 +188,7 @@
 <text x="924.08" y="512.22" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="27" text-anchor="start" xml:space="preserve" fill="white" stroke="white" stroke-width="3" stroke-linejoin="round">E<tspan baseline-shift="-7.56px" dx="0.00" font-size="18.36" font-style="normal">1</tspan><tspan baseline-shift="10.80px" dx="-9.55" font-size="18.36" font-style="normal">−</tspan> = E<tspan baseline-shift="-7.56px" dx="0.00" font-size="18.36" font-style="normal">3</tspan><tspan baseline-shift="10.80px" dx="-9.55" font-size="18.36" font-style="normal">−</tspan></text><text x="924.08" y="512.22" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="27" text-anchor="start" xml:space="preserve" fill="#111">E<tspan baseline-shift="-7.56px" dx="0.00" font-size="18.36" font-style="normal">1</tspan><tspan baseline-shift="10.80px" dx="-9.55" font-size="18.36" font-style="normal">−</tspan> = E<tspan baseline-shift="-7.56px" dx="0.00" font-size="18.36" font-style="normal">3</tspan><tspan baseline-shift="10.80px" dx="-9.55" font-size="18.36" font-style="normal">−</tspan></text>
 <text x="782.76" y="507.22" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="27" text-anchor="end" xml:space="preserve" fill="white" stroke="white" stroke-width="3" stroke-linejoin="round">E<tspan baseline-shift="-7.56px" dx="0.00" font-size="18.36" font-style="normal">3</tspan><tspan baseline-shift="10.80px" dx="-9.55" font-size="18.36" font-style="normal">+</tspan></text><text x="782.76" y="507.22" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="27" text-anchor="end" xml:space="preserve" fill="#111">E<tspan baseline-shift="-7.56px" dx="0.00" font-size="18.36" font-style="normal">3</tspan><tspan baseline-shift="10.80px" dx="-9.55" font-size="18.36" font-style="normal">+</tspan></text>
 <line x1="741" y1="419" x2="672" y2="419" stroke="#155" stroke-width="2" marker-end="url(#ar)"/>
-<line x1="107432" y1="302" x2="107501" y2="302" stroke="#155" stroke-width="2" marker-end="url(#ar)"/>
+<line x1="1031" y1="302" x2="1100" y2="302" stroke="#155" stroke-width="2" marker-end="url(#ar)"/>
 <circle cx="961.2" cy="419.0" r="4" fill="#d00"/>
 <text x="974.20" y="425.97" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="24" text-anchor="start" xml:space="preserve" fill="white" stroke="white" stroke-width="2.5" stroke-linejoin="round">M<tspan baseline-shift="-6.72px" dx="0.00" font-size="16.32" font-style="normal">1</tspan></text><text x="974.20" y="425.97" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="24" text-anchor="start" xml:space="preserve" fill="#111">M<tspan baseline-shift="-6.72px" dx="0.00" font-size="16.32" font-style="normal">1</tspan></text>
 <circle cx="916.1" cy="244.2" r="4" fill="#d00"/>

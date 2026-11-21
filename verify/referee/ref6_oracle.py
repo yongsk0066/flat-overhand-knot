@@ -91,7 +91,7 @@ print(f"  samples where (det%5==0) differs from (fox5==25): {mism}")
 
 print()
 print("="*78)
-print("C. RAY-truncation attack, restricted to states the pipeline ACCEPTS")
+print("C. Finite-tail crossing counts in the recorded samples")
 print("="*78)
 def crossings_R(c,RAY):
     d,M=c['d'],c['M']
@@ -113,8 +113,8 @@ def check_ray(label, states):
         c=config(tuple(th))
         if c is None: continue
         tot+=1
-        if len(crossings_R(c,1e7))!=4: bad+=1
-    print(f"  {label}: {bad}/{tot} accepted states gain/lose a crossing when RAY 60 -> 1e7")
+        if len(crossings_R(c,60)) != len(crossings_R(c,1e7)): bad+=1
+    print(f"  {label}: {bad}/{tot} records change crossing count when RAY 60 -> 1e7")
 hits=json.load(open(VERIFY / 'n4_valid41.json'))
 check_ray("archived valid starts (n4_valid41.json)", [(t,o) for t,o in hits])
 cen=json.load(open(VERIFY / 'n4_census.json'))
@@ -130,7 +130,7 @@ for _ in range(400000):
     th=tuple([sg[k]*rnd.uniform(0.3,3.1) for k in range(4)]+[rnd.uniform(0.3,4.0) for _ in range(3)])
     c=config(th)
     if c is None: continue
-    X=crossings(c)
+    X=crossings_R(c,60)
     if len(X)!=4 or canon(code_str(X))!=TARGET_CANON: continue
     tot+=1
     if len(crossings_R(c,1e7))!=4: bad+=1
@@ -138,13 +138,21 @@ print(f"  random canon-passing 4-crossing configs: {bad}/{tot} change under RAY 
 
 print()
 print("="*78)
-print("D. '42 valid states': how many are DISTINCT geometric configurations?")
+print("D. Geometric states and layer orders in the two recorded inputs")
 print("="*78)
-key=lambda t: tuple(round(v,9) for v in t)
-dis=collections.Counter(key(t) for t,o in hits)
-print(f"  n4_valid41.json: {len(hits)} records, {len(dis)} distinct theta")
-print(f"  multiplicity histogram: {dict(collections.Counter(dis.values()))}")
-ords=collections.Counter(tuple(o) for t,o in hits)
-print(f"  layer orders: {dict(ords)}")
-print("  => each geometric state is recorded once per over/under mask (mirror pair),")
-print("     i.e. once with layer order [1,4,2,0,3] and once with its top-bottom flip.")
+
+
+def summarize_orders(label, rows):
+    by_state = collections.defaultdict(list)
+    for theta, order in rows:
+        by_state[tuple(theta)].append(tuple(order))
+    counts = collections.Counter(map(len, by_state.values()))
+    flipped = sum(len(orders) == 2 and orders[0] == orders[1][::-1]
+                  for orders in by_state.values())
+    print(f"  {label}: {sum(map(len, by_state.values()))} records, {len(by_state)} distinct states")
+    print(f"  multiplicity histogram: {dict(counts)}, states with two reversed layer orders: {flipped}")
+
+
+summarize_orders("n4_valid41.json (seed starts)", hits)
+sweep = json.loads((VERIFY / "artifacts/n4-rerun-20261023/final/sweep/result.json").read_text())
+summarize_orders("full 8M sweep", [(row["theta"], row["order"]) for row in sweep["hits"]])

@@ -39,8 +39,7 @@ if __name__=="__main__":
     with mp.get_context("fork").Pool(P) as pool:
         parts=pool.map(hw,[(7000+i,2_000_000//P) for i in range(P)])   # seeds 7000 onward
     hits=[h for p in parts for h in p]
-    key=lambda t: tuple(round(v,10) for v in t)
-    dis=collections.Counter(key(t) for t,o in hits)
+    dis=collections.Counter(tuple(t) for t,o in hits)
     ords=collections.Counter(tuple(o) for t,o in hits)
     print("="*74)
     print("(i) harvest bookkeeping, reproduced on 2M samples (seeds 7000 onward)")
@@ -48,8 +47,6 @@ if __name__=="__main__":
     print(f"  hit records: {len(hits)}   distinct theta: {len(dis)}")
     print(f"  records-per-theta histogram: {dict(collections.Counter(dis.values()))}")
     print(f"  layer orders: {dict(ords)}")
-    print("  => each geometric state is emitted once per over/under mask (the mirror pair),")
-    print("     i.e. twice, once per top-bottom flip of the SAME configuration.")
 
     independent_hits=read_probe("ref_hits.json")
     starts=[(tuple(t),o) for t,o,cd in independent_hits]

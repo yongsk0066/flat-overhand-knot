@@ -87,7 +87,7 @@ if __name__=="__main__":
     if not V: print("    (none)")
     print(f"\n(c) cells (pass-pairs, layer order) among valid states:")
     for k,n in C.most_common(20): print(f"    {k}: {n}")
-    print(f"\n(d) RAY-truncation attack: RAY=60 vs RAY=1e7 gave a different crossing count in "
+    print(f"\n(d) Finite-tail comparison: RAY=60 vs RAY=1e7 gave a different crossing count in "
           f"{RD} / {TOTAL} sampled configurations")
     for e in RE[:6]: print(f"    example: n60={e[1]} n1e7={e[2]}  theta={[round(v,3) for v in e[0]]}")
     write_probe("ref_hits.json", H[:300])

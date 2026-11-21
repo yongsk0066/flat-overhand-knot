@@ -14,6 +14,7 @@ the Python environment is managed by [uv](https://docs.astral.sh/uv/) from
 | sympy / mpmath | 1.14.0 / 1.3.0 |
 | numpy / scipy / shapely | 2.5.5 / 1.18.1 / 2.2.0 |
 | python-flint (Arb) | 0.9.0 |
+| z3-solver | 5.4.1.0 |
 | Lean 4 | 4.36.0 (elan; Lake 5.0.0), Mathlib pinned in `formal/lake-manifest.json` |
 | Figures | `rsvg-convert` (librsvg) |
 | Paper | TeX Live (`pdflatex` + `bibtex`) |
@@ -44,12 +45,13 @@ integrity manifests. CI also rebuilds the archive and compares its bytes with th
 | C · Junction and reachability | `exact_core_descent.py`, `exact_reach.py`, `exact_branch.py` (core) | The inward ray has core slope −1/20. Five root-free resultants, endpoint identities and interval signs certify monotonicity. Twenty-two further conditions preserve the crossing branch. |
 | D · Algebraic state and notched outline | `exact_field.py`, `exact_unique_h.py`, `exact_kkt_dagger.py`, `exact_second.py`, `exact_outline.py`, `exact_notch.py` (core) | Degree 12, associated sextic group S₆, four positive multipliers, positive reduced curvature and a seven-edge outline. |
 | E · Kauffman truncation | `exact_kauffman2.py`, `exact_trunc_nbhd.py` (core) | Exact Farkas and flush-edge certificates give a strict local minimum at the regular pentagon. |
-| F · Realization on the globally ordered branch | `exact_opening.py`, `exact_common_overlap.py` (core), `check_realize.py` (numerical illustrations) | The proof in the paper gives necessity and handles open states. The certificates verify the opening hypothesis at the two zero-clearance optima and the local-order example. |
+| F · Realization on the globally ordered branch | `exact_opening.py`, `exact_reach_geometry.py`, `exact_common_overlap.py` (core), `check_realize.py` (numerical illustrations) | Fixed-angle dilation gives positive panel and crease clearances at every valid state in the chart for small positive dilation. Open states have strong slab realizations, and zero-clearance states have limit realizations. Explicit openings at the two optima and the loose cyclic-order example have separate certificates. |
 | G · Unique global core minimum in the positive chart | `exact_global_core.py` (core) | Necessary panel inequalities, strict averaging, a supporting double root in the dagger field and an independent discriminant/Sturm lower bound. |
+| G · Reachability from every slack valid state in the positive chart | `exact_reach_geometry.py`, `exact_reach_transport.py`, `check_reach_paths.py` (core) | Midpoint geometry verifies the six contact functions and crossing order. Finite-step identities and 33 unsatisfiable exact real counterexample queries check transport and the algebraic endpoint. A separate rational clipping check samples 4,310 panel configurations across the three balancing cases and both label orientations. |
 | G · Saved census candidates | `exact_census_roots.py` (core), `recertify_census_pending.py` (four-row extended check) | 104 distinct saved candidates, 72 isolating boxes each violating a true geometric wall below −0.315, and 32 unconfirmed centres classified 4 / 6 / 18 / 4. |
 | H · Figure-eight state | `n4_exact_valid.py`, `n4_exact_opening.py`, `n4_exact_cell.py`, `n4_cell_crosscheck.py`, `n4_exact_kkt.py`, `n4_exact_local.py`, `n4_krawczyk.py`, `n4_certify.py` (core) | Valid oblique panels, an opening and a strict local minimum in the geometric cell, including both double-corner contacts. Core length 4√15/3 and truncation 32√15/15. |
 | H · Recorded search | `check_n4_geometry.py`, `check_n4_rerun.py` (core), `n4_cells3.py` (extended) | Checkpoints, source records, finite search counts and determinant-based enumeration. |
-| Regression controls | `test_guards.py` (core) | Twelve fresh control scripts pass, and twelve specific mathematical faults raise their expected diagnostic in both default and optimized Python. |
+| Regression controls | `test_guards.py` (core) | Fourteen original certificate scripts pass, and fourteen specific mathematical faults raise their expected diagnostic in both default and optimized Python. |
 
 The [Lean guide](formal/README.md) identifies the 16 algebraic statements. Near the figure-eight hexagon, the eight explicit contacts are equivalent to nonpenetration against the actual crease caps. The global classification of figure-eight cells remains open.
 
@@ -79,8 +81,7 @@ updates their verdicts in the local copy. The 32 inconclusive centres have
 4 cases with `x < 0`, 6 with `|q + x| < 10⁻⁶`, 18 with `|1 − qx| < 10⁻⁶`,
 and 4 further cases with negative `h` and `a`. All 104 saved centres have a
 radius-10⁻¹² box violating a true sliver wall. The 72 regular roots have
-separate certified isolating boxes. Root existence for the other 32 centres,
-exhaustiveness of multistart remains open. The length dilation in the global-core proof establishes MFCQ at every valid point of the positive trefoil chart.
+separate certified isolating boxes. Root existence for the other 32 centres and exhaustiveness of the multistart search remain open. The length dilation in the global-core proof establishes MFCQ at every valid point of the positive trefoil chart.
 
 To **regenerate** the harvest, extract the ancillary archive into a new directory,
 change into that directory, and run the following commands there. They write
@@ -199,7 +200,8 @@ The following names remain available to reproduce earlier calculations.
 ## Certificate logs and hashes
 
 `logs/` contains selected recorded certificate outputs. Superseded logs for the reachability, census-root and mutation checks are retained under `logs/history/`. Source snapshots in `verify/artifacts/n4-rerun-20261023/` are checked byte for byte against their original receipts. The current search modules also match those files, with a syntax-tree comparison for three comment-only edits. The runner has separately documented archive and resume handling.
-The ten-case mutation receipt remains in `logs/test_guards.log`. The twelve-case receipt is `logs/test_guards_global_cell.log`.
+The ten- and twelve-case mutation receipts are `logs/test_guards.log` and `logs/test_guards_global_cell.log`. The fourteen-case receipt is `logs/test_guards_slack_reach.log`.
+The three new path checks record their output in `logs/exact_reach_geometry.log`, `logs/exact_reach_transport.log` and `logs/check_reach_paths.log`.
 Integrity check:
 
 ```bash
@@ -223,8 +225,7 @@ uv run python verify/export_figure_geometry.py --check
 `verify/artifacts/figure_geometry.json` exports the two distinguished states
 (`P*` and `θ†`), notch measurements, and sampled standard/second-family curves
 for external interactive visualizations. To refresh a downstream copy under its own filename, pass
-`--output PATH` to the exporter, then add `--check` to verify that copy. The path arrays are sampled numerical
-curves; the continuum path proofs are `exact_reach.py` and `exact_branch.py`.
+`--output PATH` to the exporter, then add `--check` to verify that copy. These arrays sample the two families in Figure 4. The scripts `exact_reach.py` and `exact_branch.py` certify those particular curves. Theorem 10.4 constructs a path from an arbitrary slack start using the contact and transport formulas.
 
 ## Figures (SVG → PDF)
 

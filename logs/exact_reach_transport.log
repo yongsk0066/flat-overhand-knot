@@ -1,0 +1,2 @@
+PASS: transport faces, finite differences, switch values and symmetric length envelope
+PASS: 33 exact real counterexample queries are unsatisfiable

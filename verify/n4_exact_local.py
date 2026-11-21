@@ -3,11 +3,10 @@
 The chamber is {g_i >= 0}, with the eight functions in n4_exact_kkt.py.
 Seven independent active gradients with strictly positive multipliers imply
 that the objective grows strictly along every nonzero vector of its tangent
-cone, hence strict local minimality in that chamber. This certificate does
-not assume that the chamber exhausts the actual geometric cell. In the
-CV endpoint convention, g2, g3a, g3ap and g2p contact a foreign crease cap
-as well as a lateral edge. Their necessity needs a corner analysis; it
-does not follow from the usual interior-edge nonpenetration argument.
+cone. Near the hexagon, g2, g3a, g3ap and g2p each meet a foreign crease
+cap and a lateral edge. n4_exact_cell.py checks the cap identities used in
+Lemma 11.1 to identify the chamber with the actual geometric cell there.
+Corollary 11.2 combines that equivalence with the growth proved here.
 """
 import contextlib
 import io

@@ -17,6 +17,9 @@ for certificate in \
   exact_unique_h \
   exact_common_overlap \
   exact_global_core \
+  exact_reach_geometry \
+  exact_reach_transport \
+  check_reach_paths \
   exact_census_roots \
   exact_outline \
   exact_notch \

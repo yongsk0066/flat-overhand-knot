@@ -21,13 +21,17 @@ and numerical modules are also compared with the archived files. For n4_census,
 n4_walls and n4_cells3 a Python syntax-tree comparison permits comment edits.
 The current runner supports Git-free archives and fresh output directories,
 and checks the input, lockfile and interpreter on resume.
-The exact point/opening/chamber/outline certificates are separate evidence.
+The exact point, opening, geometric-cell and outline certificates have their own receipts.
 The trefoil pending-row log refreshes four rows only; other stored trefoil
-census rows retain their earlier evidence. The figure-eight rerun does not
-claim exhaustive roots or a full-cell local-optimality proof.
+census rows retain their earlier evidence. The figure-eight rerun records a finite search. The geometric-cell proof uses
+n4_exact_cell.log, n4_cell_crosscheck.log and n4_exact_local.log.
 
-Global core and full-cell cap certificates have their own logs. The extended
-mutation receipt is test_guards_global_cell.log. The ten-case receipt remains
-at its original path.
+exact_global_core.log records the sharp global core bound. exact_reach.log
+and exact_branch.log certify the family from the regular pentagon. For a path
+from any slack start, exact_reach_geometry.log records the midpoint and
+crossing identities, exact_reach_transport.log the finite-step inequalities,
+and check_reach_paths.log the rational panel samples. The fourteen-case
+mutation receipt is test_guards_slack_reach.log. test_guards.log and
+test_guards_global_cell.log are the ten- and twelve-case receipts.
 
 Earlier reachability, census-root and mutation logs are preserved in logs/history/.

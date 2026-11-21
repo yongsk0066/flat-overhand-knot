@@ -151,7 +151,7 @@ The reduced Hessian \eqref{eq:hessian} is an \emph{odd} polynomial in $x^\dagger
 Proposition~\ref{prop:familyreduction}, Proposition~\ref{prop:elimination} and Theorems~\ref{thm:existence}--\ref{thm:sosc} together constitute Theorem~\ref{mainthm:dagger}.
 
 \begin{remark}[Branch preservation, and two numerical points]\label{rem:branchaudit}
-Along the certified second-family segment, twenty-two condition numerators---the open-window parameters of the three crossings, their determinants, the two passage-order signs, and the nine crossing-to-crease-line margins---have root-free resultants with $N_5$ on $[0.322,0.325]$ by exact Sturm counts, and their signs agree and are nonzero at the pentagon (in $\Q[x]/(5x^4-10x^2+1)$), at $\td$ (in $\Q[x]/(p_x)$), and at the isolated interior root; hence the crossing pattern, the passage word, the layer order $B>D>A>C$, and the general-position margins are constant along the family, and membership of $\td$ in $\M$ is certified exactly (\texttt{exact\_branch}; the earlier pairwise audit \texttt{check\_branch} survives as corroboration, with the $\kappa_1$--$\kappa_3$ line intersection at parameter $1.0506$, outside both segments). Two points remain numerical. First, the decimal values quoted above for the inactive walls, the multipliers, and \eqref{eq:hessian} are evaluations of quantities that are exact elements of $\Q(x^\dagger)$; only the decimal expansions are approximate. Second, reachability: $\td$ \emph{is} reached from a slack state along the certified path of Theorem~\ref{mainthm:pass} together with the slack start of Corollary~\ref{cor:slackstart}, and it is the unique \emph{certified} blocked state of the census of Theorem~\ref{mainthm:census}; but that a \emph{generic} descent from an arbitrary slack state also lands there is supported by descent experiments only and is not claimed as a theorem.
+Along the certified second-family segment, twenty-two condition numerators---the open-window parameters of the three crossings, their determinants, the two passage-order signs, and the nine crossing-to-crease-line margins---have root-free resultants with $N_5$ on $[0.322,0.325]$ by exact Sturm counts, and their signs agree and are nonzero at the pentagon (in $\Q[x]/(5x^4-10x^2+1)$), at $\td$ (in $\Q[x]/(p_x)$), and at the isolated interior root; hence the crossing pattern, the passage word, the layer order $B>D>A>C$, and the general-position margins are constant along the family, and membership of $\td$ in $\M$ is certified exactly (\texttt{exact\_branch}; the earlier pairwise audit \texttt{check\_branch} survives as corroboration, with the $\kappa_1$--$\kappa_3$ line intersection at parameter $1.0506$, outside both segments). Two points remain numerical. First, the decimal values quoted above for the inactive walls, the multipliers, and \eqref{eq:hessian} are evaluations of quantities that are exact elements of $\Q(x^\dagger)$; only the decimal expansions are approximate. Second, the observations about generic descent describe the numerical procedure of Remark~\ref{rem:descent-census}. Theorem~\ref{thm:slackreach} constructs at least one non-increasing path to $\td$ for each slack start, and Theorem~\ref{mainthm:pass} certifies the particular path through the pentagon.
 \end{remark}
 
 \section{Kauffman's functional and the dichotomy}\label{sec:kauffman}
@@ -260,7 +260,7 @@ Theorem~\ref{thm:strictL} proves the \emph{local} form of the conjecture of \cit
 
 \section{Realization completeness for the three-crease branch}\label{sec:realization}
 
-The model uses a total layer order, the crease-neighbourhood axiom of Definition~\ref{def:axiom}, and crease-pair non-crossing \cite{justin1997,hull2002,demaine2007}. On the three-crease overhand branch with order $B>D>A>C$, a limit realization inducing that order by sheet separation satisfies the two geometric conditions. Conversely, an open state satisfying them has a strong realization for every sufficiently small $\varepsilon>0$. At zero clearance the sufficient condition is approximation by open valid states with the same order, established below for $P^*$ and $\td$. We write $\pi\colon\R^3\to\R^2$ for horizontal projection, $\zeta$ for height, and $R=\R\times[0,1]$ for the material.
+The model uses a total layer order, the crease-neighbourhood axiom of Definition~\ref{def:axiom}, and crease-pair non-crossing \cite{justin1997,hull2002,demaine2007}. On the three-crease overhand branch with order $B>D>A>C$, a limit realization inducing that order by sheet separation satisfies the two geometric conditions. Conversely, an open state satisfying them has a strong realization for every sufficiently small $\varepsilon>0$. Every valid zero-clearance state in the positive working chart can be approximated by open valid states with the same order (Theorem~\ref{thm:limitreal}). We write $\pi\colon\R^3\to\R^2$ for horizontal projection, $\zeta$ for height, and $R=\R\times[0,1]$ for the material.
 
 \subsection{Two notions of realization}
 
@@ -364,14 +364,16 @@ holds exactly. The reverse segment $s\mapsto q_{t-s}$, $0\le s\le t$, is therefo
 Positivity of the eight directional derivatives on the stated interval is the interval certificate of Lemma~\ref{lem:opening}; the gradient identity $\nabla\core(P^*)=\tfrac12\mathbf 1$ is Proposition~\ref{prop:gradpent}; the arithmetic is exact. Monotonicity of the concatenation is strict on each segment by the displayed rate and by Remark~\ref{rem:edge}.
 \end{proof}
 
-The general statement---that every valid closed state is a limit of open valid states, that is, that the valid set is the closure of its interior in the appropriate semialgebraic sense---is not proved here. Lemma~\ref{lem:opening} establishes exactly the two instances that the main theorems require.
+The preceding explicit openings give quantitative paths at $P^*$ and $\td$. The dilation in Lemma~\ref{lem:global-opening} gives an opening throughout the positive working chart.
 
 \begin{theorem}[Limit realization of closed states]\label{thm:limitreal}
-Let $\bar\theta$ be a valid state satisfying the axioms, with walls allowed to be active, and suppose $\bar\theta=\lim_k\theta_k$ for open valid states $\theta_k$ carrying the same layer order. Then $(f_{\bar\theta},\lambda)$ has a limit realization. In particular $\td$ and the regular pentagon do.
+Every valid state $\bar\theta$ of the positive overhand working chart with $B>D>A>C$ is a limit of open valid states with the same order and admits a sheet-separated limit realization.
 \end{theorem}
 
 \begin{proof}
-Take $\varepsilon_k=\frac12\min(\varepsilon_0(\theta_k),1/k)$ and let $F_k$ be the strong realization of Theorem~\ref{thm:openreal} at $\theta_k$. On a compact material set,
+Fix $x,q,z$ and replace $(h,a)$ by $((1+\tau)h,(1+\tau)a)$. Lemma~\ref{lem:global-opening} gives a positive derivative for each of the six slivers. These functions are affine in $\tau$, so for small $\tau>0$ both endpoints of each forbidden crease lie strictly on the exterior side of the corresponding closed band (Lemma~\ref{lem:reachgeometry}). This gives $c_{\mathrm{nb}}>0$ for the four actual capped-panel distances. In the coordinates of Section~\ref{sec:slackreach}, $V\ge0$ initially and $V(\tau)=V+2\tau a>0$. The endpoints of $\kappa_3$ then have heights $1+V(\tau)/(2c)>1$ and $1+(1+\tau)a/c>1$, whereas $\kappa_1$ lies at heights at most one. Hence $c_{\mathrm{cr}}>0$ as required by Definition~\ref{def:clearance}. The material gaps remain positive, and general position, the crossing word and its fixed order persist. Taking $\tau_k\downarrow0$ gives the stated open states $\theta_k$.
+
+Choose $\varepsilon_1<\min(1,\varepsilon_0(\theta_1))$ positive and $\varepsilon_k=\frac12\min(\varepsilon_0(\theta_k),1/k,\varepsilon_{k-1})$ for $k>1$. Let $F_k$ be the strong realization of Theorem~\ref{thm:openreal} at $\theta_k$. On a compact material set,
 \[
   \sup\lvert\pi F_k-f_{\bar\theta}\rvert\le\tfrac\pi4\varepsilon_k+\sup\lvert f_{\theta_k}-f_{\bar\theta}\rvert\longrightarrow0 ,
 \]
@@ -395,16 +397,16 @@ Suppose the axiom fails: a pass $Q$ lying strictly between $P$ and $P'$ in the l
 \end{proof}
 
 \begin{theorem}[Realization completeness for the globally ordered three-crease branch]\label{thm:completeness}
-For states $(f_\theta,\lambda)$ of the globally ordered overhand branch $\mathcal B$ (fixing the total layer order $B>D>A>C$), with the opening hypothesis of Lemma~\textup{\ref{lem:opening}} imposed on states of zero clearance, the following are equivalent:
+For a state $(f_\theta,\lambda)$ of the positive overhand working chart with fixed global layer order $B>D>A>C$, the following are equivalent.
 \begin{enumerate}
 \item[(a)] the state satisfies the crease-neighbourhood axiom and crease-pair non-crossing (with respect to $B>D>A>C$);
 \item[(b)] the state admits a limit realization by embeddings into $\R^2\times[0,\varepsilon_k]$ with $\varepsilon_k\downarrow0$ inducing the order $B>D>A>C$ in the sheet-separation sense.
 \end{enumerate}
-Here (a) implies (b) unconditionally for open states, and is there strengthened to strong $\varepsilon$-realizations for every $\varepsilon<\varepsilon_0(\theta)$; for states of zero clearance the implication holds under the opening hypothesis, which is certified for $\td$ and for the regular pentagon. The converse implication is unconditional within $\mathcal B$. By contrast, if $\lambda$ is allowed to be an arbitrary pointwise local order, then strong $\varepsilon$-realizability does not force a global total order \textup{(Remark~\ref{rem:cyclic-counterexample})}, though it does wherever all four passes share a common interior point \textup{(Lemma~\ref{lem:common-overlap})}.
+At positive clearance the construction gives strong $\varepsilon$-realizations for every $0<\varepsilon<\varepsilon_0(\theta)$. With purely pointwise orders, loose states can have strongly realizable cyclic comparisons \textup{(Remark~\ref{rem:cyclic-counterexample})}. A common four-pass interior point forces a global order on the corresponding overlaps \textup{(Lemma~\ref{lem:common-overlap})}.
 \end{theorem}
 
 \begin{proof}
-For (a) implies (b): open states are covered by Theorem~\ref{thm:openreal}, and a strong $\varepsilon$-realization for all small $\varepsilon$ yields a limit realization on taking $\varepsilon_k=1/k$; states of zero clearance are covered by Theorem~\ref{thm:limitreal} together with Lemma~\ref{lem:opening}. For (b) implies (a): the crease-neighbourhood axiom is Theorem~\ref{thm:necessity}, and with the global layer order $B>D>A>C$ fixed in $\mathcal B$, the transversality clause of crease-pair non-crossing follows from Proposition~\ref{prop:axred}.
+For (a) implies (b): open states are covered by Theorem~\ref{thm:openreal}, and a strong $\varepsilon$-realization for all small $\varepsilon$ yields a limit realization on taking $\varepsilon_k=1/k$; every valid state of zero clearance is covered by Theorem~\ref{thm:limitreal}. For (b) implies (a): the crease-neighbourhood axiom is Theorem~\ref{thm:necessity}, and with the global layer order $B>D>A>C$ fixed in $\mathcal B$, the transversality clause of crease-pair non-crossing follows from Proposition~\ref{prop:axred}.
 \end{proof}
 
 Theorem~\ref{thm:completeness} is Theorem~\ref{mainthm:realization}.

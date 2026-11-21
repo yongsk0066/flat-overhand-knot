@@ -15,6 +15,20 @@ def _require(cond, msg="guard check failed"):
 
 MUTATIONS = [
     (
+        "exact_reach_geometry.py",
+        "(lz - c_x) * det(middle, outgoing) / jac",
+        "-(lz - c_x) * det(middle, outgoing) / jac",
+        "reversed crossing order on the incoming tail",
+        "material order on A",
+    ),
+    (
+        "exact_reach_transport.py",
+        "return 2 * n * y / (1 + q * y)",
+        "return n * y / (1 + q * y)",
+        "incorrect mixed contact boundary",
+        "mixed face",
+    ),
+    (
         "exact_global_core.py",
         "-6*s*q**2+(s**4-4*s**2-1)*q",
         "-5*s*q**2+(s**4-4*s**2-1)*q",

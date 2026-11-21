@@ -46,7 +46,7 @@ def X(e):
     return sp.simplify(sp.expand_trig(e).subs(SUB))
 
 
-# Eight smooth contact chamber functions defining C in Section 11.
+# The eight contact functions of Section 11. The two double-corner contacts use oblique caps.
 G = [
     ("g1", -lat(Vp[0], M[3], d[4]) - R(1, 2)),
     ("g2", lat(Vm[0], M[1], d[2]) - R(1, 2)),

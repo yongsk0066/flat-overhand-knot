@@ -35,10 +35,10 @@ A \emph{flat folded state} is a pair $(f,\lambda)$ in which $f\colon R_w\to\R^2$
 \end{definition}
 
 \begin{definition}[Tying data]\label{def:tying}
-Erasing the continuous information from a flat folded state leaves the combinatorial type $(n,\epsilon_1\cdots\epsilon_n,\lambda)$, where $n$ is the number of creases in material order, $\epsilon_i\in\{+,-\}$ is the \emph{tilt sign}, also called the crease-slope sign, of crease $i$, and $\lambda$ is the combinatorial layer order. The space of flat folded states realizing a given tying datum is its (honest) moduli space; for the overhand branch, Section~\ref{sec:moduli} names it $\Mhon$ and fixes the working subspaces $\Mplus\subseteq\Mhat$ used throughout.
+Erasing the continuous information from a flat folded state leaves the combinatorial type $(n,\epsilon_1\cdots\epsilon_n,\lambda)$, where $n$ is the number of creases in material order, $\epsilon_i\in\{+,-\}$ is the \emph{tilt sign}, also called the crease-slope sign, of crease $i$, and $\lambda$ is the combinatorial layer order. The space of flat folded states realizing a given tying datum is its (honest) moduli space; in the positive chart of the globally ordered overhand branch the working chamber equals the honest moduli, $\Mhat=\Mhon$, and $\Mplus$ is their positive-taco locus (Section~\ref{sec:moduli}).
 \end{definition}
 
-The basic split of the theory is contained in that definition: the tying is a discrete datum, a shape is a point of the honest moduli $\Mhon$, and tightening is a motion inside it; the optimization of this paper is carried out on the working chamber $\M=\Mhat$, with the local theorems taking place in $\Mplus$ (Section~\ref{sec:moduli}); Figure~\ref{fig:notation} displays the two sides of the split.
+The basic split of the theory is contained in that definition: the tying is a discrete datum, a shape is a point of the honest moduli $\Mhon$, and tightening is a motion inside it; the optimization of this paper is carried out on the working chamber $\M=\Mhat=\Mhon$, with the local theorems taking place in $\Mplus$ (Section~\ref{sec:moduli}); Figure~\ref{fig:notation} displays the two sides of the split.
 
 \begin{figure}[t]
 \centering
@@ -166,11 +166,11 @@ Interpolate by $\gamma_\tau=(\pi\gamma,(1-\tau)\zeta_0+\tau\zeta_1)$. Points wit
 A lift $(f,\zeta)$ is not an isometric placement, since $|\partial_sF|^2=1+(\partial_s\zeta)^2>1$ in general, so knot type in Lemma~\ref{lem:interp} means the classical ambient isotopy class of the centreline, which is the reading already presupposed by the correspondence of Proposition~\ref{prop:closure}. Whether isotopy through admissible placements gives the same equivalence is a separate regularization question, and it is not needed here.
 
 \begin{proposition}[Diagrams compute the spatial knot type]\label{prop:bridge}
-For states of the overhand branch, the centreline knot type of the strong $\varepsilon$-realizations of open states, and of the limit realizations of the pentagonal and dagger states, equals the knot type represented by $D(f,\lambda)$. On this range, tiedness read off the diagram agrees with the three-dimensional notion.
+For every valid state of the globally ordered overhand working chart, the constructions of Theorems~\ref{thm:openreal} and~\ref{thm:limitreal} give embeddings whose centrelines have the knot type represented by $D(f,\lambda)$.
 \end{proposition}
 
 \begin{proof}
-For an open state, the explicit levelling of the realization construction properly isotopes $F_\varepsilon$ to the lift $F^1=(f,\zeta\circ F_\varepsilon)$, whose projection is exactly $f$. By general position the crossings lie at positive distance from the creases, and $F^1$ carries $\lambda$-ordered heights near every crossing, so the centreline of $F^1$ and the standard vertical push-off of the diagram satisfy the hypotheses of Lemma~\ref{lem:interp}. For a tight state, each term $F_k$ of the limit-realization sequence realizes an \emph{open} state $\theta_k$, so its knot type is that of $D(f_{\theta_k},\lambda)$ by the previous sentence; along the opening path both general position and the three-crossing combinatorial type are unchanged, so this coincides with the knot type of the diagram of the tight state.
+For an open state, the explicit levelling of the realization construction properly isotopes $F_\varepsilon$ to the lift $F^1=(f,\zeta\circ F_\varepsilon)$, whose projection is exactly $f$. By general position the crossings lie at positive distance from the creases, and $F^1$ carries $\lambda$-ordered heights near every crossing, so the centreline of $F^1$ and the standard vertical push-off of the diagram satisfy the hypotheses of Lemma~\ref{lem:interp}. For a zero-clearance state, each term $F_k$ of the constructed limit-realization sequence realizes an \emph{open} state $\theta_k$, so its knot type is that of $D(f_{\theta_k},\lambda)$ by the previous sentence; along the opening path both general position and the three-crossing combinatorial type are unchanged, so this coincides with the knot type of the diagram of the starting state.
 \end{proof}
 
 Theorem~\ref{thm:foldnumber} is a statement about diagrammatic tiedness and is complete independently of this bridge; the bridge itself is proved for the overhand branch, and no realization statement is claimed for states with $n\le2$.
@@ -220,7 +220,7 @@ The \emph{working chart} (or \emph{positive chart}) for the three-crease overhan
 \item[(ii)] \emph{disjoint consecutive creases along both strip edges:} $h>0$ and $g+x>0$ on pass $B$ (the latter automatic from $g=h+q>0$ and $x>0$), and $a>0$, $b>0$ on pass $C$. In particular, the forward core lengths $g+h+x>0$ and $a+b>0$ are strictly positive throughout the chart;
 \item[(iii)] \emph{nondegeneracy:} the carriers of $\kappa_1$ and $\kappa_3$ are nonparallel ($\operatorname{cross}(F-E,Q_0-Q_1)\neq0$), so the taco intersection parameters $(t,u)$ below are well defined, and the centreline is in general position with the overhand crossing pattern $\{(A,C),(A,D),(B,D)\}$ and passage word $\mathtt{XYZXYZ}$.
 \end{enumerate}
-Parallel crease pairs require a separate chart.
+For positive turns, disjoint material chords, the stated trefoil crossing data and global order $B>D>A>C$, the nonparallel clause is automatic at every valid state by \eqref{eq:global-four} and Lemma~\ref{lem:global-opening}.
 \end{definition}
 
 On the mirror-symmetric \emph{standard slice} the dictionary specializes to
@@ -379,7 +379,7 @@ On the globally ordered overhand branch $\mathcal B$, the crossing datum determi
 \end{proposition}
 
 \begin{proof}
-Adjacent crease pairs cannot meet at all, since the distances $d(\kappa_1,\kappa_2)$ and $d(\kappa_2,\kappa_3)$ equal the corresponding material chord distances, which are positive by rigidity of the intervening panel. If $\kappa_1$ and $\kappa_3$ crossed transversally in their relative interiors, then a relative interior point of $\kappa_1$ next to the crossing would lie in the interior of the image of $D$, and $D\in\mathrm{Btw}(\kappa_1)$ by Corollary~\ref{cor:btw}, violating Definition~\ref{def:axiom}. Collinear overlap of two creases is not covered by this argument, since in that degenerate case $D$ covers only a half-neighbourhood; it is excluded here by the explicit nonparallel-crease condition of the working chart, not by centreline general position. No conclusion for parallel crease pairs follows from this argument.
+Adjacent crease pairs cannot meet at all, since the distances $d(\kappa_1,\kappa_2)$ and $d(\kappa_2,\kappa_3)$ equal the corresponding material chord distances, which are positive by rigidity of the intervening panel. If $\kappa_1$ and $\kappa_3$ crossed transversally in their relative interiors, then a relative interior point of $\kappa_1$ next to the crossing would lie in the interior of the image of $D$, and $D\in\mathrm{Btw}(\kappa_1)$ by Corollary~\ref{cor:btw}, violating Definition~\ref{def:axiom}. For a valid positive-turn state with the stated crossing data, the four necessary bounds \eqref{eq:global-four} also give a strictly positive determinant of the two crease carriers (Lemma~\ref{lem:global-opening}), excluding collinear overlap.
 \end{proof}
 
 Proposition~\ref{prop:dim}, Theorem~\ref{thm:layer}, Lemma~\ref{lem:wallcat}, Corollary~\ref{cor:wallcomplete}, Observation~\ref{obs:corner} and Propositions~\ref{prop:strat} and~\ref{prop:axred} together constitute Theorem~\ref{mainthm:moduli}.

@@ -1,0 +1,25 @@
+PASS corner to symmetric corner forward initial ray hits corner initial balanced regime corner
+PASS corner to symmetric corner reversed initial ray hits corner initial balanced regime corner
+PASS mixed to both floors forward initial ray hits left floor initial balanced regime mixed
+PASS mixed to both floors reversed initial ray hits left floor initial balanced regime mixed
+PASS mixed to corner forward initial ray hits left floor initial balanced regime mixed
+PASS mixed to corner reversed initial ray hits left floor initial balanced regime mixed
+PASS both floors forward initial ray hits right floor initial balanced regime both floors
+PASS both floors reversed initial ray hits right floor initial balanced regime both floors
+PASS large middle tilt forward initial ray hits right floor initial balanced regime both floors
+PASS large middle tilt reversed initial ray hits right floor initial balanced regime both floors
+PASS two floor contacts together forward initial ray hits both floors initial balanced regime both floors
+PASS two floor contacts together reversed initial ray hits both floors initial balanced regime both floors
+PASS corner meeting both floors forward initial ray hits corner and both floors initial balanced regime corner
+PASS corner meeting both floors reversed initial ray hits corner and both floors initial balanced regime corner
+both floors 302
+corner 210
+mixed 144
+panel checks 4310
+ray hits both floors 2
+ray hits corner 2
+ray hits corner and both floors 2
+ray hits left floor 4
+ray hits right floor 4
+PASS: independent exact rational clipping, crease exclusion, all three crossings and XYZXYZ
+The rational endpoint is an interior proxy. The algebraic endpoint is checked separately.

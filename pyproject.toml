@@ -12,6 +12,7 @@ dependencies = [
   "scipy==1.18.1",
   "shapely==2.2.0",
   "sympy==1.14.0",
+  "z3-solver==5.4.1.0",
 ]
 
 [tool.uv]

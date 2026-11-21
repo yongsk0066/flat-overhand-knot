@@ -1,0 +1,112 @@
+\subsection{A pulling path from every slack state}\label{sec:slackreach}
+
+Keep the length coordinates $m=2L_1+q$, $k=2L_2+q$ and the functions $T_y,A_y,L,F,P$ from Theorem~\ref{thm:globalcore}. Write
+\[
+\begin{gathered}
+ d=(m+k)/2,\qquad s=d-q=\core,\qquad c=\frac{1+q^2}{2q},\\
+ U=m+x-2c,\qquad V=k+z-2c.
+\end{gathered}
+\]
+The inverse coordinates are $h=(m-2q-x)/2$, $a=(k-2q-z)/2$, $g=h+q$ and $b=a+q+z$.
+
+\begin{lemma}[Contact and crossing margins]\label{lem:reachgeometry}
+In these coordinates the six sliver inequalities, in pairs, are
+\begin{equation}\label{eq:reachwalls}
+\begin{aligned}
+ mx&\ge1, & kz&\ge1,\\
+ k-2q-z&\ge A_x(m+x), & m-2q-x&\ge A_z(k+z),\\
+ V&\ge A_xU, & U&\ge A_zV .
+\end{aligned}
+\end{equation}
+For positive $x,q,z,h,a,T_x,T_z$, these inequalities keep all forbidden crease/pass pairs out of the open panels, prevent relative-interior crease crossings, and give three transverse centreline crossings in the order $\mathtt{XYZXYZ}$ at positive distance from every crease.
+\end{lemma}
+
+\begin{proof}
+The first four inequalities are \eqref{eq:global-four}. For $\sigma(P)=\det(P-E,d_2)$ the signed distances $\sigma(Q_1)-1,\sigma(Q_0)-1$ are respectively the left slacks in the second and third rows times $T_x/[(1+q^2)(1+x^2)]$. Reversal gives the two opposite endpoint values. We record why the far endpoint condition is necessary even at a contact with an oblique cap. Let $D=\det(F-E,Q_0-Q_1)>0$, as follows from the first four inequalities in Lemma~\ref{lem:global-opening}. For $S_y=(q^2+2qy-1)/(1+q^2)$ its carrier formulas give
+\[
+ 2D(t-1)=V+S_zU,\qquad 2D(u-1)=U+S_xV .
+\]
+If $\sigma(Q_0)<1$ at a valid state, it must lie in $(0,1)$: otherwise the chord from $Q_0$ to $Q_1$ reaches small positive $\sigma$ at positive height $Y>\sigma$, inside $A$. The cap functional $X+xY$ equals $D(u-1)$ at $Q_0$ and increases by $D$ towards $Q_1$. A nonnegative value at $Q_0$ would put nearby relative-interior points inside $A$. Thus $u<1$ and $Y(Q_0)<\sigma(Q_0)<1$, which gives $V<0$ since $Y(Q_0)=1+V/(2c)$. The segment prohibition and Lemma~\ref{lem:global-opening} force $t\ge1$. A violation of the reversed far endpoint condition would force $t<1$ by reversal, hence $U\ge A_zV$. Now $b=c+V/2<c$ gives $-1<S_z<0$, so $V+S_zU\ge0$ implies $U<V<0$. This gives $A_z\ge U/V>1$, contradicting $h\ge A_zb$ since $h<h+q+x=c+U/2<b$. Reversal completes necessity.
+
+Conversely, the second row gives $A_xA_z<1$, and the last row then implies $U,V\ge0$. Both endpoints of $HG$ have $\sigma\le0$, and both endpoints of $Q_1Q_0$ have $\sigma\ge1$. Thus those closed chords avoid the interior of $A$, and reversal accounts for $D$. The third crease has one endpoint at height $1+V/(2c)\ge1$ and the other at $1+a/c>1$. Its relative interior is strictly above the first crease. Adjacent creases are disjoint by their material separation.
+
+Put $e=d_2$, $r=w_0$, $v=v_3$, $e_1=(1,0)$, and $n=1+q^2$. The two middle crossings lie at distances $A_xL_1$ along $C$ from $M_2$ and $A_zL_2$ back along $B$ from $M_2$. The second row gives $0<A_xL_1<a<L_2$ and $0<A_zL_2<h<L_1$. For $J=\det(e,v)$, direct reflection gives
+\[
+ J=\frac{2(q+x+z-qxz)(1-qx-qz-xz)}{n(1+x^2)(1+z^2)}>0.
+\]
+The numerator without the factor $2$ equals $(T_xT_z-xzn^2)/q>0$. Label the crossings $X=AC,Y=AD,Z=BD$. Write $\alpha_X,\alpha_Y$ for distances back along $A$ from $M_1$, and $\beta_Y,\beta_Z$ for distances forward along $D$ from $M_3$. Intersecting the four directed lines gives
+\[
+\begin{aligned}
+ J\alpha_Y&=(L_1-A_zL_2)(-v_y),&
+ J(\alpha_X-\alpha_Y)&=(L_2-A_xL_1)\det(r,v),\\
+ J\beta_Y&=(L_2-A_xL_1)\det(r,e),&
+ J(\beta_Z-\beta_Y)&=(L_1-A_zL_2)\det(e,e_1).
+\end{aligned}
+\]
+All four right sides are strictly positive: $-v_y=2T_z/[n(1+z^2)]$, $\det(r,e)=2T_x/[n(1+x^2)]$, and the two adjacent turn determinants are positive. The resulting visits are $XY$ on $A$, $Z$ on $B$, $X$ on $C$ and $YZ$ on $D$. No crossing lies on $HG$, which avoids both open tail bands. The first crease avoids the open $D$ band and meets the $A$ centreline only at $M_1$. The reversed argument applies to the third crease. The three closed crease segments therefore have positive distance from the crossings. The fixed global order gives the required alternating over/under data.
+\end{proof}
+
+\begin{theorem}[Reachability from every slack state]\label{thm:slackreach}
+For every slack valid state $\theta_{\mathrm{in}}$ in the width-one positive three-crease trefoil chart with global layer order $B>D>A>C$, there exists at least one continuous pulling path $\gamma:[0,1]\to\M$ from $\theta_{\mathrm{in}}$ to $\td$. It preserves the crossing data and satisfies
+\[
+ \core(\gamma(t_2))\le\core(\gamma(t_1))\qquad(0\le t_1\le t_2\le1).
+\]
+The construction first preserves the core length and then decreases it strictly to $\ell^\dagger$.
+\end{theorem}
+
+\begin{proof}
+Fix the starting state. We may write $m\ge k$ by exchanging the two ends in the formulas. Undoing that exchange gives the path in the original labels and fixes the symmetric endpoint. Initially $m-q,k-q>\sqrt n$ by Theorem~\ref{thm:globalcore}. We describe the three parts of the motion.
+
+\emph{Reduce the outer tilts at fixed $q,m,k$.}
+Move $(U,V)$ along its ray towards $(0,0)$ until one of $x=1/m$, $z=1/k$, or the origin is reached. Both offsets are positive at a slack start. The two tilts decrease, so $T_x,T_z$ remain positive and the middle row of \eqref{eq:reachwalls} improves. The last row is preserved because the offsets scale together and $A_y$ increases with $y$. If $x=1/m$ is reached first, decrease $z$ alone until $z=1/k$ or $V=A_{1/m}U$. If $z=1/k$ is reached first, decrease $x$ to $1/m$. In this case $V=\alpha(k)\ge0$ for $\alpha(v)=v+1/v-2c$. Since $m\ge k>1$, even the final $U=\alpha(m)$ is at least $V$, and $A_{1/k}<1$ follows from $k-q>\sqrt n$. Hence $U\ge A_{1/k}V$ throughout. The opposite inequality improves as $x$ decreases.
+
+Put $R(v)=2nv/(qv+1)$. Since $\alpha(v)=(v-q)(v-1/q)/v$ and $2c+A_{1/m}\alpha(m)=R(m)$, the resulting angles are
+\begin{equation}\label{eq:reachsection}
+ (x,z)=
+ \begin{cases}
+ (2c-m,\,2c-k),&m\le1/q,\\
+ (1/m,\,\max\{1/k,R(m)-k\}),&m\ge1/q .
+ \end{cases}
+\end{equation}
+Indeed in the first case both reciprocal-floor offsets are nonpositive, so the ray reaches the origin. In the second case the left offset reaches $\alpha(m)$ and the right offset reaches the larger of its reciprocal-floor and contact bounds. Simultaneous contacts merely make the final one-angle move have length zero. At $m=1/q$, $R(m)=2c$, and the formulas agree.
+
+\emph{Balance the middle lengths at fixed $q,s$.}
+Move $m$ down and $k$ up at equal speed until $m=k=d$, following \eqref{eq:reachsection}. Both stay at least as large as the original $k$, so the length domain persists. There are three cases.
+
+When $x=1/m,\ z=1/k$ in the second row of \eqref{eq:reachsection}, $k+1/k\ge R(m)$. This inequality persists because its left side increases and its right side decreases. Here $U=\alpha(m)\ge V=\alpha(k)\ge A_xU\ge0$ and $A_z<1$. The two middle walls are $L(k)\ge F(m)$ and $L(m)\ge F(k)$. The former implies the latter since $L+F$ increases. Its slack increases at rate $L'(k)+F'(m)>0$ by the bounds in Theorem~\ref{thm:globalcore}. In particular $k\ge1/q$ here, and this case persists to $m=k$.
+
+When $x=1/m,\ z=R(m)-k\ge1/k$, one has $V=A_xU$. The middle-row slacks are $2k-2q-R(m)-F(m)$ and $L(m)-A_zR(m)$. Along $(\dot m,\dot k)=(-1,1)$ their derivatives are
+\[
+ 2+R'+F'(m)>0,\qquad
+ -L'(m)+A'_z(1+R')R+A_zR'>0,
+\]
+where $R=R(m)$ and $R'=2n/(qm+1)^2>0$. Indeed $A'_z\ge q$ since $(q+z)^2\le n(1+z^2)$ and $0<1-qz<1$, and $qR\ge n\ge1+1/m^2=L'(m)$ since $qm\ge1$. The angle $z$ decreases and $x=1/m<1/q$, so the angular denominators stay positive. The middle walls imply positive material lengths and $A_xA_z<1$, giving $U\ge A_zV$. The switch function $R(m)-k-1/k$ strictly decreases. It either reaches the reciprocal floor, or $m$ first reaches $1/q$ and the angles enter the common-corner case.
+
+When $m\le1/q$, $U=V=0$ and $x=2c-m\le z=2c-k$. The middle walls become $z+cA_x\le c-q$ and $x+cA_z\le c-q$. Each gives an angular ratio strictly below one, hence both tilts lie in $(0,1)$ at entry since $T_y-ny=q(1-2qy-y^2)$. They remain in that interval as they move towards their mean. The identity $n(1+y^2)-2T_y=(qy+q+y-1)^2$ gives
+\[
+ cA'_y=\frac{n^2(1+y^2)}{2T_y^2}\ge\frac{2}{1+y^2}>1 .
+\]
+Thus $x+cA_z$ is the larger left side and decreases as $(\dot x,\dot z)=(1,-1)$. The reciprocal floors follow from $v(2c-v)\ge1$ for $q<v\le1/q$. At the symmetric endpoint of these cases,
+\[
+ m=k=d=s+q,\qquad x=z=y=\max\{1/d,1/q-s\}.
+\]
+For $d\ge1/q$ this follows from $\alpha(d)\ge0$ and $A_{1/d}<1$. All the preceding movements preserve $s$.
+
+\emph{Align the middle tilt and decrease the core length.}
+Let $q_c=(\sqrt{s^2+4}-s)/2$, so $q_c(s+q_c)=1$. If $q\le q_c$, increase $q$ to $q_c$ at the current length $s$, with $y=1/q-s$ and $h=a=s-c$. The two middle walls reduce to $s/c-1\ge A_y$. Since $s\ge\ell^\dagger>2$, one has $q_c<1$ and $sq<1$ throughout. As $q$ increases, $c=(q+1/q)/2$ decreases and so does
+\[
+ A_{1/q-s}=\frac{2c}{s}\left(1+\frac{q^2}{1-sq}\right)^{-1}.
+\]
+Thus the inequality persists. The offsets are zero, the reciprocal floors hold, and at $q_c$ one has $y=q_c=1/d$.
+
+We now have $q(s+q)\ge1$ and $y=1/(s+q)$. With $s>\sqrt{1+q^2}$ the last row of \eqref{eq:reachwalls} holds since $U=V=\alpha(d)\ge0$ and $A_{1/d}<1$. The middle row is equivalent to $P(s,q)\ge0$ by \eqref{eq:global-envelope}. Put $s_0=\ell^\dagger$, $q_0=g^\dagger-h^\dagger$. The dagger-field identities give
+\[
+ P(s_0,q_0)=0,\qquad (s_0+q_0)x^\dagger=1,\qquad
+ q_0>x^\dagger,\qquad s_0^2>1+q_0^2.
+\]
+For every $s\ge s_0$, $q_0(s+q_0)>1$ and $s>\sqrt{1+q_0^2}$. Also $P(s,q_0)\ge0$ since $L(d)-F(d)$ strictly increases with $d$ from zero at $d=s_0+q_0$. Move $q$ linearly to $q_0$ at fixed $s$. The two domain bounds hold at the endpoints and throughout the interval by monotonicity in $q$. Concavity of $P(s,\cdot)$ makes $P$ nonnegative on the whole interval. Finally keep $q=q_0$ and decrease $s$ linearly to $s_0$. The same bounds ensure feasibility at every intervening length. At $s_0$ the inverse coordinates give $x=z=x^\dagger$, $h=a=h^\dagger$ and hence $\theta=\td$.
+
+The formulas match at each transition. Concatenation gives a continuous path on the stated branch by Lemma~\ref{lem:reachgeometry}. A slack start differs from $\td$, which has active walls, so $s>s_0$ by Theorem~\ref{thm:globalcore} and the last interval has a strict length decrease.
+\end{proof}
+
+The certificate \texttt{exact\_reach\_geometry} reconstructs the signed margins and both passage-order gaps from crease midpoints. The independent check \texttt{exact\_reach\_transport} uses finite differences of $A,L,F,R$, exact real inequalities and a separate isolation of $(s_0,q_0)$. The theorem gives a path for each slack start. The descent census below concerns first-order blocking and the behaviour of particular descent procedures.

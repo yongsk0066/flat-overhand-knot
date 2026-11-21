@@ -1,8 +1,29 @@
 Certificate manifest for "Two notions of tightness for the flat overhand knot"
 
-- hashes-verify.txt : SHA-256 of every verification script (verify/*.py, verify/referee/*.py)
-- hashes-logs.txt   : SHA-256 of every certificate output log (logs/*.log)
-- The repository commit is recorded by the Git tag / Zenodo deposit of the release,
-  not embedded here.
+- hashes-verify.txt : SHA-256 of verification/orchestration scripts, including archived source snapshots
+- hashes-logs.txt   : SHA-256 of certificate logs and nested numerical-run logs
+- hashes-artifacts.txt : SHA-256 of recorded JSON/JSONL data, SVG/PDF figures, and the manuscript PDF and bibliography
+- The release archive contains the sources and printed manuscript from the same checkout.
 
-Verify with:  sha256sum -c logs/hashes-verify.txt && sha256sum -c logs/hashes-logs.txt
+Verify with:
+  shasum -a 256 -c logs/hashes-verify.txt
+  shasum -a 256 -c logs/hashes-logs.txt
+  shasum -a 256 -c logs/hashes-artifacts.txt
+
+The log files record outputs from the corresponding verification scripts.
+Hashes establish file integrity, not mathematical validity.
+The recorded 2026-10-23 figure-eight search evidence is under
+verify/artifacts/n4-rerun-20261023/final/. Top-level sweep/walls/descent are
+preserved interim runs; the top-level strata stores all geometry-independent
+Newton solves, reclassified by final/strata_filter with the final predicate.
+Each archived module is hashed against its original receipt. Current geometric
+and numerical modules are also compared with the archived files. For n4_census,
+n4_walls and n4_cells3 a Python syntax-tree comparison permits comment edits.
+The current runner supports Git-free archives and fresh output directories,
+and checks the input, lockfile and interpreter on resume.
+The exact point/opening/chamber/outline certificates are separate evidence.
+The trefoil pending-row log refreshes four rows only; other stored trefoil
+census rows retain their earlier evidence. The figure-eight rerun does not
+claim exhaustive roots or a full-cell local-optimality proof.
+
+Earlier reachability, census-root and mutation logs are preserved in logs/history/.

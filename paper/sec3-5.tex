@@ -2,7 +2,7 @@
 
 \subsection{Material, placement, and regularity}
 
-Paper is modelled as an inextensible surface of zero thickness. For $0<w<L$ the \emph{strip} is the rectangle $R_{L,w}=[0,L]\times[-\tfrac w2,\tfrac w2]$ carrying the Euclidean metric; all the information the material holds at this stage is intrinsic, namely lengths and angles measured along the sheet. Thickness is not part of the model, and the physical thickness of paper re-enters only through the non-penetration conditions of Section~\ref{sec:moduli} and, quantitatively, through the slab parameter $\varepsilon$ of the realization theory.
+Paper is modelled as an inextensible surface of zero thickness. For $0<w<L$ the \emph{strip} is the rectangle $R_{L,w}=[0,L]\times[-\tfrac w2,\tfrac w2]$ carrying the Euclidean metric; all the information the material holds at this stage is intrinsic, namely lengths and angles measured along the sheet. The sheet has zero material thickness throughout. Non-penetration means injectivity of the realized surface, and $\varepsilon$ bounds the height of its containing slab; it is neither material thickness nor a minimum separation between sheets. A positive-thickness material model would require additional assumptions.
 
 \begin{definition}[Admissible configuration]\label{def:admissible}
 A map $F\colon R_{L,w}\to\R^3$ is \emph{inextensible} where it is differentiable if $(DF)^{T}DF=I_2$, equivalently if it preserves the length of every material curve. It is an \emph{admissible configuration} if there is a finite graph $\Gamma\subset R_{L,w}$, the \emph{crease pattern}, such that $F$ is a $C^2$ inextensible immersion on every connected component of $R_{L,w}\setminus\Gamma$, called a \emph{panel}, and $F$ is continuous on all of $R_{L,w}$.
@@ -31,7 +31,7 @@ A ribbon carries more than its centreline: whether the closed-up ribbon is an an
 \end{remark}
 
 \begin{definition}[Flat folded state]\label{def:flatstate}
-A \emph{flat folded state} is a pair $(f,\lambda)$ in which $f\colon R_w\to\R^2$ is a planar long-strip configuration all of whose creases are \emph{complete}, meaning that in material coordinates each crease is a chord joining the two long edges and hence crosses the centreline, and $\lambda$ is a \emph{layer order}: a local linear order on the material points sharing a plane point, subject to the standard non-crossing axioms of flat origami \cite{justin1997,hull2002,demaine2007}. The instance of those axioms used in this paper is Definition~\ref{def:axiom}.
+A \emph{flat folded state} is a pair $(f,\lambda)$ in which $f\colon R_w\to\R^2$ is a planar long-strip placement all of whose creases are \emph{complete}, meaning that in material coordinates each crease is a chord joining the two long edges and hence crosses the centreline, and $\lambda$ is a \emph{layer order}: a local linear order on the material points sharing a plane point, subject to the standard non-crossing axioms of flat origami \cite{justin1997,hull2002,demaine2007}. The instance of those axioms used in this paper is Definition~\ref{def:axiom}.
 \end{definition}
 
 \begin{definition}[Tying data]\label{def:tying}
@@ -133,12 +133,12 @@ Mixed signs are impossible. If $(s_j)$ is not constant, the word contains an adj
 Nontriviality is proved without appeal to knot tables. Colour the three arcs of the closure of $\sigma_1^{\pm3}$ with three distinct colours; at each crossing the relation $2\cdot\mathrm{over}\equiv\mathrm{under}_{\mathrm{in}}+\mathrm{under}_{\mathrm{out}}\pmod3$ holds, so a non-constant Fox three-colouring exists. The number of three-colourings is invariant under the three Reidemeister moves, and equals three for the unknot. For the first move the two arcs of the curl are forced to share a colour, so colourings correspond bijectively; for the second, an over-strand of colour $a$ and an entering under-strand of colour $b$ produce the trapped arc $2a-b$ and the exiting colour $b$ again, so the boundary colours agree before and after; the third move is the analogous finite check. Hence the diagram is knotted, and by definition the closure of $\sigma_1^{\pm3}$ is the left- or right-handed trefoil.
 \end{proof}
 
-\begin{corollary}[Diagram data, layer order, and crease-slope signs]\label{cor:tyingdata}
-For $n=3$ the diagram data of a tied state is unique up to mirror: the crossing pairs are $\{(P_0,P_2),(P_0,P_3),(P_1,P_3)\}$, the passage word is $\mathtt{XYZXYZ}$, and the over-under assignment is alternating. The layer order and the crease-slope signs follow: the global order is $B>D>A>C$ up to global reversal, and $\epsilon=(+,-,+)$ up to mirror. Hence the full tying datum $(n,\epsilon,\lambda)$ is unique up to mirror.
+\begin{corollary}[Diagram data, crease-slope signs, and global layer order]\label{cor:tyingdata}
+For $n=3$ the diagram data of a tied state is unique up to mirror: the crossing pairs are $\{(P_0,P_2),(P_0,P_3),(P_1,P_3)\}$, the passage word is $\mathtt{XYZXYZ}$, and the over-under assignment is alternating, forcing the three crossing relations $A>C$, $D>A$, and $B>D$ up to global reversal. The crease-slope signs are forced to alternate: $\epsilon=(+,-,+)$ up to mirror. Moreover, any \emph{global} total layer order on $\{A,B,C,D\}$ compatible with the crossings is uniquely $B>D>A>C$ (up to global reversal). Under the purely pointwise local layer order of Definition~\textup{\ref{def:flatstate}}, however, loose states also admit locally consistent cyclic orders \textup{(Remark~\ref{rem:cyclic-counterexample})}.
 \end{corollary}
 
 \begin{proof}
-Substituting the alternating word $O,U,O,U,O,U$ for one mirror choice into the crossing pairs puts $P_0$ over at $(P_0,P_2)$, giving $A>C$; $P_0$ under at $(P_0,P_3)$, giving $D>A$; and $P_1$ over at $(P_1,P_3)$, giving $B>D$. These three relations are acyclic and extend to the stated total order, the mirror being the global flip.
+Substituting the alternating word $O,U,O,U,O,U$ for one mirror choice into the crossing pairs puts $P_0$ over at $(P_0,P_2)$, giving $A>C$; $P_0$ under at $(P_0,P_3)$, giving $D>A$; and $P_1$ over at $(P_1,P_3)$, giving $B>D$. These three relations are acyclic and therefore admit a unique total linear extension on $\{A,B,C,D\}$, namely $B>D>A>C$ (the mirror giving the global reversal). Whether a given pointwise local layer order arises from this global total order depends on how the four passes overlap and is addressed in Remark~\ref{rem:cyclic-counterexample} and Lemma~\ref{lem:common-overlap}.
 
 For the slopes, write $d_j$ for the direction of the piece $P_j$ and $\tau_i$ for the fold turning angles, so that $d_j$ has angle $\tau_1+\cdots+\tau_j$ and $|\tau_i|\in(0,\pi)$ by general position. The existence of the crossing $X=(P_0,P_2)$ gives $M_1-s\,d_0=M_2+u\,d_2$ with $s>0$ and $u\in(0,L_2)$, and since $M_2-M_1=L_1d_1$ we obtain
 \[
@@ -191,14 +191,44 @@ Normalize the width to $1$, so that the material is $\R\times[0,1]$, and write
 \begin{equation}\label{eq:coords}
   \theta=(x,g,h,a,b)\in\M\subset\R^5 ,
 \end{equation}
-where $E=(0,0)$, $F=(-x,1)$ and $\kappa_1=EF$ is the first crease; $G=(g,1)$, $H=(h,0)$ and $\kappa_2=HG$ the second; and $Q_1=G+a\,w_0$, $Q_0=H+b\,w_0$ and $\kappa_3=Q_1Q_0$ the third, with $w_0=\rho^{\mathrm{lin}}_{HG}(1,0)$. The four passes, in material order, are the lay-in pass $A$, the middle pass $B$ occupying the band between the chords $EF$ and $HG$, the pass $C=\rho_{HG}(B)$, and the lay-out pass $D$, so that $A=P_0$, $B=P_1$, $C=P_2$, $D=P_3$. Their images are convex, each being an intersection of three or four half-planes, and the images of $A$ and $D$ are half-infinite bands. The lay-in band is bounded by the edge lines $e_A=(E,d_2)$ and $e_B=(F,d_2)$, and the far edge of the pass $C$ is the line $\ell_2=(G,r)$. Since reflections preserve norms, every wall function introduced below is polynomial in $\theta$ with integer coefficients, and $\core$ is a rational function of $\theta$; no square roots and no normalizations enter, which is what later makes exact certificates possible.
+where $E=(0,0)$, $F=(-x,1)$ and $\kappa_1=EF$ is the first crease; $G=(g,1)$, $H=(h,0)$ and $\kappa_2=HG$ the second; and $Q_1=G+a\,w_0$, $Q_0=H+b\,w_0$ and $\kappa_3=Q_1Q_0$ the third. Here and below $(P,v)$ denotes the line $P+\R v$. The following dictionary fixes all direction vectors used in the wall and truncation formulas. Put $q=g-h$ and $p=q+a-b$. Reflection in a line of direction $v\ne0$ has linear part
+\[
+ R_v(z)=2\frac{v\cdot z}{v\cdot v}v-z.
+\]
+The forward material directions of $A,B,C,D$ are respectively $d_2,(1,0),w_0,v_3$, with
+\begin{equation}\label{eq:directions}
+\begin{aligned}
+ d_2&=R_{(-x,1)}(1,0)
+     =\frac{(x^2-1,-2x)}{1+x^2},\\
+ w_0&=R_{(q,1)}(1,0)
+     =\frac{(q^2-1,2q)}{1+q^2},\qquad r:=w_0,\\
+ v_3&=R_{Q_1-Q_0}(w_0)\\
+    &=\frac{\bigl((q^2-1)(p^2-1)+4pq,\;2(p-q)(pq+1)\bigr)}
+            {(1+q^2)(1+p^2)}.
+\end{aligned}
+\end{equation}
+Indeed $Q_1-Q_0=(q,1)+(a-b)w_0=R_{(q,1)}(p,1)$, so its squared norm is $1+p^2$; substitution into the reflection formula gives $v_3$. All three forward directions are unit vectors. The incoming tail extends backwards along $-d_2$, and the outgoing tail extends forwards along $v_3$.
+
+The four passes, in material order, are the lay-in pass $A$, the middle pass $B$ occupying the band between the chords $EF$ and $HG$, the pass $C$ in the reflected band $\rho_{HG}(\{0\le y\le1\})$, bounded by its own two crease chords $HG$ and $Q_1Q_0$, and the lay-out pass $D$, so that $A=P_0$, $B=P_1$, $C=P_2$, $D=P_3$. Their images are convex, each being an intersection of three or four half-planes, and the images of $A$ and $D$ are half-infinite bands. The lay-in band is bounded by the edge lines $e_A=(E,d_2)$ and $e_B=(F,d_2)$, and the far edge of the pass $C$ is the line $\ell_2=(G,r)$. Since reflections preserve norms, the wall functions are rational in $\theta$ and admit integer-coefficient polynomial representatives after clearing denominators with their signs recorded; $\core$ is in fact affine on the forward chart (Proposition~\ref{prop:nointerior}); no square roots and no further vector normalizations enter, which is what later makes exact certificates possible.
+
+The working chart is defined by collecting the sign and nondegeneracy conditions of this parameterization explicitly.
+
+\begin{definition}[Working chart]\label{def:chart}
+The \emph{working chart} (or \emph{positive chart}) for the three-crease overhand branch consists of all $\theta=(x,g,h,a,b)\in\R^5$ satisfying:
+\begin{enumerate}
+\item[(i)] \emph{positive fold turns:} $x>0$, $q:=g-h>0$, and $p:=q+a-b<0$. With the forward directions \eqref{eq:directions}, the consecutive cross products are $\operatorname{cross}(d_2,(1,0))=2x/(1+x^2)$, $\operatorname{cross}((1,0),w_0)=2q/(1+q^2)$, and $\operatorname{cross}(w_0,v_3)=-2p/(1+p^2)$, so these three inequalities are equivalent to positive turning angles $\tau_1,\tau_2,\tau_3\in(0,\pi)$ (the mirror choice of Corollary~\textup{\ref{cor:tyingdata}} with $\epsilon=(+,-,+)$);
+\item[(ii)] \emph{disjoint consecutive creases along both strip edges:} $h>0$ and $g+x>0$ on pass $B$ (the latter automatic from $g=h+q>0$ and $x>0$), and $a>0$, $b>0$ on pass $C$. In particular, the forward core lengths $g+h+x>0$ and $a+b>0$ are strictly positive throughout the chart;
+\item[(iii)] \emph{nondegeneracy:} the carriers of $\kappa_1$ and $\kappa_3$ are nonparallel ($\operatorname{cross}(F-E,Q_0-Q_1)\neq0$), so the taco intersection parameters $(t,u)$ below are well defined, and the centreline is in general position with the overhand crossing pattern $\{(A,C),(A,D),(B,D)\}$ and passage word $\mathtt{XYZXYZ}$.
+\end{enumerate}
+Parallel crease pairs require a separate chart.
+\end{definition}
 
 On the mirror-symmetric \emph{standard slice} the dictionary specializes to
 \begin{equation}\label{eq:slice}
   g=\frac{1-x^2}{2x},\qquad h=\frac{1-3x^2}{2x},\qquad
   \mu(x)=\frac{(1+x^2)^2}{4x(1-x^2)},\qquad k(x)=\frac{1-3x^2}{2x},
 \end{equation}
-with $I=e_B\cap\ell_2=G+\mu(x)\,r$ and $K=\kappa_3\cap\ell_2=G+k(x)\,r$, where $r=\bigl(\tfrac{x^2-1}{1+x^2},\tfrac{2x}{1+x^2}\bigr)$ and $\Delta=k-\mu$ is the gap between the two parameters; the configuration is then symmetric under the end exchange $E\leftrightarrow H$, $F\leftrightarrow G$, lay-in $\leftrightarrow$ lay-out. Figure~\ref{fig:pentagon} shows the state at the contact-limited endpoint of this slice, the regular pentagon of Theorem~\ref{thm:slice}.
+with $I=e_B\cap\ell_2=G+\mu(x)\,r$ and $K=\kappa_3\cap\ell_2=G+k(x)\,r$. Here $q=x$, so the vector $r=w_0$ of \eqref{eq:directions} becomes $\bigl(\tfrac{x^2-1}{1+x^2},\tfrac{2x}{1+x^2}\bigr)$, and $\Delta=k-\mu$ is the signed parameter gap from $I$ to $K$ along $r$. The configuration is symmetric under the end exchange $E\leftrightarrow H$, $F\leftrightarrow G$, lay-in $\leftrightarrow$ lay-out. Figure~\ref{fig:pentagon} shows the state at the contact-limited endpoint of this slice, the regular pentagon of Theorem~\ref{thm:slice}.
 
 \begin{figure}[t]
 \centering
@@ -207,20 +237,20 @@ with $I=e_B\cap\ell_2=G+\mu(x)\,r$ and $K=\kappa_3\cap\ell_2=G+k(x)\,r$, where $
 \label{fig:pentagon}
 \end{figure}
 
-\subsection{The layer order is forced}
+\subsection{Layer order, cyclic local orders, and common four-pass overlap}
 
 \begin{definition}[Crease-neighbourhood axiom]\label{def:axiom}
 If a crease $\kappa$ joins the passes $P$ and $P'$, then no neighbourhood of any point of the relative interior of $\kappa$ may be covered by a pass lying strictly between $P$ and $P'$ in the layer order.
 \end{definition}
 
-The words ``of \emph{any} point of the relative interior'' are what make the axiom bite at crease endpoints, and that is exactly where the walls of the next subsection come from.
+The words ``of \emph{any} point of the relative interior'' are what make the axiom bite at crease endpoints, and that is where the walls of the next subsection come from.
 
-\begin{theorem}[The layer order is forced]\label{thm:layer}
-In any valid flat folded state of the overhand branch the over-under relations at the three crossings are $A>C$, $D>A$ and $B>D$, giving the global order $B>D>A>C$, or else the global reversal.
+\begin{theorem}[Crossing relations and unique global layer order]\label{thm:layer}
+In any valid flat folded state with the three-crease overhand crossing pattern, the over-under relations at the three crossings are $A>C$, $D>A$, and $B>D$ (or the global reversal). Consequently, any \emph{global} total layer order on $\{A,B,C,D\}$ compatible with these crossings is uniquely $B>D>A>C$ (up to global reversal).
 \end{theorem}
 
 \begin{proof}
-By Theorem~\ref{thm:foldnumber} the three crossings sit on the non-adjacent pairs $(A,C)$, $(A,D)$ and $(B,D)$. In the material passage sequence the only freedom is the order of the two crossings inside the piece $A$ and inside the piece $D$, since $B$ and $C$ are traversed once each. Imposing alternation, that is parity of passages, together with per-crossing complementarity, namely that the two passages of one crossing have opposite parity, kills three of the four cases:
+By Theorem~\ref{thm:foldnumber} the three crossings sit on the non-adjacent pairs $(A,C)$, $(A,D)$ and $(B,D)$. In the material passage sequence the only freedom is the order of the two crossings inside the piece $A$ and inside the piece $D$, since $B$ and $C$ are traversed once each. Imposing alternation, that is parity of passages, together with per-crossing complementarity, namely that the two passages of one crossing have opposite parity, eliminates three of the four cases:
 \begin{center}
 \small
 \begin{tabular}{llp{0.42\linewidth}}
@@ -234,11 +264,37 @@ $D$ first & $B$ first & \raggedright $(A,C)$ at $(2,4)$ and $(B,D)$ at $(3,5)$\t
 \hline
 \end{tabular}
 \end{center}
-The surviving word, with the alternating assignment, yields the three local relations, which are acyclic and extend to the stated total order. No geometric input is used: the implication is purely combinatorial.
+The surviving word, with the alternating assignment, yields the three local relations $A>C$, $D>A$, and $B>D$, which are acyclic and admit a unique linear extension to a global total order on $\{A,B,C,D\}$, namely $B>D>A>C$ (or its global reversal).
+\end{proof}
+
+\begin{remark}[Cyclic local layer orders and their strong realization]\label{rem:cyclic-counterexample}
+Theorem~\ref{thm:layer} does \emph{not} imply that every pointwise local layer order in the sense of Definition~\ref{def:flatstate} is induced by a global total order. Take the rational working-chart state
+\[
+  \theta_{\mathrm{cyc}}=\bigl(\tfrac13,\,\tfrac{301}3,\,100,\,100,\,\tfrac{302}3\bigr),
+  \qquad q=\tfrac13,\quad p=-\tfrac13.
+\]
+Its forward directions are $(-\tfrac45,-\tfrac35),(1,0),(-\tfrac45,\tfrac35),(\tfrac7{25},-\tfrac{24}{25})$, all three turn cross products equal $\tfrac35>0$, the three centreline crossings occur at distinct transverse points in material order $\mathtt{XYZXYZ}$, and all eight walls of Section~\ref{sec:moduli} are strictly positive. Yet even the four infinite width-one support bands have no triple intersection: the minimum Euclidean distance from any pairwise band intersection to a third support band is $851/40=21.275$, and distinct pairwise overlaps along each actual pass are separated longitudinally by at least $21275/936\approx22.73$ strip widths. Retaining $A>C$, $D>A$, $B>D$ at the three crossings while assigning $A>B$ on the adjacent overlap $A\cap B$ near $\kappa_1$ gives a locally consistent pointwise layer order satisfying Definition~\ref{def:axiom}, even though combining comparisons across separated plane points yields the cycle $A>B>D>A$ (indeed all $2^3=8$ adjacent-crease choices are locally consistent, only one being globally ordered).
+
+Moreover, this cyclic local order is strongly realizable in thin slabs: fixing passes $B,C,D$ at constant heights $2\varepsilon/3,0,\varepsilon/2$, introducing on the free incoming tail $A$ over $s\in[-25,-15]$ the smooth $C^2$ isometric height transition $z(s)=\frac\varepsilon4+\frac{3\varepsilon}4 p((s+25)/10)$ paired with horizontal arc-length parameter $S'(s)=\sqrt{1-(z'(s))^2}$ (where $p(t)=10t^3-15t^4+6t^5$, so $|z'(s)|\le\frac{9}{64}\varepsilon$ and the total horizontal foreshortening $\int_{-25}^{-15}(1-\sqrt{1-(z')^2})\,ds\le\frac{405}{2048}\varepsilon^2$ is absorbed along the free ray while all three \emph{reference flat creases} stay fixed), and joining each crease by a semicircular hairpin of radius $r$ (whose rounded material-crease midpoint projects at distance $(\pi/2-1)r$ from its reference crease, within the strong-realization tolerance) yields a strong $\varepsilon$-realization of $\theta_{\mathrm{cyc}}$ for all $0<\varepsilon\le 1/100$ with uniform projection constant $C=1$, collar constant $C_{\mathrm{ram}}=2$, sheet separation at least $\varepsilon/6$, and the same alternating trefoil knot type. The rational band separations, longitudinal overlap gaps, free-tail ramp clearance, and ramp derivative/foreshortening bounds are certified exactly in \texttt{exact\_common\_overlap}. Accordingly, the global total order $B>D>A>C$ is an explicit part of the definition of the globally ordered branch $\mathcal B$ used in Theorems~\ref{mainthm:moduli}, \ref{mainthm:realization}, and~\ref{mainthm:census}.
+\end{remark}
+
+\begin{lemma}[Common four-pass overlap forces the global order]\label{lem:common-overlap}
+Suppose $(f_\theta,\lambda)$ is a flat folded state with the overhand crossing pattern and crossing relations $A>C$, $D>A$, $B>D$, whose pointwise local layer order $\lambda$ is locally constant on each pairwise pass overlap. If there exists a plane point $P$ lying strictly in the interior of all four passes $A,B,C,D$, then $\lambda$ is forced to coincide with the global total order $B>D>A>C$ on every pairwise overlap meeting $P$. This hypothesis holds:
+\begin{enumerate}
+\item[(i)] throughout the standard slice $0<x<1/\sqrt3$, at the point $P(x)=\bigl(\frac{h(x)}{2},\frac34\bigr)$;
+\item[(ii)] at the regular pentagon $P^*$, at $\td$, on a coordinate cube of radius $10^{-3}$ around each, and along the entire certified second-family arc $[x^\dagger,x_0]$ together with its coordinate tube of radius $10^{-4}$, at the fixed point $P=\bigl(\frac12,\frac34\bigr)$.
+\end{enumerate}
+Consequently, the local optimality and certified-path results of Theorems~\textup{\ref{mainthm:pass}}--\textup{\ref{mainthm:kauffman}} hold under purely pointwise local layer order without assuming a global order \emph{a priori}.
+\end{lemma}
+
+\begin{proof}
+Each pass image is convex, so each pairwise interior overlap $A^\circ\cap C^\circ$, $A^\circ\cap D^\circ$, $B^\circ\cap D^\circ$ is convex and hence connected. Local constancy of the relative order transports the three crossing relations $A>C$, $D>A$, $B>D$ from the three crossing points to the common interior point $P$. Because $\lambda$ is a linear order on the four material preimages over $P$, transitivity at $P$ forces $B>D>A>C$ at $P$, and local constancy on each connected pairwise overlap carries those relations to every pair overlapping at $P$.
+
+For \textup{(i)}, evaluating the fourteen inward half-plane functionals of the four crease-bounded passes at $P(x)=(h(x)/2,3/4)$ on the standard slice \eqref{eq:slice} yields rational functions whose nontrivial numerators are $1+x^2-4x^4$, $3+6x^2-5x^4$, and $3x^2\pm2x+1$, all strictly positive on $0<x<1/\sqrt3$. For \textup{(ii)}, exact Sturm counts show that $N_5(x,1.035)$ and $N_5(x,1.053)$ have no roots on $[0.322,0.325]\supset[x^\dagger,x_0]$, confining the second-family branch to $h\in(1.035,1.053)$; outward-rounded interval evaluation of all fourteen half-plane functionals at $(1/2,3/4)$ over the $10^{-3}$ cubes around $P^*$ and $\td$ and over $192$ sub-boxes covering $[0.322,0.325]\times[1.035,1.053]$ thickened by $10^{-4}$ in all five coordinates certifies strict interior membership throughout (all interval lower bounds strictly above $0.05$, \texttt{exact\_common\_overlap}).
 \end{proof}
 
 \begin{corollary}[Prohibition lists]\label{cor:btw}
-With the total order $B>D>A>C$ the sets of passes lying strictly between the two sides of a crease, as in Definition~\textup{\ref{def:axiom}}, are $\mathrm{Btw}(\kappa_1)=\{D\}$, $\mathrm{Btw}(\kappa_2)=\{A,D\}$ and $\mathrm{Btw}(\kappa_3)=\{A\}$.
+On the globally ordered branch $\mathcal B$ (with total order $B>D>A>C$), the sets of passes lying strictly between the two sides of a crease, as in Definition~\textup{\ref{def:axiom}}, are $\mathrm{Btw}(\kappa_1)=\{D\}$, $\mathrm{Btw}(\kappa_2)=\{A,D\}$ and $\mathrm{Btw}(\kappa_3)=\{A\}$.
 \end{corollary}
 
 \subsection{The walls}
@@ -246,22 +302,22 @@ With the total order $B>D>A>C$ the sets of passes lying strictly between the two
 Every codimension-one component of the non-penetration boundary of $\M$ is either a crease-endpoint sliver contact or a taco contact. This is not an empirical inventory but a consequence of convexity, and the following lemma is what closes it.
 
 \begin{lemma}[Completeness of the contact catalogue]\label{lem:wallcat}
-Fix a forbidden pair $(\kappa,P)$ with $P\in\mathrm{Btw}(\kappa)$, where $\kappa$ is a crease chord and $\bar P$ is the closed image of the pass, a convex polygon, possibly unbounded. Along any continuous path of states on which $\mathrm{relint}(\kappa)\cap P^\circ$ passes from empty to nonempty, the transition state satisfies, under the general-position assumption of Definition~\textup{\ref{def:gp}}, one of:
+Fix a forbidden pair $(\kappa,P)$ with $P\in\mathrm{Btw}(\kappa)$, where $\kappa$ is a crease chord and $\bar P$ is the closed image of the pass, a convex polygon, possibly unbounded. Along any continuous path of states on which $\mathrm{relint}(\kappa)\cap P^\circ$ passes from empty to nonempty, the transition state satisfies, one of:
 \textup{(i)} an endpoint of $\kappa$ lies on $\partial P$; or
 \textup{(ii)} a vertex of $\bar P$ lies on $\kappa$.
 Since every vertex of a pass image is the image of a crease endpoint, events of type \textup{(ii)} are crease-pair contacts. Consequently every codimension-one component of the non-penetration boundary is an endpoint sliver or a crease-pair contact.
 \end{lemma}
 
 \begin{proof}
-At the transition state one has $\kappa\cap\bar P\ne\emptyset$, by taking a limit of intersection points from the violating side, while $\mathrm{relint}(\kappa)\cap P^\circ=\emptyset$. Pick $p\in\kappa\cap\bar P$. Suppose first $p\in\mathrm{relint}(\kappa)$; then $p\notin P^\circ$, so $p\in\partial P$. If $p$ lay in the relative interior of an edge $e$ of $\bar P$, the defining inequalities of all other edges would be strict at $p$, so near $p$ the set $\bar P$ coincides with the closed half-plane of $e$; the chord $\kappa$ is not parallel to $e$, collinear crease-edge contact being excluded by Definition~\ref{def:gp}, so $\kappa$ crosses the line of $e$ transversally at $p$, and points of $\mathrm{relint}(\kappa)$ arbitrarily close to $p$ on the inward side lie in $P^\circ$---contradicting emptiness. Hence $p$ is a vertex of $\bar P$, which is case \textup{(ii)}. Otherwise every point of $\kappa\cap\bar P$ is an endpoint of $\kappa$; such an endpoint cannot lie in $P^\circ$, since openness would force nearby relative-interior points of $\kappa$ into $P^\circ$, so it lies on $\partial P$, which is case \textup{(i)}.
+At the transition state one has $\kappa\cap\bar P\ne\emptyset$, by taking a limit of intersection points from the violating side, while $\mathrm{relint}(\kappa)\cap P^\circ=\emptyset$. Pick $p\in\kappa\cap\bar P$. Suppose first $p\in\mathrm{relint}(\kappa)$; then $p\notin P^\circ$, so $p\in\partial P$. If $p$ lay in the relative interior of an edge $e$ of $\bar P$, the defining inequalities of all other edges would be strict at $p$, so near $p$ the set $\bar P$ coincides with the closed half-plane of $e$; if $\kappa$ is not parallel to $e$, it crosses the line of $e$ transversally, placing nearby relative-interior points in $P^\circ$, a contradiction. If it is parallel, the contact is collinear. The closed interval $\kappa\cap e$ then has an endpoint that is an endpoint of $\kappa$ or an endpoint of $e$ (also when $e$ is a ray or a line). These give \textup{(i)} and \textup{(ii)}, respectively. If $p$ was a vertex to begin with, \textup{(ii)} holds directly. Otherwise every point of $\kappa\cap\bar P$ is an endpoint of $\kappa$; such an endpoint cannot lie in $P^\circ$, since openness would force nearby relative-interior points of $\kappa$ into $P^\circ$, so it lies on $\partial P$, which is case \textup{(i)}.
 \end{proof}
 
 \begin{corollary}[The wall catalogue of the overhand branch]\label{cor:wallcomplete}
-The non-penetration boundary of the honest moduli $\M_{\mathrm{hon}}$ consists exactly of the six sliver walls of Table~\textup{\ref{tab:walls}} together with the windowed taco faces $\{t=1,\,0\le u\le1\}$ and $\{u=1,\,0\le t\le1\}$; the computational chamber $\Mhat$ is cut out by the same six slivers together with the unwindowed faces $\{w_9=0,\,w_{10}\le0\}$, $\{w_{10}=0,\,w_9\le0\}$ of \eqref{eq:taco}, whose extensions beyond the windows are capture faces and bound no contact.
+Within the stated working chart, the non-penetration boundary of the honest moduli $\M_{\mathrm{hon}}$ consists exactly of the six sliver walls of Table~\textup{\ref{tab:walls}} together with the windowed taco faces $\{t=1,\,0\le u\le1\}$ and $\{u=1,\,0\le t\le1\}$; the computational chamber $\Mhat$ is cut out by the same six slivers together with the unwindowed faces $\{w_9=0,\,w_{10}\le0\}$, $\{w_{10}=0,\,w_9\le0\}$ of \eqref{eq:taco}, whose extensions beyond the windows are capture faces and bound no contact.
 \end{corollary}
 
 \begin{proof}
-The forbidden pairs are those of Corollary~\ref{cor:btw}, giving eight candidate endpoint events of type \textup{(i)}: both endpoints for each of $(\kappa_1,D)$, $(\kappa_2,A)$, $(\kappa_2,D)$, $(\kappa_3,A)$. Six of them are the walls of Table~\ref{tab:walls}. The remaining two, the $H$-endpoint of $\kappa_2$ against $A$ and the $G$-endpoint of $\kappa_2$ against $D$, degenerate: in the normalization \eqref{eq:coords} the endpoint $H$ lies permanently on the carrier line of the lower edge of the band containing $A$, and mirror-symmetrically for $G$, so the only way these endpoints can reach the closed pass is longitudinally through its cap, and the cap of $A$ is the crease $\kappa_1$, adjacent to $\kappa_2$. Adjacent creases are separated by the positive material chord distance of the intervening panel (Proposition~\ref{prop:axred}), so these two events never occur on the closure of the valid region and bound no face. Events of type \textup{(ii)} are crease-pair contacts; adjacent pairs are excluded by the same distance argument, leaving the pair $(\kappa_1,\kappa_3)$, whose codimension-one events are endpoint-on-segment incidences of the two crease segments. Two of the four, $F\in\kappa_3$ and $Q_0\in\kappa_1$, are exactly the taco faces $\{w_9=0,\,w_{10}\le0\}$ and $\{w_{10}=0,\,w_9\le0\}$ of \eqref{eq:taco}, by Observation~\ref{obs:corner}; the remaining two, $E\in\kappa_3$ and $Q_1\in\kappa_1$, never occur on the chart, by Lemma~\ref{lem:tacoent}(ii).
+The forbidden pairs are those of Corollary~\ref{cor:btw}, giving eight candidate endpoint events of type \textup{(i)}: both endpoints for each of $(\kappa_1,D)$, $(\kappa_2,A)$, $(\kappa_2,D)$, $(\kappa_3,A)$. Six of them are the walls of Table~\ref{tab:walls}. The remaining two, the $H$-endpoint of $\kappa_2$ against $A$ and the $G$-endpoint of $\kappa_2$ against $D$, degenerate: in the normalization \eqref{eq:coords}, with $d_2=((x^2-1),-2x)/(1+x^2)$, the band containing $A$ satisfies $0\le\operatorname{cross}(P-E,d_2)\le1$, whereas $\operatorname{cross}(H-E,d_2)=-2hx/(1+x^2)<0$. Thus $H$ is strictly outside this band on the positive chart, rather than on its carrier line. Material reversal gives the analogous strict exclusion of $G$ from the band of $D$. Adjacent crease contacts are excluded by the positive material chord distance of the intervening panel (Proposition~\ref{prop:axred}). Events of type \textup{(ii)} are crease-pair contacts; adjacent pairs are excluded by the same distance argument, leaving the pair $(\kappa_1,\kappa_3)$, whose codimension-one events are endpoint-on-segment incidences of the two crease segments. Two of the four, $F\in\kappa_3$ and $Q_0\in\kappa_1$, are exactly the taco faces $\{w_9=0,\,w_{10}\le0\}$ and $\{w_{10}=0,\,w_9\le0\}$ of \eqref{eq:taco}, by Observation~\ref{obs:corner}; the remaining two, $E\in\kappa_3$ and $Q_1\in\kappa_1$, never occur on the chart, by Lemma~\ref{lem:tacoent}(ii).
 \end{proof}
 
 With the sign convention that the feasible side is $\ge0$, the six sliver walls are those of Table~\ref{tab:walls};\footnote{The numbering is inherited from a longer preliminary list; the conditions originally labelled $w_2,w_3$ proved to be consequences of the others and are not walls. We keep the labels to stay aligned with the ancillary material.} each is the analytic statement that a particular pass fails to cover a neighbourhood of a particular crease endpoint. Because these conditions concern the endpoints of a relative interior, they must be evaluated analytically and never by sampling along the crease; see Remark~\ref{rem:methods}.
@@ -274,7 +330,7 @@ wall & \raggedright analytic meaning & \raggedright event forbidden by Definitio
 \hline
 $w_1$ & \raggedright endpoint $G$ of $\kappa_2$ inside the lay-in band & \raggedright $A$ covers the $G$-side sliver of $\kappa_2$\tabularnewline
 $w_4$ & \raggedright endpoint $H$ of $\kappa_2$ inside the lay-out band & \raggedright $D$ covers the $H$-side sliver of $\kappa_2$\tabularnewline
-$w_5$ & \raggedright $\Delta\ge0$, that is $K$ before $I$ on $\ell_2$ & \raggedright $A$ covers a neighbourhood of $\kappa_3$\tabularnewline
+$w_5$ & \raggedright $\Delta\ge0$: $K$ at or beyond $I$ along $r$ on $\ell_2$ & \raggedright $A$ covers a neighbourhood of $\kappa_3$\tabularnewline
 $w_6$ & \raggedright the mirror of $w_5$ & \raggedright $D$ covers a neighbourhood of $\kappa_1$\tabularnewline
 $w_7$ & \raggedright $Q_0$ not beyond the far edge $e_B$ of the lay-in band & \raggedright $A$ covers the $Q_0$-side sliver of $\kappa_3$\tabularnewline
 $w_8$ & \raggedright $F$ not beyond the far edge of the lay-out band & \raggedright $D$ covers the $F$-side sliver of $\kappa_1$\tabularnewline
@@ -289,12 +345,12 @@ The remaining boundary has a different logical shape. Let $E+t(F-E)=Q_1+u(Q_0-Q_
 The lower bounds are not additional walls: they are governed by an exact linear entanglement of the pair.
 
 \begin{lemma}[Entanglement of the taco pair]\label{lem:tacoent}
-Write $q=g-h$, $\alpha=2aq/(q^2+1)$ and $\beta=2bq/(q^2+1)$, so that the endpoints of $\kappa_3$ sit at heights $y(Q_1)=1+\alpha$ and $y(Q_0)=\beta$. On the chart, where $h,a,q>0$:
+Write $q=g-h$, $W_0=(1+q^2)w_0=(q^2-1,2q)$, $\alpha=2aq/(q^2+1)$ and $\beta=2bq/(q^2+1)$, so that the endpoints of $\kappa_3$ sit at heights $y(Q_1)=1+\alpha$ and $y(Q_0)=\beta$. On the chart, where $h,a,q>0$:
 \begin{enumerate}
 \item the identity $t-1=\alpha(1-u)+u\,(\beta-1)$ holds, the height along the line of $\kappa_3$ taking the value $t$ at the intersection point;
 \item the endpoint events $E\in\kappa_3$ and $Q_1\in\kappa_1$ never occur: $\kappa_3$ lies in the closed band of $C$, whose $H$-side edge line has $E$ strictly on its far side, by $\operatorname{cross}(E-H,W_0)=-2hq<0$ against the band-side value $\operatorname{cross}(G-H,W_0)=q^2+1>0$; and $y(Q_1)=1+\alpha>1\ge\max_{\kappa_1}y$;
 \item on $\{\beta\ge1\}$ the forbidden event is impossible: $0<u<1$ forces $t-1=\alpha(1-u)+u(\beta-1)>0$;
-\item $\beta\equiv1$ on the standard slice, where $Q_0=F$ identically; along the entire second family $\beta>1$ and $1+\alpha-\beta>0$, by root-free resultants with $N_5$ and exact sign anchors, the pentagon endpoint factor of $\beta-1$ deflating exactly; at $P^*$, $\beta=1$ and $\alpha=(\sqrt5-1)/2=\varphi^{-1}$; at $\td$, $t-1=u-1\approx0.0506$ and $\beta-1\approx0.0796$, both certified positive in $\Q[x]/(p_x)$; and along the second family $t=u=(1+x^2-2hx)/(4x^2)$ in closed form. Certificate \texttt{exact\_taco} \cite{anc}.
+\item $\beta\equiv1$ on the standard slice, where $Q_0=F$ identically; on the certified segment of the second family from $P^*$ to $\td$, one has $\beta>1$ away from $P^*$ and $1+\alpha-\beta>0$ throughout, by root-free resultants with $N_5$ and exact sign anchors, the pentagon endpoint factor of $\beta-1$ deflating exactly; at $P^*$, $\beta=1$ and $\alpha=(\sqrt5-1)/2=\varphi^{-1}$; at $\td$, $t-1=u-1\approx0.0506$ and $\beta-1\approx0.0796$, both certified positive in $\Q[x]/(p_x)$; and along this segment $t=u=(1+x^2-2hx)/(4x^2)$ in closed form. Certificate \texttt{exact\_taco} \cite{anc}.
 \end{enumerate}
 \end{lemma}
 
@@ -311,25 +367,25 @@ One has $w_9=w_{10}=0$ if and only if $Q_0=F$. Indeed $t=1$ places the intersect
 \end{observation}
 
 \begin{proposition}[Stratification]\label{prop:strat}
-Inside the fixed nondegenerate branch chart, the relative closure of $\M$ is semialgebraic and is stratified by the active constraint set; the full closure in $\R^5$ acquires, in addition, code and general-position degeneration faces---branch-exit events, open conditions in the branch datum, not part of the wall stratification. The standard slice is exactly $\{w_1=w_4=w_7=w_8=0\}$, the four contact equations of the classical slice construction being equivalent to the activation of these four walls, and the regular pentagon is the unique point at which all eight walls, sliver and taco alike, are active. The two further contact functions used in earlier versions of the construction, incidence of $F$ with an edge and passage of $\kappa_3$ through $F$, are not walls but stratum labels, since both signs occur among valid states.
+Inside the fixed nondegenerate branch chart, the relative closure of $\M$ is semialgebraic and is stratified by the active constraint set; the full closure in $\R^5$ acquires, in addition, code and general-position degeneration faces---branch-exit events, open conditions in the branch datum, not part of the wall stratification. The standard slice is exactly $\{w_1=w_4=w_7=w_8=0\}$, the four contact equations of the classical slice construction being equivalent to the activation of these four walls, and the regular pentagon is the unique point at which all eight walls, sliver and taco alike, are active. Two further contact functions, incidence of $F$ with an edge and passage of $\kappa_3$ through $F$, are not walls but stratum labels, since both signs occur among valid states.
 \end{proposition}
 
 \begin{proof}
-Semialgebraicity is immediate, every wall function being a polynomial in $\theta$ with integer coefficients. The identification of the standard slice with $\{w_1=w_4=w_7=w_8=0\}$, the simultaneous activity of all eight sliver and taco walls at the regular pentagon and at no other point, and the occurrence of both signs of the two discarded contact functions are direct computations, verified in exact arithmetic in the ancillary suite \cite{anc}.
+Semialgebraicity is immediate, every wall function being rational with integer-coefficient numerator and denominator; denominators are nonzero with fixed signs on each chart component. The identification of the standard slice with $\{w_1=w_4=w_7=w_8=0\}$, the simultaneous activity of all eight sliver and taco walls at the regular pentagon and at no other point, and the occurrence of both signs of the two discarded contact functions are direct computations, verified in exact arithmetic in the ancillary suite \cite{anc}.
 \end{proof}
 
 \begin{proposition}[Axiom reduction]\label{prop:axred}
-For valid states of the overhand branch the branch datum implies the global layer order, which is Theorem~\textup{\ref{thm:layer}}; and the global layer order together with Definition~\textup{\ref{def:axiom}} implies the transversality clause of crease-pair non-crossing. Hence the only logically independent axioms are the crease-neighbourhood axiom and the branch datum.
+On the globally ordered overhand branch $\mathcal B$, the crossing datum determines the unique global layer order $B>D>A>C$ \textup{(Theorem~\ref{thm:layer})}, and that global order together with Definition~\textup{\ref{def:axiom}} implies the transversality clause of crease-pair non-crossing. Hence within $\mathcal B$ the only logically independent axioms are the crease-neighbourhood axiom and the branch datum (including the global layer order).
 \end{proposition}
 
 \begin{proof}
-Adjacent crease pairs cannot meet at all, since the distances $d(\kappa_1,\kappa_2)$ and $d(\kappa_2,\kappa_3)$ equal the corresponding material chord distances, which are positive by rigidity of the intervening panel. If $\kappa_1$ and $\kappa_3$ crossed transversally in their relative interiors, then a relative interior point of $\kappa_1$ next to the crossing would lie in the interior of the image of $D$, and $D\in\mathrm{Btw}(\kappa_1)$ by Corollary~\ref{cor:btw}, violating Definition~\ref{def:axiom}. Collinear overlap of two creases is not covered by this argument, since in that degenerate case $D$ covers only a half-neighbourhood; it is excluded by the standing general-position assumption of Definition~\ref{def:gp} rather than derived.
+Adjacent crease pairs cannot meet at all, since the distances $d(\kappa_1,\kappa_2)$ and $d(\kappa_2,\kappa_3)$ equal the corresponding material chord distances, which are positive by rigidity of the intervening panel. If $\kappa_1$ and $\kappa_3$ crossed transversally in their relative interiors, then a relative interior point of $\kappa_1$ next to the crossing would lie in the interior of the image of $D$, and $D\in\mathrm{Btw}(\kappa_1)$ by Corollary~\ref{cor:btw}, violating Definition~\ref{def:axiom}. Collinear overlap of two creases is not covered by this argument, since in that degenerate case $D$ covers only a half-neighbourhood; it is excluded here by the explicit nonparallel-crease condition of the working chart, not by centreline general position. No conclusion for parallel crease pairs follows from this argument.
 \end{proof}
 
 Proposition~\ref{prop:dim}, Theorem~\ref{thm:layer}, Lemma~\ref{lem:wallcat}, Corollary~\ref{cor:wallcomplete}, Observation~\ref{obs:corner} and Propositions~\ref{prop:strat} and~\ref{prop:axred} together constitute Theorem~\ref{mainthm:moduli}.
 
 \begin{remark}[Status of the classification]\label{rem:wallsnum}
-An earlier version of this classification rested on a sampled boundary inventory; Lemma~\ref{lem:wallcat} and Corollary~\ref{cor:wallcomplete} supersede it, and the completeness of the wall list is now proved. What remains recorded in the ancillary suite \cite{anc} is corroborating material: the exact both-sign witnesses showing that the two stratum labels of Proposition~\ref{prop:strat} bound no face, the analytic endpoint criteria, and the boundary sweeps that originally suggested the catalogue.
+Lemma~\ref{lem:wallcat} and Corollary~\ref{cor:wallcomplete} give the complete wall list. Exact witnesses of both signs show that the two stratum labels of Proposition~\ref{prop:strat} bound no face. The ancillary material \cite{anc} includes these witnesses, the endpoint criteria and supplementary numerical boundary sweeps.
 \end{remark}
 
 \section{Tightening and the pentagonal junction}\label{sec:tightening}
@@ -386,30 +442,33 @@ The slice is one-dimensional with parameter $x$ by Proposition~\ref{prop:strat}.
 for the numerator of $\Delta'$. Since $\core$ is strictly decreasing by Lemma~\ref{lem:sliceform}, a pulling path can only increase $x$, and at $x_0$ the wall $w_5$, that is $\Delta=0$, equivalently $K=I$, equivalently $\kappa_3$ flush with the far edge $e_B$, becomes active. For $x<x_0$ a further increase is possible, so no earlier point is tight.
 \end{proof}
 
-At $x_0$ all five sides of the central polygon $E,H,G,K,F$ have equal length, with $|EH|^2=2-\tfrac{2\sqrt5}5$, all five interior angles have cosine $-\tfrac{\sqrt5-1}4=\cos108^\circ$, and the two tails make an angle of $72^\circ$. These are exact identities in $\Q(\sqrt5)$, machine-checked in Lean~4 together with the monotonicity of $\Delta$ \cite{mathlib2020,anc}. The five sides are precisely the three creases and two band edges: the pentagon is not an approximation but the exact contact-limited endpoint of the slice, which is the folklore statement, proved.
+At $x_0$ all five sides of the central polygon $E,H,G,K,F$ have equal length, with $|EH|^2=2-\tfrac{2\sqrt5}5$, all five interior angles have cosine $-\tfrac{\sqrt5-1}4=\cos108^\circ$, and the two tails make an angle of $72^\circ$. These are exact identities in $\Q(\sqrt5)$, checked by the symbolic geometry scripts. Lean~4 checks supporting algebraic identities, including $|EH|^2=|EF|^2$ under the contact equation and a positivity identity proving the monotonicity of $\Delta$; it does not formalize the polygon or its five angles \cite{mathlib2020,anc}. The five sides are precisely the three creases and two band edges: the pentagon is not an approximation but the exact contact-limited endpoint of the slice, which is the folklore statement, proved.
 
 \subsection{Tightening cannot stop in the interior}
 
-\begin{proposition}[No interior critical point]\label{prop:nointerior}
-In the coordinates \eqref{eq:coords},
+\begin{proposition}[Affine core length and no interior critical point]\label{prop:nointerior}
+On the forward chart, where $g+h+x>0$ and $a+b>0$,
 \[
-  \core(\theta)=\frac{g+h+x}2+|M_2M_3|(g,h,a,b),
-  \qquad\text{so}\qquad
-  \frac{\partial\core}{\partial x}\equiv\frac12 .
+  \core(\theta)=\frac{x+g+h+a+b}{2},\qquad
+  \nabla\core=\tfrac12\mathbf1,\qquad \nabla^2\core=0.
 \]
-Hence $\nabla\core$ never vanishes in the interior: tightening must end on a wall.
+In particular there is no interior critical point.
 \end{proposition}
 
 \begin{proof}
-The points $M_1=(-x/2,\tfrac12)$ and $M_2=(\tfrac{g+h}2,\tfrac12)$ lie on the same horizontal line, which gives the first summand, and $M_3$ is determined by $M_2$, $w_0$, $Q_1$ and $Q_0$, none of which involves $x$.
+An isometry takes the midpoint of a complete material crease chord to its centreline fold point. Thus
+$M_1=(-x/2,1/2)$, $M_2=((g+h)/2,1/2)$, and
+\[
+M_3=\frac{Q_1+Q_0}{2}=M_2+\frac{a+b}{2}\,w_0.
+\]
+Since $|w_0|=1$, the two forward centreline segments have lengths $(g+h+x)/2$ and $(a+b)/2$. Adding and differentiating proves the claim. Without the forward assumptions the respective absolute values are required. The identity and derivative are also checked by \texttt{exact\_core\_descent}.
 \end{proof}
 
 \begin{proposition}[The gradient at the pentagon]\label{prop:gradpent}
-At the pentagon point $P^*$ one has $\nabla\core=(\tfrac12,\tfrac12,\tfrac12,\tfrac12,\tfrac12)$ exactly. The first component is the global identity of Proposition~\textup{\ref{prop:nointerior}}; the coincidence of the remaining four is a special property of the pentagon point, verified exactly over $\Q(\sqrt5,x_0)$. A structural explanation is not known, and we record the question as open problem~\ref{op:gradient}.
+At $P^*$, as everywhere in the forward chart, $\nabla\core=\tfrac12\mathbf1$. The equality of its five entries is a consequence of complete-chord midpoint geometry, not a special symmetry of the pentagon.
 \end{proposition}
-
 \begin{proof}
-Direct computation of the four remaining partial derivatives at $P^*$, verified in exact arithmetic over $\Q(\sqrt5,x_0)$ in the ancillary suite \cite{anc}.
+Apply Proposition~\ref{prop:nointerior}.
 \end{proof}
 
 \subsection{The pentagon is a contact-mode junction: descent passes through}
@@ -421,11 +480,16 @@ At $P^*$ all eight walls are active. For each of the two taco branches of \eqref
 \[
   \delta^*\approx(-0.0844,\ +0.4420,\ -0.5786,\ -0.5786,\ +0.3576)
 \]
-keeps $w_1=w_4=w_5=w_6=0$ to first order, moves $w_7,w_8,w_9,w_{10}$ into the feasible side, and satisfies $\nabla\core\cdot\delta^*<0$. The regular pentagon is therefore not a local minimum of $\core$.
+keeps $w_1=w_4=w_5=w_6=0$ to first order, moves $w_7,w_8,w_9,w_{10}$ into the feasible side, and satisfies $\nabla\core\cdot\delta^*<0$. There is also a strictly inward rational descent direction
+\begin{gather*}
+d=10^{-6}(-163127,1000000,-883304,-887250,833681),\\
+\nabla\core\cdot d=-\frac1{20}.
+\end{gather*}
+Every one of the eight wall derivatives is strictly positive along $d$; the first four lie between $0.0857$ and $0.0858$, and the last four between $3.199$ and $3.204$. Hence $P^*+td$ is feasible with decreasing core length for all sufficiently small $t>0$. The regular pentagon is therefore not a local minimum of $\core$.
 \end{theorem}
 
 \begin{proof}
-All wall functions and $\core$ are rational in $\theta$, since reflections preserve norms and no normalization is required, so every gradient at $P^*$ is an exact element of $\Q(\sqrt5,x_0)$. The Farkas alternative is then decided exactly on each branch, and the direction $\delta^*$ displayed above is a rounding of the exact solution of the four-equality system.
+All wall functions and $\core$ are rational in $\theta$, since reflections preserve norms and no normalization is required, so every gradient at $P^*$ is an exact element of $\Q(\sqrt5,x_0)$. The Farkas alternative is decided exactly on each branch by \texttt{exact\_farkas2}, and $\delta^*$ is a rounding of the exact solution of the four-equality system. Independently, \texttt{exact\_core\_descent} encloses each derivative along the displayed rational $d$ strictly above zero. Taylor expansion makes all eight active walls positive for small $t>0$, while the open branch conditions persist by continuity. The affine core formula makes its decrease exactly $t/20$. This supplies a nonlinear feasible path, rather than relying on tangency alone.
 \end{proof}
 
 \begin{figure}[t]
@@ -448,14 +512,14 @@ Geometrically, along the second family the knot releases the corner lock at $F$ 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.92\linewidth]{figs/fig4-two-families.pdf}
-\caption{The two one-parameter families in the $(x,\core)$ plane. The standard slice $\core=1/x-x$ meets the second family at $P^*$, and the second family attains its strict minimum at $\td$, below the pentagon value.}
+\caption{The two one-parameter families in the $(x,\core)$ plane. The standard slice $\core=1/x-x$ meets the second family at $P^*$, and the second family attains its strict minimum at $\td$, below the pentagon value. Right: the same interval with an expanded vertical scale.}
 \label{fig:families}
 \end{figure}
 
 \begin{remark}[Feasible monotone descent, exactly]\label{rem:edge}
-An earlier version established the one-sided feasibility of the second family by numerical edge continuation. That feasibility now rests on an exact certificate. Restrict the four remaining constraints to the family: with $g$ and $b$ eliminated and $a$ replaced by $h$, each of $w_7=w_8$ and $w_9=w_{10}$ (equal in pairs, because the family lies in the mirror-fixed locus and the mirror exchanges the pairs) has a polynomial numerator in $(x,h)$ over positive denominators, and $d\core/dx$ has numerator $-K$, with $K$ the critical polynomial \eqref{eq:critpoly}, over $2x^2\,\partial_hN_5$. Exact endpoint identities hold: $K(x^\dagger,h^\dagger)\equiv0$ in $\Q[x]/(p_x)$, and at the pentagon, where $h_0^2=1+x_0^2$, the numerators of $w_7$ and $w_9$ vanish in $\Q[x]/(5x^4-10x^2+1)$. The resultants with $N_5$ of all five relevant polynomials---the two wall numerators, the taco denominator, $K$, and $\partial_hN_5$---have no real roots in $[0.322,0.325]\supset[x^\dagger,x_0]$ after removing the endpoint factors, by exact Sturm counts; a Krawczyk box of radius $10^{-20}$ at an interior rational abscissa fixes the branch, and interval evaluation fixes all five signs. Hence on the open interval the branch is smooth, $w_7=w_8>0$ and $w_9=w_{10}>0$, and $d\core/dx>0$ with equality only at $x^\dagger$. Descent from the pentagon along the second family therefore reaches $\td$ through valid states with strictly decreasing $\core$; the path is moreover branch-preserving, twenty-two further root-free resultants fixing the crossing pattern, passage word, and general-position margins along the whole family (Remark~\ref{rem:branchaudit}). Hence $\td$ is reachable and tight in the sense of Definition~\ref{def:pull}. The certificates are \texttt{exact\_reach} and \texttt{exact\_branch} in the ancillary suite \cite{anc}.
+Restrict the four remaining constraints to the second family. With $g$ and $b$ eliminated and $a$ replaced by $h$, each of $w_7=w_8$ and $w_9=w_{10}$ (equal in pairs, because the family lies in the mirror-fixed locus and the mirror exchanges the pairs) has a polynomial numerator in $(x,h)$ over positive denominators, and $d\core/dx$ has numerator $-K$, with $K$ the critical polynomial \eqref{eq:critpoly}, over $2x^2\,\partial_hN_5$. Exact endpoint identities hold: $K(x^\dagger,h^\dagger)\equiv0$ in $\Q[x]/(p_x)$, and at the pentagon, where $h_0^2=1+x_0^2$, the numerators of $w_7$ and $w_9$ vanish in $\Q[x]/(5x^4-10x^2+1)$. The resultants with $N_5$ of all five relevant polynomials---the two wall numerators, the taco denominator, $K$, and $\partial_hN_5$---have no real roots in $[0.322,0.325]\supset[x^\dagger,x_0]$ after removing the endpoint factors, by exact Sturm counts; the height strip of Lemma~\ref{lem:common-overlap} contains exactly one root at $x=1293/4000$, and interval Newton maps a radius-$10^{-20}$ box there strictly into its interior. The wall numerators and the taco denominator are positive at this anchor. Both $-K$ and $\partial_h N_5$ are negative, giving a positive derivative. Hence on the open interval the branch is smooth, $w_7=w_8>0$ and $w_9=w_{10}>0$, and $d\core/dx>0$ with equality only at $x^\dagger$. Descent from the pentagon along the second family therefore reaches $\td$ through valid states with strictly decreasing $\core$; the path is moreover branch-preserving, twenty-two further root-free resultants fixing the crossing pattern, passage word, and general-position margins along the whole family (Remark~\ref{rem:branchaudit}). Hence $\td$ is reachable and tight in the sense of Definition~\ref{def:pull}. The certificates are \texttt{exact\_reach} and \texttt{exact\_branch} in the ancillary suite \cite{anc}.
 \end{remark}
 
 \begin{remark}[Methods: why the certificates must be exact]\label{rem:methods}
-Two false verdicts, both produced by sound-looking numerics, shaped the standards used here. In the first, an early feasibility checker tested the crease-neighbourhood axiom at sampled points of each crease, and a projected descent from the pentagon ran downhill under that checker to an asymmetric state with $\core=2.6233$, some $4.7\%$ below the pentagon value. A fine probe of the crease endpoint exposed the violation: the lay-in band covered a thin sliver of $\kappa_2$ near the parameter value $0.98$, a region attached to the endpoint that every interior sample had missed. Recast analytically, as the question whether a crease endpoint lies inside the opposite band, the same state gives $w_1=-0.061$ and $w_4=-0.062$; the descent had walked through a hole in the checker. In the second, and in the opposite direction, an earlier version of this work announced that the pentagon was a local minimum of $\core$: with the wall list completed, $400\,000$ random directions at the pentagon contained no feasible descent direction, and a projected descent restarted there improved nothing. Both tests are sound as tests and both were passed, yet both were uninformative, because the escape direction $\delta^*$ of Theorem~\ref{thm:pass} keeps four walls at equality and therefore lies in a one-dimensional set that random sampling misses with probability one. The exact Farkas computation, which decides membership in a cone instead of probing it, reversed the verdict, and that reversal is what uncovered $\td$. We record both episodes rather than delete the superseded claims, and we state the two lessons as standing rules for models of this kind: neighbourhood conditions at crease endpoints must be evaluated analytically and never by finite sampling, and passing a random-direction search is not a proof of cone membership.
+At a sampled asymmetric state with $\core=2.6233$, the lay-in band covers a sliver of $\kappa_2$ near crease parameter $0.98$. An interior sampling grid misses the penetration, while the endpoint wall functions give $w_1=-0.061$ and $w_4=-0.062$. A second example concerns the opposite inference. A search over $400\,000$ random directions at $P^*$ found no feasible decrease. Yet the direction $d$ of Theorem~\ref{thm:pass} decreases $\core$ strictly and has positive margins on all eight walls. Its strict margins give an open cone of feasible descent directions. The tangent $\delta^*$ preserves four equalities.
 \end{remark}

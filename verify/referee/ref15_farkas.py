@@ -1,9 +1,9 @@
-# ref15_farkas.py — REFEREE: is each straggler a BLOCKED point?  Farkas test, oracle-free.
-# blocked  <=>  grad(ell) in cone{ grad g_k : k active }.  If not, a first-order feasible
-# descent direction exists and the point is a mere stall of the rejection-sampling descent.
+"""Check Farkas multipliers at the independently harvested endpoints."""
+from probe_files import VERIFY, read_probe
+
 import sys, math, json, itertools
 import numpy as np
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 from n4_tighten2 import config, pieces, ell as ELL
 ELLS=4*math.sqrt(15)/3
 t0=math.acos(-0.25); s0=2*math.pi-2*t0; L1=6/math.sqrt(15); L2=8/math.sqrt(15)
@@ -55,22 +55,21 @@ def analyse(th, order, tol=1e-4):
     feas = float(np.min(J@v)) if np.linalg.norm(v)>1e-9 else 0.0
     return act, best[0], dell, feas
 
-print("Farkas / blockedness test  (residual ~0 and lambda>=0  <=>  BLOCKED)")
+print("Nonnegative multiplier fit on the linearized contact cone")
 print(f"  {'point':>10} {'ell-ell*':>11} {'#active':>8} {'Farkas resid':>13} {'best d(ell) on cone':>21} {'min Jv':>9}")
 for nm,th,o in (("theta*",STAR,[1,4,2,0,3]),("mirror",MIRR,[3,0,2,4,1])):
     act,res,dell,feas=analyse(th,o)
     print(f"  {nm:>10} {ELL(th)-ELLS:>+11.3e} {len(act):>8} {res:>13.3e} {dell:>21.4e} {feas:>9.1e}")
-ends=json.load(open('/private/tmp/claude-501/-Users-yongseok-dev-pentagon/0c3f9975-7617-44d6-be99-ab855225d015/scratchpad/ref10_endpoints.json'))
+ends=read_probe("ref10_endpoints.json")
 print()
 nb=0; ns=0
 for k,e in enumerate(ends):
     d=e['ell']-ELLS
     if d<=1e-3: continue
     act,res,dell,feas=analyse(e['theta'], e['order'])
-    blocked = res<1e-6
-    ns+=1; nb+= blocked
+    small_residual = res<1e-6
+    ns+=1; nb+= small_residual
     print(f"  {('stall#%d'%k):>10} {d:>+11.3e} {len(act):>8} {res:>13.3e} {dell:>21.4e} {feas:>9.1e}"
-          f"   {'BLOCKED' if blocked else 'NOT blocked -> descent direction exists'}")
-print(f"\n  stragglers that are genuinely blocked: {nb}/{ns}")
-print("  'best d(ell) on cone' < 0 means a first-order feasible direction strictly decreases ell,")
-print("  i.e. the point is a STALL of the rejection sampler and not a rival tight state.")
+          f"   {'residual < 1e-6' if small_residual else 'residual >= 1e-6'}")
+print(f"\n  Endpoints with nonnegative multiplier residual below 1e-6: {nb}/{ns}")
+print("  The last two columns report the attempted direction's slope and smallest linearized margin.")

@@ -1,7 +1,4 @@
-# n4_cells3.py — 세포 전수 v3 [referee-H F2 정정판] — cell enumeration v3 [referee-H F2 corrected edition]
-# 이전판(n4_cells2)의 하드코딩 ASSIGNS는 4_1 배정이 아니었음(det=1, 언노트). — the hard-coded ASSIGNS of the previous version (n4_cells2) was not a 4_1 assignment (det=1, unknot).
-# v3: 회전×마스크 전수에서 매듭형을 Z-행렬식으로 직접 판정 (스왑 부기 불필요), — v3: over the rotation × mask enumeration, decide the knot type directly by the Z-determinant (no swap bookkeeping needed),
-#     기하 조건 = 비인접·이패스 + [신규] 쌍 중복 금지(직선 패스는 쌍당 교차 <= 1). —     geometric condition = non-adjacent · two-pass + [new] no duplicate pairs (straight passes cross at most once per pair).
+# Enumerate cyclic cuts and layer masks by integer knot determinant. Each pair of straight passes crosses at most once.
 import itertools
 from fractions import Fraction
 from collections import defaultdict

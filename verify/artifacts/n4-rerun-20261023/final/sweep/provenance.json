@@ -1,0 +1,62 @@
+{
+  "stage": "sweep",
+  "started_utc": "2026-10-23T05:58:19.997031+00:00",
+  "python": "3.13.17 (main, Oct 21 2026, 13:48:20) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "executable": "/private/tmp/pentagon-review-20261023-venv/bin/python",
+  "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "git_head": "000f599696dc3a6c5c873d6b7876a73563a80e78",
+  "sources": {
+    "n4_census.py": "f0c1f2004921b331f9fee344744e67c5d10367c56266a8a1f365e37291c724d6",
+    "n4_tighten2.py": "37fab43cd4e53dc1d236501d9bcf6ce08264b009e7111a29dd557f0a1d18a00c",
+    "n4_geometry.py": "7117cb1a5866cdcd9bd207d1f35410c152472eed72fe4c0c04054f1c5a7e3a5c"
+  },
+  "config": {
+    "total_samples": 8000000,
+    "jobs": [
+      [
+        0,
+        7000,
+        1000000
+      ],
+      [
+        1,
+        7001,
+        1000000
+      ],
+      [
+        2,
+        7002,
+        1000000
+      ],
+      [
+        3,
+        7003,
+        1000000
+      ],
+      [
+        4,
+        7004,
+        1000000
+      ],
+      [
+        5,
+        7005,
+        1000000
+      ],
+      [
+        6,
+        7006,
+        1000000
+      ],
+      [
+        7,
+        7007,
+        1000000
+      ]
+    ],
+    "workers": 2,
+    "gp_tolerance": 1e-09,
+    "distance_tolerance": 1e-12,
+    "parameter_tolerance": 1e-11
+  }
+}

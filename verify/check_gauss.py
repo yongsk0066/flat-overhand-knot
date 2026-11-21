@@ -1,4 +1,4 @@
-# check_gauss.py — 명제 2.9 승격(문서 15)의 조합 사실 인증 — certification of the combinatorial facts behind the upgrade of Proposition 2.9 (document 15)
+# check_gauss.py — combinatorial verification for Theorem A (fold number and crossing rigidity).
 #
 # G1. Gauss 홀짝 조건: n=3 통과열 후보 4개 중 평면 실현 가능한 것은 ABCABC뿐. — Gauss parity condition: of the 4 candidate n=3 passage words, only ABCABC is realizable in the plane.
 # G2. ≤2 교차 코드: 실현 가능한 것은 전부 인접 반복(R1 컬) 보유 → 축약 → 자명. — codes with ≤2 crossings: every realizable one carries an adjacent repeat (an R1 curl) → reduce → unknot.
@@ -157,7 +157,7 @@ print("     ⇒ 상수 부호 = 9 > 3: 비자명 (초등 인증); 혼합 = 3 (�
 print("\n결론: 통과열 ABCABC 강제 [G1], c(K)≥3 [G2],")
 print("      상하 배정은 교대(상수 부호) 2개만 묶임 — 좌·우 세잎, 나머지 6개 자명 [G3,G4].")
 
-# ---------- 심판 처방 (referee-15 #8): 전수 열거판 + 그림자 유일성 기계 인증 ---------- — referee prescription (referee-15 #8): exhaustive-enumeration version + machine certification of shadow uniqueness
+# ---------- Exhaustive chord-pairing enumeration and machine certification of shadow uniqueness ----------
 
 def all_chord_codes(c):
     """{1..2c}의 c-현 완전 짝짓기 전수 → 순환 회전 + 재명명 정규형으로 분류.
@@ -217,7 +217,7 @@ for c0 in cls2:
     print(f"     {c0}: 홀짝 {'통과' if ok else '위반'} / 인접반복 {'유' if rep else '무'}")
 print("     ⇒ 실현 가능한 c≤2 코드는 전부 R1 컬 보유 (전수)")
 
-print("\n[G5] ABCABC 그림자 유일성 — 회전계 8개 전수 (보조정리 15.6a 기계 인증):")
+print("\n[G5] ABCABC shadow uniqueness — all 8 rotation systems (Lemma 3.12):")
 # 폐곡선 통과열 p0..p5 = A1 B1 C1 A2 B2 C2; 변 e_i: p_i → p_{i+1 (mod 6)} — the passage word of the closed curve p0..p5 = A1 B1 C1 A2 B2 C2; edge e_i: p_i → p_{i+1 (mod 6)}
 # 다트: (i,+1)=정방향, (i,-1)=역방향. 정점별 out-다트 4개, 횡단성 ⇒ 회전 2택. — darts: (i,+1)=forward, (i,-1)=backward. 4 out-darts per vertex; transversality ⇒ 2 rotation choices.
 VIS = {'A': (0, 3), 'B': (1, 4), 'C': (2, 5)}     # 각 교차의 두 통과 위치 — the two passage positions of each crossing
@@ -272,4 +272,4 @@ assert all(Fv == [2, 2, 2, 3, 3] for _, Fv in planar), planar
 b0, b1 = planar[0][0], planar[1][0]
 assert all(x + y == 1 for x, y in zip(b0, b1)), (b0, b1)   # 전 정점 반전 = 거울쌍 — flipping every vertex = the mirror pair
 print("     ⇒ 평면 회전계 정확히 2개, 둘 다 면벡터 (2,2,2,3,3), 서로 전 정점 반전(거울쌍)")
-print("     ⇒ 보조정리 15.6a (그림자 표준성·유일성) 기계 인증 완료")
+print("     => Lemma 3.12 (shadow uniqueness) machine-checked")

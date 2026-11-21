@@ -1,16 +1,15 @@
-# ref5_census.py — REFEREE: independent harvest with (a) a DIFFERENT seed,
-# (b) NO canonical-shadow prefilter (completeness attack: are there 4_1 states with
-#     a shadow other than ABCADCBD that the authors' filter silently discards?),
-# (c) RAY-truncation attack: recompute crossings with RAY = 1e7 and compare.
+"""Independent four-crossing harvest with a finite-tail comparison."""
+from probe_files import VERIFY, write_probe
+
 import sys, math, random, collections, json
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 import n4_tighten2 as A
 from n4_tighten2 import (config, code_str, canon, events, linear_extensions,
                          fox5_events, axiom_exact_ok, ell, TARGET_CANON)
 import multiprocessing as mp
 
 def crossings_R(c, RAY):
-    """authors' crossings() but with a tunable ray length"""
+    """Intersections after truncating both tail rays to the specified length."""
     d,M = c['d'], c['M']
     segs={0:(M[0],(-d[0][0],-d[0][1]),RAY),1:(M[0],d[1],c['L'][0]),2:(M[1],d[2],c['L'][1]),
           3:(M[2],d[3],c['L'][2]),4:(M[3],d[4],RAY)}
@@ -79,17 +78,17 @@ if __name__=="__main__":
     RD=0; RE=[]; H=[]
     for s,v,c,rd,re,h in parts:
         S.update(s); V.update(v); C.update(c); RD+=rd; RE+=re[:2]; H+=h
-    print(f"[REFEREE independent harvest] {TOTAL:,} samples, seed family 424242 (authors used 7000)")
+    print(f"[independent harvest] {TOTAL:,} samples, seed family 424242 (the recorded sweep starts at 7000)")
     print(f"\n(a) shadow-canon distribution over ALL 4-crossing configurations (no prefilter):")
     for cd,n in S.most_common(20): print(f"    {cd}: {n}")
-    print(f"\n(b) shadows admitting a fox5=25 layering + exact axiom  <-- completeness attack")
+    print(f"\n(b) sampled shadows admitting a Fox-5 layering and passing the panel predicate")
     for cd,n in V.most_common(20):
-        print(f"    {cd}: {n}   {'<= the authors TARGET_CANON' if cd==TARGET_CANON else '*** NON-TARGET SHADOW WITH A VALID 4_1 STATE ***'}")
+        print(f"    {cd}: {n}   {'<= canonical target' if cd==TARGET_CANON else '*** NON-TARGET SHADOW WITH A VALID 4_1 STATE ***'}")
     if not V: print("    (none)")
     print(f"\n(c) cells (pass-pairs, layer order) among valid states:")
     for k,n in C.most_common(20): print(f"    {k}: {n}")
     print(f"\n(d) RAY-truncation attack: RAY=60 vs RAY=1e7 gave a different crossing count in "
           f"{RD} / {TOTAL} sampled configurations")
     for e in RE[:6]: print(f"    example: n60={e[1]} n1e7={e[2]}  theta={[round(v,3) for v in e[0]]}")
-    json.dump([(t,o,cd) for t,o,cd in H[:300]], open("/private/tmp/claude-501/-Users-yongseok-dev-pentagon/0c3f9975-7617-44d6-be99-ab855225d015/scratchpad/ref_hits.json","w"))
+    write_probe("ref_hits.json", H[:300])
     print(f"\n  valid states harvested: {len(H)}")

@@ -3,7 +3,7 @@
 # 판정: (a) 셰도우 실현 가능한가 (b) 되면 4_1층+정확공리 통과 상태 존재하는가 — verdict: (a) is the shadow realizable (b) if so, does a state passing the 4_1 layers + exact axioms exist
 import sys, math, random, json, collections
 sys.path.insert(0,'verify')
-from n4_tighten2 import config, crossings, code_str, canon, orders_making_41, axiom_exact_ok, TARGET_CANON
+from n4_tighten2 import config, crossings, code_str, canon, orders_making_41, axiom_exact_ok, TARGET_CANON, general_position_ok
 import multiprocessing as mp
 
 CELLS=[((0,2),(0,3),(0,4),(1,3)),((0,2),(0,3),(0,4),(1,4)),((0,2),(0,3),(1,3),(1,4)),
@@ -43,7 +43,7 @@ def _work(args):
                 shadow_hits+=1
                 c=config(tuple(th)); X=crossings(c)
                 cd=code_str(X)
-                if cd and canon(cd)==TARGET_CANON:
+                if cd and canon(cd)==TARGET_CANON and general_position_ok(c,X):
                     for m,exts in orders_making_41(X):
                         for o in exts:
                             if axiom_exact_ok(c,o):

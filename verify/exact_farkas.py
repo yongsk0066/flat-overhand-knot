@@ -1,27 +1,4 @@
-"""
-07 검증 1: 오각형 차단의 Farkas 증서 (정확 대수).
-07 verification 1: Farkas certificate for the blocking of the pentagon (exact algebra).
-
-내용:
-Contents:
-  P1. 5변수 유리식으로 벽 함수 w1,w4,w5,w6,w7,w8과 ell_core를 구성
-  P1. Build the wall functions w1,w4,w5,w6,w7,w8 and ell_core as rational functions of the 5 variables
-      (단위화 생략 — 양수 배율은 벽 집합과 원뿔을 바꾸지 않음; 반사·방향은 전부 유리식).
-      (normalization is omitted — a positive rescaling changes neither the wall set nor the cone; reflections and directions are all rational).
-  P2. 오각형 점에서 grad ell = (1/2,...,1/2) 를 '정확히' 검증 (05의 미해명 관찰의 승격).
-  P2. Verify 'exactly' that grad ell = (1/2,...,1/2) at the pentagon point (promotion of the unexplained observation in 05).
-  P3. Farkas: grad ell = sum lambda_j grad w_j, lambda_j >= 0 의 정확해 탐색
-  P3. Farkas: search for an exact solution of grad ell = sum lambda_j grad w_j with lambda_j >= 0
-      (6벽 중 5-부분집합 선형계를 정확히 풀고 부호를 고정밀로 판정).
-      (solve the linear system for each 5-subset of the 6 walls exactly, then decide the signs in high precision).
-  P4. 슬라이스 위에서 d(w_j)/dx (편미분)의 부호를 x의 함수로 정확 분석
-  P4. Exact analysis, as a function of x, of the sign of d(w_j)/dx (partial derivative) on the slice
-      — 전역 잼 없음의 벡터장 논증(V1 = -e_x)의 적용 범위 확정.
-      — fixing the range of applicability of the vector-field argument (V1 = -e_x) for the absence of a global jam.
-
-실행: verify/.venv/bin/python verify/exact_farkas.py
-Run: verify/.venv/bin/python verify/exact_farkas.py
-"""
+"""Historical six-wall multiplier search at the pentagon. The current eight-wall descent certificate is exact_core_descent.py."""
 from sympy import (symbols, sqrt, Rational, simplify, cancel, together, diff,
                    Matrix, S, nsimplify, factor, solve)
 
@@ -132,7 +109,7 @@ for idxs in combinations(range(6), 5):
 if found:
     print("  ==> Farkas 증서 존재: grad ell ∈ cone(grad w) — 오각형 1계 차단 [정확 대수]")
 else:
-    print("  ==> 5-부분집합에서 비음수 해 없음 — 6벡터 결합 재검토 필요")
+    print("  ==> No nonnegative solution in the six five-subsets; see exact_core_descent.py for the current descent certificate.")
 
 print("\n=== P4: 슬라이스 위 d(w_j)/dx 부호 (x의 함수, 정확) ===")
 gS = (1-x**2)/(2*x); hS = (1-3*x**2)/(2*x)

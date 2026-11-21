@@ -1,0 +1,115 @@
+# n4_pair.py — 논문 본판: figure-8 (a) top view | (b) hidden-line 페어 — paper master version: figure-8 (a) top view | (b) hidden-line pair
+import sys, json, math
+sys.path.insert(0,'verify')
+from n4_tighten2 import config, pieces
+from n4_render import band_quads
+from shapely.geometry import Polygon, LineString
+import math as _math
+HATCH_ANG={0:0,1:45,2:90,3:135,4:20}
+def hatch_segs(T, quad, ang, gap):
+    P=Polygon([T(p) for p in quad])
+    if not P.is_valid: P=P.buffer(0)
+    minx,miny,maxx,maxy=P.bounds
+    cx,cy=(minx+maxx)/2,(miny+maxy)/2
+    L=_math.hypot(maxx-minx,maxy-miny)
+    dx,dy=_math.cos(_math.radians(ang)),_math.sin(_math.radians(ang))
+    nx,ny=-dy,dx
+    out=[]
+    k0=int(-L/gap)-1; k1=int(L/gap)+1
+    for k in range(k0,k1+1):
+        ox,oy=cx+k*gap*nx, cy+k*gap*ny
+        seg=LineString([(ox-L*dx,oy-L*dy),(ox+L*dx,oy+L*dy)]).intersection(P)
+        gs=getattr(seg,'geoms',[seg]) if not seg.is_empty else []
+        for g in gs:
+            if g.geom_type=='LineString' and g.length>1e-6:
+                (a,b)=(g.coords[0],g.coords[-1]); out.append((a[0],a[1],b[0],b[1]))
+    return out
+from shapely.ops import unary_union
+
+cols={0:"#8ecae6",1:"#219ebc",2:"#ffb703",3:"#fb8500",4:"#c1121f"}
+
+def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labels_b=None):
+    c=config(tuple(th)); q=band_quads(c)
+    PW,PH=560,520; GAP=36; W=PW*2+GAP+30; H=PH+56
+    pts=[p for k in q for p in q[k]]
+    if hexoverlay: pts=pts+hexoverlay
+    xs=[p[0] for p in pts]; ys=[p[1] for p in pts]
+    x0,x1,y0,y1=min(xs),max(xs),min(ys),max(ys)
+    pad=0.35; sc=min((PW-26)/(x1-x0+2*pad),(PH-40)/(y1-y0+2*pad))
+    def mkT(ox): return lambda p:(ox+13+(p[0]-x0+pad)*sc, 18+PH-20-(p[1]-y0+pad)*sc)
+    def ps(T,poly): return " ".join(f"{T(p)[0]:.1f},{T(p)[1]:.1f}" for p in poly)
+    S=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}">','<rect width="100%" height="100%" fill="white"/>',
+       '<defs><marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#155"/></marker></defs>']
+    b2t=list(reversed(order))
+    def chords(T):
+        for a,b in c['CH']:
+            A,B=T(a),T(b)
+            S.append(f'<line x1="{A[0]:.1f}" y1="{A[1]:.1f}" x2="{B[0]:.1f}" y2="{B[1]:.1f}" stroke="#111" stroke-width="2.4"/>')
+    def mdots(T):
+        for i,M in enumerate(c['M']):
+            A=T(M); S.append(f'<circle cx="{A[0]:.1f}" cy="{A[1]:.1f}" r="4" fill="#d00"/>')
+            S.append(f'<text x="{A[0]+7:.0f}" y="{A[1]-7:.0f}" font-family="Georgia" font-style="italic" font-size="24">M{i+1}</text>')
+    def hexdraw(T, with_labels):
+        if not hexoverlay: return
+        S.append(f'<polygon points="{ps(T,hexoverlay)}" fill="none" stroke="#0a0a0a" stroke-width="3.4"/>')
+        for p in hexoverlay:
+            dbl = doubles and any(abs(p[0]-d[0])<1e-9 and abs(p[1]-d[1])<1e-9 for d in doubles)
+            A=T(p)
+            S.append(f'<circle cx="{A[0]:.1f}" cy="{A[1]:.1f}" r="{6.5 if dbl else 5}" fill="{"#d00000" if dbl else "#111"}" stroke="white" stroke-width="1.5"/>')
+        if with_labels and labels_b:
+            for lbl,p,dx,dy in labels_b:
+                A=T(p); S.append(f'<text x="{A[0]+dx:.0f}" y="{A[1]+dy:.0f}" font-family="Georgia" font-style="italic" font-size="28">{lbl}</text>')
+    def tarrows(T):
+        if not tails: return
+        A=T((x0-0.1,0.0)); B=T((x0+0.7,0.0))
+        S.append(f'<line x1="{B[0]:.0f}" y1="{B[1]:.0f}" x2="{A[0]+24:.0f}" y2="{A[1]:.0f}" stroke="#155" stroke-width="2" marker-end="url(#ar)"/>')
+        A2=T((x1+0.1,1.0)); B2=T((x1-0.7,1.0))
+        S.append(f'<line x1="{B2[0]:.0f}" y1="{B2[1]:.0f}" x2="{A2[0]-24:.0f}" y2="{A2[1]:.0f}" stroke="#155" stroke-width="2" marker-end="url(#ar)"/>')
+    # (a) opaque
+    Ta=mkT(10)
+    for k in b2t:
+        S.append(f'<polygon points="{ps(Ta,q[k])}" fill="none" stroke="white" stroke-width="9"/>')
+        S.append(f'<polygon points="{ps(Ta,q[k])}" fill="{cols[k]}" fill-opacity="0.95" stroke="{cols[k]}" stroke-width="2.2"/>')
+    chords(Ta); hexdraw(Ta, False); tarrows(Ta); mdots(Ta)
+    S.append(f'<text x="{10+PW/2}" y="{H-10}" font-family="Georgia" font-size="18" text-anchor="middle">(a)</text>')
+    # (b) hidden-line
+    Tb=mkT(10+PW+GAP)
+    for k in b2t:
+        S.append(f'<polygon points="{ps(Tb,q[k])}" fill="{cols[k]}" fill-opacity="0.22" stroke="none"/>')
+        for x1,y1,x2,y2 in hatch_segs(Tb,q[k],HATCH_ANG[k],9.0):
+            S.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#333" stroke-width="0.8" opacity="0.32"/>')
+    for depth,k in enumerate(order):
+        above=[Polygon(q[j]) for j in order[:depth]]
+        U=unary_union(above) if above else None
+        quad=q[k]
+        for i in range(4):
+            e=LineString([quad[i],quad[(i+1)%4]])
+            vis=e.difference(U) if U else e
+            hid=e.intersection(U) if U else None
+            def emit(geom,style):
+                if geom is None or geom.is_empty: return
+                gs=[geom] if geom.geom_type=="LineString" else [g for g in geom.geoms if g.geom_type=="LineString"]
+                for g in gs:
+                    if g.length<1e-9: continue
+                    d=" ".join(f"{Tb(p)[0]:.1f},{Tb(p)[1]:.1f}" for p in g.coords)
+                    S.append(f'<polyline points="{d}" fill="none" {style}/>')
+            emit(vis, f'stroke="{cols[k]}" stroke-width="2.4"')
+            emit(hid, f'stroke="{cols[k]}" stroke-width="1.5" stroke-dasharray="6,4" stroke-opacity="0.85"')
+    chords(Tb); hexdraw(Tb, True); tarrows(Tb); mdots(Tb)
+    S.append(f'<text x="{10+PW+GAP+PW/2}" y="{H-10}" font-family="Georgia" font-size="18" text-anchor="middle">(b)</text>')
+    S.append('</svg>')
+    open(out,"w").write("\n".join(S))
+    print("saved",out)
+
+if __name__=="__main__":
+    h=json.load(open("verify/n4_valid41.json"))
+    th,order=h[1]
+    render_pair(th, order, "paper/figs/fig41-loose.svg")
+    t=math.acos(-0.25); s=2*math.pi-2*t
+    L1=2*math.sqrt(15)/5; L2=8*math.sqrt(15)/15
+    TH=[t,s,-s,-t,L1,L2,L1]
+    r15=math.sqrt(15)
+    HEX=[(-13*r15/30,0.5),(-7*r15/30,1.5),(r15/30,1.5),(3*r15/30,0.5),(-3*r15/30,-0.5),(-11*r15/30,-0.5)]
+    DBL=[(-7*r15/30,1.5),(-3*r15/30,-0.5)]
+    LB=[("E4-",HEX[0],-42,4),("E4+=E2+",HEX[1],-95,-12),("E2-",HEX[2],10,-8),("E1+",HEX[3],12,18),("E1-=E3-",HEX[4],8,20),("E3+",HEX[5],-40,20)]
+    render_pair(TH, [1,4,2,0,3], "paper/figs/fig41-tight.svg", hexoverlay=HEX, doubles=DBL, tails=True, labels_b=LB)

@@ -1,25 +1,34 @@
-import Mathlib
+/-
+Copyright (c) 2026 Yongseok Jang. All rights reserved.
+Released under the MIT license as described in the file LICENSE.
+Authors: Yongseok Jang
+-/
+module
+
+public import Mathlib
 
 /-!
 # Pentagon — the algebraic core of the standard-slice analysis
 
-Machine-checked form of the folklore half of the pentagonal-junction theorem
+Machine-checked algebra supporting the folklore half of the pentagonal-junction theorem
 (Theorem C of the paper). Every `linear_combination` certificate below was
 pre-verified in exact arithmetic by `verify/exact_slice.py` (certificates
 E1–E4); coordinates follow the standard-slice normalization of the paper.
 
-Formalized here (the frozen algebraic layer):
+The nine theorems in this file are
 
 1. `delta_formula` — closed form of the gap function Δ
 2. `deriv_numerator_pos` — positivity of the numerator of Δ′ (⟹ Δ strictly decreasing)
 3. `p_pos` — p(y) > 0 for y > 0, by an SOS decomposition
 4. `x0_root` — the tight parameter is a root of the contact polynomial
 5. `root_unique` — uniqueness of that root in the standard range
-6. `side_eq_of_contact` — contact ⟹ all pentagon sides equal (a P(x) identity)
+6. `side_eq_of_contact` — contact ⟹ |EH|² = |EF|² (a P(x) identity)
 7. `closure_root_of_unity` — side-vector closure ⟹ z⁵ = 1 (the 72° argument)
 8. `ell_core_closed_form` — ℓ_core = 1/x − x on the slice
 9. `ell_core_strict_anti` — ℓ_core strictly decreasing (discrete form)
 -/
+
+public section
 
 namespace Pentagon
 
@@ -39,8 +48,8 @@ theorem deriv_numerator_pos (x : ℝ) :
   nlinarith [mul_nonneg (sq_nonneg x) (sq_nonneg (x ^ 2 - 1 / 2)),
              sq_nonneg x, sq_nonneg (x ^ 2 - 1 / 2)]
 
-/-- `p(y) = 5y³−5y²+7y+1 > 0` for y > 0 — the discriminant argument
-replaced by the SOS decomposition `5y(y−1/2)² + (23/4)y + 1` (certificate E4). -/
+/-- `p(y) = 5y³−5y²+7y+1 > 0` for y > 0 by the sum-of-squares decomposition
+`5y(y−1/2)² + (23/4)y + 1` (certificate E4). -/
 theorem p_pos (y : ℝ) (hy : 0 < y) : 0 < 5 * y ^ 3 - 5 * y ^ 2 + 7 * y + 1 := by
   nlinarith [mul_nonneg hy.le (sq_nonneg (y - 1 / 2)), hy]
 

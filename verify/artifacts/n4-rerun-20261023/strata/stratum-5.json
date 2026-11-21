@@ -1,0 +1,45 @@
+{
+  "index": 5,
+  "labels": [
+    "a:c3P0E-"
+  ],
+  "attempts": [
+    {
+      "seed_index": 0,
+      "converged": false,
+      "seconds": 0.0009740839959704317
+    },
+    {
+      "seed_index": 1,
+      "converged": false,
+      "seconds": 0.00095645799592603
+    },
+    {
+      "seed_index": 2,
+      "converged": false,
+      "seconds": 0.0009579589968780056
+    },
+    {
+      "seed_index": 3,
+      "converged": false,
+      "seconds": 0.0009550000031595118
+    },
+    {
+      "seed_index": 4,
+      "converged": false,
+      "seconds": 0.000960375000431668
+    },
+    {
+      "seed_index": 5,
+      "converged": false,
+      "seconds": 0.0009829160044318996
+    },
+    {
+      "seed_index": 6,
+      "converged": false,
+      "seconds": 0.0009821669955272228
+    }
+  ],
+  "solutions": [],
+  "seconds": 0.0067704590037465096
+}

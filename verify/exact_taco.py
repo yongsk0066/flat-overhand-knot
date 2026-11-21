@@ -1,4 +1,4 @@
-# exact_taco.py — taco 쌍의 정확한 구조 [리뷰 05 #1] — the exact structure of taco pairs [review 05 #1]
+# exact_taco.py — exact algebraic analysis of the taco crease-pair constraints.
 #
 # (1) 얽힘 항등식: t-1 = α(1-u) + u(β-1),  (1+α-β)u = (1+α) - t — (1) entanglement identity: t-1 = α(1-u) + u(β-1),  (1+α-β)u = (1+α) - t
 #     α = 2aq/(q²+1) = y(Q1)-1,  β = 2bq/(q²+1) = y(Q0),  q = g-h  — 심볼릭 ≡0 — symbolically ≡ 0

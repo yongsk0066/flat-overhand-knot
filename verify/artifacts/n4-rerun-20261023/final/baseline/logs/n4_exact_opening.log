@@ -1,0 +1,9 @@
+[exact opening] crease 1 / pass 4: both endpoints outside the whole band for 0<s<=1/1000
+[exact opening] crease 1 / pass 2: both endpoints outside the whole band for 0<s<=1/1000
+[exact opening] crease 2 / pass 4: both endpoints outside the whole band for 0<s<=1/1000
+[exact opening] crease 3 / pass 0: both endpoints outside the whole band for 0<s<=1/1000
+[exact opening] crease 4 / pass 2: both endpoints outside the whole band for 0<s<=1/1000
+[exact opening] crease 4 / pass 0: both endpoints outside the whole band for 0<s<=1/1000
+[exact opening] all panel and crossing-window inequalities hold throughout [0,1/1000]
+[exact opening] core=4sqrt(15)/3+(28sqrt(15)/15)s; reversal is a strictly decreasing pulling path
+PASS: reachable from actual open states; no numerical gating or finite sampling

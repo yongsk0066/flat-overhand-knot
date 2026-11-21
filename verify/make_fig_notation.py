@@ -1,11 +1,14 @@
 # fig0-notation: 좌(재료 좌표: 스트립+크리스 현+패스) / 우(접힌 상태: 느슨한 슬라이스 x=0.25) — left (material coordinates: strip + crease chords + passes) / right (folded state: loose slice x=0.25)
-import sys, math
-sys.path.insert(0,'verify')
-from uniq_setup import _slice_theta, _config
-th=_slice_theta(0.25)
-c=_config(th)
+import argparse
+from pathlib import Path
+from svg_labels import math_text, save_svg
+from ribbon_geometry import geometry, standard_theta
+# Same width-one slice coordinates, without importing the census computations.
+state=geometry(standard_theta(0.25))
+c=dict(state['vertices'],d2=state['d2'])
 E,F,G,H,Q0,Q1=c['E'],c['F'],c['G'],c['H'],c['Q0'],c['Q1']
-M1,M2,M3,v3=c['M1'],c['M2'],c['M3'],c['v3']
+M1,M2,M3=state['centerline']['core']
+v3=state['dD']
 W,Hh=1180,470
 S=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{Hh}" viewBox="0 0 {W} {Hh}">','<rect width="100%" height="100%" fill="white"/>']
 # ---- 좌: 재료 좌표 ---- — left: material coordinates
@@ -17,7 +20,7 @@ cre=[(2.6,+1),(5.2,-1),(7.8,+1)]
 for i,(cx,eps) in enumerate(cre):
     x1,y1=TL((cx-0.45*eps,0)); x2,y2=TL((cx+0.45*eps,1))
     S.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="#c1121f" stroke-width="4"/>')
-    S.append(f'<text x="{(x1+x2)/2:.0f}" y="{y0-12}" font-family="Georgia" font-style="italic" font-size="21" text-anchor="middle">&#954;{i+1} (&#949;{i+1}={"+" if eps>0 else "&#8722;"})</text>')
+    S.append(math_text((x1+x2)/2,y0-14,f'κ_{i+1} (ε_{i+1}={"+" if eps>0 else "−"})',21,'middle'))
 for lbl,px in (("A",1.3),("B",3.9),("C",6.5),("D",8.9)):
     X,Y=TL((px,0.5))
     S.append(f'<text x="{X:.0f}" y="{Y+7:.0f}" font-family="Georgia" font-style="italic" font-size="24" text-anchor="middle">{lbl}</text>')
@@ -49,18 +52,23 @@ quad([H,G,Q1,Q0],"#9467bd",0.42)                                     # C (최하
 quad([Atail[0],E,F,Atail[1]],"#8ecae6",0.5)                          # A
 quad([Q0,Q1,Dt[1],Dt[0]],"#2ca02c",0.42)                             # D
 quad([E,H,G,F],"#ffb703",0.5)                                        # B (최상) — B (top-most)
-for a,b,lbl in ((E,F,"&#954;1"),(H,G,"&#954;2"),(Q1,Q0,"&#954;3")):
+for a,b,lbl,dx,dy,anchor in ((E,F,'κ_1',-18,-14,'end'),(H,G,'κ_2',14,-14,'start'),(Q1,Q0,'κ_3',-22,-15,'end')):
     A_,B_=TR(a),TR(b)
     S.append(f'<line x1="{A_[0]:.1f}" y1="{A_[1]:.1f}" x2="{B_[0]:.1f}" y2="{B_[1]:.1f}" stroke="#c1121f" stroke-width="4"/>')
-    S.append(f'<text x="{(A_[0]+B_[0])/2+14:.0f}" y="{(A_[1]+B_[1])/2-8:.0f}" font-family="Georgia" font-style="italic" font-size="20">{lbl}</text>')
-for m,lbl in ((M1,"M1"),(M2,"M2"),(M3,"M3")):
+    S.append(math_text((A_[0]+B_[0])/2+dx,(A_[1]+B_[1])/2+dy,lbl,20,anchor,halo=2.5))
+for m,lbl,dx,anchor in ((M1,'M_1',-15,'end'),(M2,'M_2',10,'start'),(M3,'M_3',-20,'end')):
     A_=TR(m)
     S.append(f'<circle cx="{A_[0]:.1f}" cy="{A_[1]:.1f}" r="5" fill="#d00"/>')
-    S.append(f'<text x="{A_[0]+9:.0f}" y="{A_[1]+18:.0f}" font-family="Georgia" font-style="italic" font-size="17">{lbl}</text>')
+    S.append(math_text(A_[0]+dx,A_[1]+18,lbl,19,anchor,halo=2.5))
 for lbl,pos in (("A",((E[0]+F[0])/2+dA[0]*(ex+0.32),0.5+dA[1]*(ex+0.32))),("B",(E[0]+0.40,0.11)),("C",((H[0]+Q1[0])/2+0.2,(1+Q1[1])/2)),("D",(Dt[0][0]*0.72+Dt[1][0]*0.28,(Dt[0][1]*0.72+Dt[1][1]*0.28)))):
     A_=TR(pos)
     S.append(f'<text x="{A_[0]:.0f}" y="{A_[1]:.0f}" font-family="Georgia" font-style="italic" font-size="24" text-anchor="middle">{lbl}</text>')
 S.append(f'<text x="{rx0+rw/2}" y="{ry0+rh+30}" font-family="Georgia" font-size="20" text-anchor="middle">a loose flat folded state (layer order B &gt; D &gt; A &gt; C)</text>')
 S.append('</svg>')
-open("paper/figs/fig0-notation.svg","w").write("\n".join(S))
-print("saved fig0-notation.svg")
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description='Render Figure 1 with mathematical labels outside the crease edges.')
+    group=parser.add_mutually_exclusive_group()
+    group.add_argument('--check',action='store_true')
+    group.add_argument('--pdf',action='store_true')
+    args=parser.parse_args()
+    save_svg('\n'.join(S),Path(__file__).resolve().parents[1]/'paper/figs/fig0-notation.svg',check=args.check,pdf=args.pdf)

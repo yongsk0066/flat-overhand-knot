@@ -1,7 +1,13 @@
-# 논문용: 느슨한 유효 4_1 접힘 상태 (조임 전) — 영문, 무제목 — for the paper: a loose valid 4_1 folded state (before tightening) — English, untitled
-import sys, json
-sys.path.insert(0,'verify')
-from n4_render import render
-h=json.load(open("verify/n4_valid41.json"))
-th,o=h[1]
-json.dump({"theta":th,"order":o},open("/tmp/loose_state.json","w"))
+"""Export the loose example used by the historical figure-eight illustration."""
+import argparse
+import json
+from pathlib import Path
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("output", type=Path, help="new JSON file for the loose state")
+args = parser.parse_args()
+states = json.loads(Path(__file__).with_name("n4_valid41.json").read_text())
+theta, order = states[1]
+with args.output.open("x", encoding="utf-8") as target:
+    json.dump({"theta": theta, "order": order}, target)
+print(f"Wrote {args.output}")

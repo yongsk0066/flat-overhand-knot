@@ -1,0 +1,26 @@
+{
+  "stage": "descent",
+  "started_utc": "2026-10-23T05:59:14.848202+00:00",
+  "python": "3.13.17 (main, Oct 21 2026, 13:48:20) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "executable": "/private/tmp/pentagon-review-20261023-venv/bin/python",
+  "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "git_head": "000f599696dc3a6c5c873d6b7876a73563a80e78",
+  "sources": {
+    "n4_census.py": "f0c1f2004921b331f9fee344744e67c5d10367c56266a8a1f365e37291c724d6",
+    "n4_tighten2.py": "37fab43cd4e53dc1d236501d9bcf6ce08264b009e7111a29dd557f0a1d18a00c",
+    "n4_geometry.py": "7117cb1a5866cdcd9bd207d1f35410c152472eed72fe4c0c04054f1c5a7e3a5c"
+  },
+  "config": {
+    "inputs_sha256": "c8d28b0e251bec3410b7606324174aa8511e8d41aa6b7e32a1ef43fbcf01ed53",
+    "n_starts": 42,
+    "all_starts": true,
+    "rounds": [
+      8,
+      10
+    ],
+    "steps_per_round": 2500,
+    "trials_per_step": 30,
+    "seed_start": 9000,
+    "workers": 4
+  }
+}

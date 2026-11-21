@@ -1,6 +1,4 @@
-"""
-09 검증: theta† 의 정확한 대수적 정체 — 최소다항식 확정.
-09 verification: the exact algebraic identity of theta† — pinning down the minimal polynomial.
+"""Eliminate the second-family critical equations to identify the defining polynomial of theta-dagger.
 
 결과 (전부 차수 12, QQ 위 기약, 짝수 거듭제곱만 = 미러 대칭 x->-x 의 흔적):
 results (all of degree 12, irreducible over QQ, only even powers = a trace of the mirror symmetry x->-x):
@@ -99,7 +97,7 @@ def tick(msg): print(f"[{time.time()-T0:7.1f}s] {msg}", flush=True)
 
 x, h, b, t, u, y = symbols('x h b t u y', real=True)
 
-# 40자리 시드 (08-verdict.md) — 40-digit seed (08-verdict.md)
+# 40-digit numerical seed for theta-dagger.
 SEED = dict(x='0.3221274973112271792397142057801235136978',
             h='1.036386300430797104445252761398636908419',
             b='1.713244187064195830219559769216923187227')

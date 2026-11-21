@@ -1,56 +1,43 @@
 # Two notions of tightness for the flat overhand knot
 
-[![verify](https://github.com/yongsk0066/flat-overhand-knot/actions/workflows/verify.yml/badge.svg)](https://github.com/yongsk0066/flat-overhand-knot/actions/workflows/verify.yml)
-[![lean](https://github.com/yongsk0066/flat-overhand-knot/actions/workflows/lean.yml/badge.svg)](https://github.com/yongsk0066/flat-overhand-knot/actions/workflows/lean.yml)
-[![paper](https://github.com/yongsk0066/flat-overhand-knot/actions/workflows/paper.yml/badge.svg)](https://github.com/yongsk0066/flat-overhand-knot/actions/workflows/paper.yml)
+[Read the paper (PDF)](paper/main.pdf) · [Reproduce the results](REPRODUCE.md) · [Cite the manuscript](CITATION.cff)
 
-Tie an overhand knot in a paper strip and pull it flat: folklore says you get a regular
-pentagon. This repository contains a paper, and its complete verification suite, showing
-that *what "tight" means decides what you get*. On the same five-dimensional moduli space
-of three-crease flat folded states, with classified non-penetration walls:
+An overhand knot folded flat in a strip has two ways to measure tightness. On the three-crease branch with layer order **B > D > A > C**, the regular pentagon strictly minimizes truncation length locally. A certified path decreases core length from the pentagon to a different strict local minimum, the notched state θ†.
 
-- **Kauffman's truncation length** selects the regular pentagon as a strict local
-  minimizer (an exact golden-ratio Farkas certificate with linear growth);
-- **the core length that pulling extracts** is *not* minimized there: a certified
-  pulling path crosses the pentagon and terminates at a strict local minimizer
-  θ† whose coordinate field has degree 12 with Galois group S₆ — no radical
-  expression exists; its outline is a heptagon with an exact V-notch;
-- one crossing higher, the **figure-eight branch** tightens to an exactly solvable
-  state in ℚ(√15) — core length 4√15/3, a centrally symmetric hexagonal outline,
-  and truncation length 32/√15, exactly Kauffman's conjectured figure-eight value.
+[![Four folded ribbon panels form a seven-sided outline. The inset enlarges the V-shaped notch on its left edge.](paper/figs/theta-dagger-heptagon.svg)](paper/figs/theta-dagger-heptagon.svg)
 
-Everything is certified: exact arithmetic in quotient fields, resultant–Sturm root
-isolation, Krawczyk interval enclosures, an independent Arb re-verification, and a
-Lean 4 formalization of the algebraic core.
+**Figure 6 from the paper.** The notch lies on the mirror axis of θ†. Its mouth is about 0.0845 strip widths across. Compare the [regular pentagon in Figure 2](paper/figs/fig1-pentagon.svg) and the [two core-length curves in Figure 4](paper/figs/fig4-two-families.svg).
 
-## Layout
+## Run the certificates
+
+```sh
+uv sync --locked
+sh scripts/verify-core.sh
+```
+
+A successful run ends with `PASS: core certificates, mutation controls and figure checks`. The [reproducibility guide](REPRODUCE.md) gives the inputs, methods and expected results for Theorems A–H, along with commands for the longer numerical searches.
+
+## Results and scope
+
+| Result | Evidence |
+|---|---|
+| The three-crease trefoil has crossing word `XYZXYZ`, alternating crossings and slope signs unique up to mirror. A compatible global order is uniquely B > D > A > C. Loose configurations can realize cyclic local orders. | Combinatorial enumeration, an explicit realization, and a common four-panel overlap near the two optima and along the certified paths. |
+| Kauffman's pentagon is a strict local minimum of truncation length. Core length has a feasible descent direction there. | Exact Farkas certificate for truncation and an eight-wall descent certificate for core length. |
+| θ† is a strict local minimum of core length. Its coordinate field has degree 12 and the associated sextic has Galois group S₆. | Exact elimination and stationarity, interval curvature bounds and an exact four-panel outline. |
+| The figure-eight state has core length 4√15/3 and truncation length 32√15/15. | Exact panel validity and a strict local minimum on the stated eight-contact chamber. |
+
+The model uses zero-thickness ribbons and movable complete creases. Global optimality across all branches, full census root coverage and finite-thickness pulling dynamics are open. The [Lean project](formal/README.md) proves 16 supporting algebraic statements.
+
+## Materials
 
 | Path | Contents |
 |---|---|
-| `paper/` | LaTeX source and the compiled paper (`main.pdf`) |
-| `paper/figs/` | Figure SVG sources and the PDFs the paper includes |
-| `verify/` | The certificate suite: numerical probes, exact symbolic derivations, interval certificates, and the internal adversarial-referee scripts (`verify/referee/`) |
-| `formal/` | Lean 4 project (16 machine-checked statements against Mathlib) |
-| `logs/` | Certificate output logs and SHA-256 manifests |
-| `REPRODUCE.md` | Step-by-step reproduction commands |
+| [paper](paper/) | LaTeX manuscript, compiled PDF and figures |
+| [verify](verify/) | Exact certificates, interval checks and numerical experiments |
+| [Recorded figure-eight search](verify/artifacts/n4-rerun-20261023/) | Inputs, source snapshots, checkpoints and per-stage results |
+| [logs](logs/) | Recorded output and SHA-256 manifests |
+| [Ancillary archive](https://github.com/yongsk0066/flat-overhand-knot/raw/refs/heads/main/ancillary.tar.gz) | Current public distribution including the manuscript PDF |
 
-## Quick start
+## Citation and license
 
-```bash
-uv sync                                    # locked environment from pyproject.toml + uv.lock
-uv run python verify/n4_exact_valid.py     # ~1 min: exact validity at the figure-eight tight state
-uv run python verify/exact_taco.py         # ~2 min: taco entanglement identities and certificates
-```
-
-See `REPRODUCE.md` for the full suite (some certificates run for 10–20 minutes) and for
-figure regeneration. The Lean project builds with `cd formal && lake exe cache get && lake build`.
-
-## Citation
-
-See `CITATION.cff`. An arXiv identifier and a Zenodo DOI for the archived version will
-be added at submission.
-
-## License
-
-Code (`verify/`, `formal/`, figure scripts): MIT — see `LICENSE`.
-Paper text and figures (`paper/`): © 2026 Yongseok Jang, licensed CC BY 4.0.
+Yongseok Jang is the author. The full manuscript citation is in [CITATION.cff](CITATION.cff). Code is distributed under the [MIT license](LICENSE). The paper and figures are © 2026 Yongseok Jang, [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).

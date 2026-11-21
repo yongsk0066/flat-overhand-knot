@@ -2,8 +2,8 @@
 # 인벤토리 벽 목록 위에서 |S|<=7 전 층: {g_S=0} ∪ {∇ell = Σλ∇g} 정방계 뉴턴 다중시드 — over the inventory wall list, all strata with |S|<=7: multi-seeded Newton on the square system {g_S=0} ∪ {∇ell = Σλ∇g}
 import sys, math, random, json, itertools, collections
 sys.path.insert(0,'verify')
-from n4_tighten2 import config, pieces, crossings, code_str, canon, ev_over_of, fox5_events
-from n4_walls import all_margins, ORDER
+from n4_tighten2 import config, pieces, crossings, code_str, canon, ev_over_of, fox5_events, valid_fixed2
+from n4_walls import all_margins, cap_data, ORDER
 import multiprocessing as mp
 
 def margin_fn(label, sign_ref):
@@ -23,16 +23,19 @@ def margin_fn(label, sign_ref):
         return lambda th: s*lat_lon(th,i,k,e)[0]-0.5
     if kind=='b':
         i=int(label[3])-1; k=int(label[5]); e=label[7]; hi=label.endswith('hi')
-        if hi: return lambda th: lat_lon(th,i,k,e)[2]-lat_lon(th,i,k,e)[1]
-        return lambda th: lat_lon(th,i,k,e)[1]
+        def g(th):
+            c=config(th);pt=c['CH'][i][0 if e=='-' else 1]
+            form=next(form for name,form,_ in cap_data(c,k)[1] if name==('hi' if hi else 'lo'))
+            return -(form[0]*pt[0]+form[1]*pt[1]+form[2])
+        return g
     if kind=='d':
         i=int(label[3])-1; k=int(label[5])
         cn='hi' if 'Khi' in label else 'lo'; sn=1.0 if label.endswith('p') else -1.0
         def g(th):
             c=config(th); segs=pieces(c)
-            A,B=c['CH'][i]; P,dd,l=segs[k]; n=(-dd[1],dd[0])
-            cap=l if cn=='hi' else 0.0
-            cx=P[0]+cap*dd[0]+sn*0.5*n[0]; cy=P[1]+cap*dd[1]+sn*0.5*n[1]
+            A,B=c['CH'][i]; P,dd,l=segs[k]
+            corners=next(corners for name,_,corners in cap_data(c,k)[1] if name==cn)
+            cx,cy=max(corners,key=lambda pt:sn*(-(pt[0]-P[0])*dd[1]+(pt[1]-P[1])*dd[0]))
             ab=(B[0]-A[0],B[1]-A[1]); nab=math.hypot(*ab)
             return ((cx-A[0])*ab[1]-(cy-A[1])*ab[0])/nab
         s0=1.0 if g(sign_ref)>=0 else -1.0
@@ -126,6 +129,17 @@ def _work(args):
             out.append((labels, list(th), list(lam), rn))
     return out
 
+def actual_closure_ok(th, tolerance=1e-6):
+    """Numerical approximate-closure test, independent of wall inventory.
+
+    Newton's residual tolerance is 5e-8; the geometric rejection tolerance
+    is explicitly wider. This is not an exact feasibility certificate.
+    """
+    if any(not math.isfinite(v) for v in th) or any(v<=0 for v in th[4:]):
+        return False
+    return valid_fixed2(tuple(th),ORDER,distance_tolerance=tolerance,
+                        parameter_tolerance=1e-8) is not None
+
 if __name__=="__main__":
     inv=json.load(open("verify/n4_wall_inventory.json"))
     WALLS=[k for k,v in sorted(inv.items(),key=lambda kv:-kv[1]) if v>=2 and k!="(미분류)"]
@@ -150,13 +164,7 @@ if __name__=="__main__":
     # 필터: 유효 폐포 + λ>=0 + 코드/fox — filter: closure of the valid region + λ>=0 + code/fox
     passed=[]; nearmiss=[]
     for labels,th,lam,rn in sols:
-        m=all_margins(tuple(th))
-        if m is None: continue
-        worst=min((v for k,v in m.items()), default=1)
-        if worst<-1e-6: continue
-        c=config(tuple(th)); X=crossings(c); cd=code_str(X)
-        if cd is None or canon(cd)!="ABCADCBD": continue
-        if fox5_events(ev_over_of(X,ORDER))!=25: continue
+        if not actual_closure_ok(th): continue
         if all(l>=-1e-8 for l in lam):
             passed.append((labels,th,lam))
         else:

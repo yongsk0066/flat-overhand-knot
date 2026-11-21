@@ -1,6 +1,4 @@
-"""
-08 후속: 전역 유일성 스윕 — theta† 외의 타이트 상태 사냥 (증거 수집, 증명 아님).
-08 follow-up: global uniqueness sweep — hunting for tight states other than theta† (evidence gathering, not a proof).
+"""Explore the three-crease branch with multistart descent and search for other blocked states.
 
 설계 (2단계):
 Design (2 stages):

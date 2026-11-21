@@ -75,7 +75,7 @@ print(f"근방 유효율(반경 1e-5, 200방향): {cnt}/200  (경계점이므로
 c=config(TH); X=crossings(c)
 print("θ*에서 fox5:", fox5_events(ev_over_of(X,order)), " canon:", canon(code_str(X)))
 
-# ---- 접근가능성: 내부 방향 존재 + 비선형 실현가능 (referee-H 권고 재현) ---- — accessibility: an interior direction exists + nonlinear feasibility (reproducing the referee-H recommendation)
+# Test linearized accessibility with a feasible inward direction.
 print("\n[접근가능성] 8접촉 원뿔의 내부 방향 탐색 + 비선형 검사")
 import mpmath as mpx
 G8=[[G[i][k] for i in range(7)] for k in range(8)]   # ∇g_k

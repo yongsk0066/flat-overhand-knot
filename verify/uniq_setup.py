@@ -6,7 +6,6 @@
 #   (2) ell = (g+h+x)/2 + r,  r^2 = R2(theta) (유리),  s23 (유리). — (2) ell = (g+h+x)/2 + r, r^2 = R2(theta) (rational), s23 (rational).
 #   (3) 각 벽의 x-편미분의 부호 표본 조사 — 층 가지치기 보조정리의 데이터. — (3) Sample survey of the sign of each wall's x-partial derivative — data for the stratum-pruning lemma.
 #
-# 핵심 구조 발견(계산 확인 대상): — Key structural discovery (to be confirmed by computation):
 #   D2 = (x^2-1, -2x),        |D2| = x^2+1      (다항!) — (polynomial!)
 #   W0 = (q^2-1, 2q), q=g-h,  |W0| = q^2+1      (다항!) — (polynomial!)
 #   ⇒ 단위벡터가 유리 ⇒ 모든 벽·중심선 자료가 theta의 유리식. — ⇒ the unit vectors are rational ⇒ all wall and centerline data are rational expressions in theta.

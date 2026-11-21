@@ -1,0 +1,10 @@
+[exact] theta-dagger: 4x4 minor in (g,h,a,b) is nonzero in Q[x]/(p_x) => rank 4 opening
+  D_delta w1 in [1.00513963, 1.00513963] > 0
+  D_delta w4 in [0.9923798682, 0.9923798682] > 0
+  D_delta w5 in [1.017451756, 1.017451756] > 0
+  D_delta w6 in [0.984356868, 0.984356868] > 0
+  D_delta w7 in [0.9942837049, 0.9942837049] > 0
+  D_delta w8 in [1.008133281, 1.008133281] > 0
+  D_delta w9 in [0.9942837049, 0.9942837049] > 0
+  D_delta w10 in [1.008133281, 1.008133281] > 0
+PASS: first-order simultaneous opening certified at theta-dagger and P*

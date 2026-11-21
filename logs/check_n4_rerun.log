@@ -1,0 +1,4 @@
+PASS: final source snapshots, 8M sweep, 3995/4000 boundaries, 42 descents
+PASS: 254 x 7 raw Newton attempts, 56 records, 14 repeated candidate records
+PASS: 8 targeted cells, 15 margin targets, 11 sampled descent-ray diagnostics
+Numerical evidence only; no exhaustive or full-cell optimality claim

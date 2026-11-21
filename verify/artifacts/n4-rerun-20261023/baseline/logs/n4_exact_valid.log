@@ -1,0 +1,13 @@
+[exact panels] all complete creases and five nonempty pass interiors verified
+[exact nonpenetration] crease 1 / pass 4: empty open intersection
+[exact nonpenetration] crease 1 / pass 2: empty open intersection
+[exact nonpenetration] crease 2 / pass 4: empty open intersection
+[exact nonpenetration] crease 3 / pass 0: empty open intersection
+[exact nonpenetration] crease 4 / pass 2: empty open intersection
+[exact nonpenetration] crease 4 / pass 0: empty open intersection
+[exact crossing] (0, 2): parameters sqrt(15)/5, 2*sqrt(15)/5
+[exact crossing] (0, 3): parameters 4*sqrt(15)/15, 2*sqrt(15)/15
+[exact crossing] (1, 4): parameters 4*sqrt(15)/15, 4*sqrt(15)/15
+[exact crossing] (2, 4): parameters 2*sqrt(15)/15, sqrt(15)/5
+[exact active contacts] all eight lateral equalities verified
+PASS: full actual-panel nonpenetration and the four-crossing cell, exactly in Q(sqrt(15))

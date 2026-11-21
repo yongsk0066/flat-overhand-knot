@@ -7,10 +7,10 @@ license = "MIT"
 authors = [{ name = "Yongseok Jang", email = "yongsk0066@gmail.com" }]
 dependencies = [
   "mpmath==1.3.0",
-  "numpy==2.5.1",
+  "numpy==2.5.5",
   "python-flint==0.9.0",
-  "scipy==1.18.0",
-  "shapely==2.1.2",
+  "scipy==1.18.1",
+  "shapely==2.2.0",
   "sympy==1.14.0",
 ]
 

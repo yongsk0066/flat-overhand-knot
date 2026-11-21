@@ -1,4 +1,4 @@
-import math, random, sys
+import math, random
 def canon(code):
     n=len(code); best=None
     for r in range(n):
@@ -32,8 +32,7 @@ def code_of(X):
     for p,s,u in X:
         i,j=p
         ev.append((i, -s if i==0 else s, lab[p]))   # P0: 재료순 = s 내림차순 ⟹ -s 오름 — P0: material order = decreasing s ⟹ increasing -s
-        ev.append((j, -u if False else u, lab[p]) if j!=0 else (0,-u,lab[p]))
-        if j==4: pass
+        ev.append((j, -u if j == 0 else u, lab[p]))
     ev.sort()
     return "".join(t[2] for t in ev)
 rnd=random.Random(77)

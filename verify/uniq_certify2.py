@@ -99,9 +99,9 @@ def krawczyk(S, z0, rad=mpf('1e-12'), refine=8):
 
 _fivP = {n_: sp.lambdify(TH, e_, 'mpmath', cse=True) for n_, e_ in zip(NAMES, POLY)}
 
-# 배율 c_j (W_j^poly = c_j · w_j): 무조건 양수 vs 가지-조건부 (referee-1516 치명 2 수리) — Scale factors c_j (W_j^poly = c_j · w_j): unconditionally positive vs branch-conditional (repair of referee-1516 critical issue 2)
-#   c1 = x^2+1 > 0 무조건;  c7 = (q^2+1)(x^2+1) > 0 무조건 (재재심 R1 정정); — c1 = x^2+1 > 0 unconditionally; c7 = (q^2+1)(x^2+1) > 0 unconditionally (correction from the re-re-review R1);
-#   c4, c6, c8 ∝ nW0^k (Ū·Ū)^m > 0 무조건 (s_D 프로브 ≡ +1/2 — 재재심 R3); — c4, c6, c8 ∝ nW0^k (Ū·Ū)^m > 0 unconditionally (s_D probe ≡ +1/2 — re-re-review R3);
+# W_j = c_j w_j. A scaled wall certifies the true sign only when c_j is positive.
+# c1 = x^2+1 and c7 = (q^2+1)(x^2+1) are positive throughout the chart.
+# The remaining unconditional factors use positive powers of nW0 and the squared crease norm.
 #   c5 = (q+x)(1-qx);  c9 = c10 ∝ cross(F, Ū)  — 가지 밖에서 부호 반전 가능 — the sign can flip outside the branch
 SAFE_WALLS = ("W1", "W4", "W6", "W7", "W8")
 x_, g_, h_, a_, b_ = TH
@@ -153,7 +153,7 @@ def main():
             print(f"  S={{{','.join(r['S'])}}} x={r['theta'][0]:.4f}: Krawczyk 실패 (퇴화/스퓨리어스)")
             continue
         verdict = None
-        # (1) 무조건-배율 벽 위반 인증 (우선 — referee-1516 처방 16-2) — (1) certification of an unconditional-scale-factor wall violation (taken first — referee-1516 prescription 16-2)
+        # Prefer walls with unconditionally positive scale factors.
         for n_ in SAFE_WALLS:
             j = NAMES.index(n_)
             if j in S: continue
@@ -181,7 +181,7 @@ def main():
             s9 = wall_sign_on_box("W9", box); s10 = wall_sign_on_box("W10", box)
             if s9 == '-' and s10 == '-' and cfact_positive_on_box("W9", box):
                 verdict = "taco 쌍 동시 위반 구간 인증 (+c>0)"
-        # (5) 최종 티어: 참-벽(유리) 구간 평가 — 무조건 배율 (referee-1516 수리의 완결) — (5) final tier: interval evaluation of the true walls (rational) — unconditional scale factors (completing the referee-1516 repair)
+        # Evaluate the unscaled rational wall directly.
         if verdict is None:
             for j, n_ in enumerate(NAMES):
                 if j in S or n_ in ("W9", "W10"): continue

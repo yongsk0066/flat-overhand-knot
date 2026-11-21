@@ -1,13 +1,22 @@
-# formal
+# Lean algebra certificates
 
-## GitHub configuration
+Run from this directory:
 
-To set up your new GitHub repository, follow these steps:
+```sh
+lake exe cache get
+lake build Formal
+```
 
-* Under your repository name, click **Settings**.
-* In the **Actions** section of the sidebar, click "General".
-* Check the box **Allow GitHub Actions to create and approve pull requests**.
-* Click the **Pages** section of the settings sidebar.
-* In the **Source** dropdown menu, select "GitHub Actions".
+`lean-toolchain` and `lake-manifest.json` pin Lean and Mathlib.
+There are 16 named theorems: nine in `Formal/Pentagon.lean` and seven in
+`Formal/ThetaDagger.lean`. They prove polynomial identities, sign and root
+properties, the slice core-length formula and its monotonicity, and the
+algebraic separation of the pentagon parameter from the dagger parameter.
 
-After following the steps above, you can remove this section from the README file.
+`side_eq_of_contact` proves the equality of two squared-length expressions,
+not a theorem about all five polygon sides. The fifth-root-of-unity lemma
+is an algebraic implication, not a formal construction of the polygon.
+The coordinate-to-geometry bridge, layer axioms, non-penetration, complete
+outline, Galois group, optimization and realization theorems are **not**
+formalized here. Their human proofs and symbolic/interval certificates are
+in the paper and `../verify/`.

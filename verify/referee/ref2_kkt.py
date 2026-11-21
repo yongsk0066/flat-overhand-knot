@@ -1,5 +1,6 @@
-# ref2_kkt.py — REFEREE: independent KKT / blocking certificate at theta*_{4_1}.
-# Constraints rebuilt from the axiom by me; gradients differentiated symbolically by me.
+"""Reconstruct the figure-eight contact gradients and KKT multipliers."""
+from probe_files import VERIFY
+
 import sympy as sp, itertools
 
 r15 = sp.sqrt(15)
@@ -62,9 +63,9 @@ for i in range(4):
             if gv==0:
                 assert inwin, "ACTIVE contact with endpoint OUTSIDE the longitudinal window!"
                 G.append((f"c{i+1}/P{k}/e{e}", g))
-print(f"\n  -> {len(G)} active constraints found by exhaustive scan (paper claims 8)")
+print(f"\n  -> {len(G)} active constraints found by exhaustive scan (eight at the reference state)")
 
-# ---- exact Jacobian, my own differentiation --------------------------------
+# Exact Jacobian of the active contact functions.
 J = sp.Matrix([[EV(sp.diff(g,v)) for v in TH] for _,g in G])
 print("  Jacobian rank (exact):", J.rank(), " of", J.shape)
 grad_ell = sp.Matrix([0,0,0,0,1,1,1])
@@ -91,9 +92,9 @@ sub,lam = found[0]
 print("   rank of chosen 7-subset:", J[list(sub),:].rank(), "(=7 => LICQ + strict first-order min)")
 
 # ---- CROSS-CHECK: is g >= 0 really the feasible side?  brute numeric probe ---
-print("\n[feasible-side probe] tiny steps along +/- grad g_k, evaluated by the AUTHORS' oracle")
+print("\n[feasible-side probe] tiny steps along +/- grad g_k, evaluated by the actual-panel validity predicate")
 import sys, math, random
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 from n4_tighten2 import valid_fixed2, config, crossings, ell as ELL, code_str, canon, ev_over_of, fox5_events
 t0 = math.acos(-0.25); s0 = 2*math.pi-2*t0
 TH0 = [t0, s0, -s0, -t0, 6/math.sqrt(15), 8/math.sqrt(15), 6/math.sqrt(15)]

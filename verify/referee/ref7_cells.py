@@ -1,10 +1,9 @@
-# ref7_cells.py — REFEREE: independent re-enumeration of the abstract cells.
-# The authors' n4_cells2.py hardcodes ASSIGNS=[(1,-1,-1,1),(-1,1,1,-1)] and a hand-rolled
-# "first/second visit swap on rotation" rule.  I avoid both: I linearise the closed code at
-# each base point and decide 4_1-ness with the INTEGER DETERMINANT oracle on the linear word.
+"""Enumerate abstract cells for each cut of the cyclic crossing word."""
+from probe_files import VERIFY
+
 import itertools, collections, sys
 from fractions import Fraction
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 
 def det_events(ev):
     A=sum(1 for _,ov in ev if not ov)
@@ -50,7 +49,7 @@ for mask in range(16):
 print("   determinant histogram over the 16 masks:", dict(res),
       "  (paper: 2 give 4_1, 2 give 3_1, 12 unknot)")
 print("   the two 4_1 masks (as +-1 per letter, +1 = first visit on top):", good)
-print("   authors' hardcoded ASSIGNS = [(1,-1,-1,1), (-1,1,1,-1)]  -> MATCH:",
+print("   legacy hardcoded ASSIGNS = [(1,-1,-1,1), (-1,1,1,-1)]  -> MATCH:",
       sorted(good)==sorted([(1,-1,-1,1),(-1,1,1,-1)]))
 
 print("\nB. independent cell enumeration (rotation + cut placement + acyclicity)")
@@ -88,12 +87,12 @@ for r in range(8):
             if s==5:
                 cells[tuple(sorted(pairs))].append((r,mask,cuts)); nvar+=1
 print(f"   distinct pass-pair combinations admitting a 4_1 total layer order: {len(cells)}"
-      f"   (authors claim 72)   [variants {nvar}]")
+      f"   [variants {nvar}]")
 sel=tuple(sorted([(0,2),(0,3),(1,4),(2,4)]))
 print(f"   the realised cell {sel} present: {sel in cells}  (variants {len(cells.get(sel,[]))})")
 wit=tuple(sorted([(0,2),(0,3),(0,4),(1,3)]))
-print(f"   doc-17 'abstract witness' cell {wit} present: {wit in cells}"
-      f"   <- doc 18 claims it is excluded by the non-adjacency condition")
+print(f"   abstract witness cell {wit} present: {wit in cells}"
+      f" (non-adjacency test)")
 # is that witness excluded only by non-adjacency, or absent for another reason?
 print("     (1,3) is non-adjacent, so the exclusion cannot be the non-adjacency rule alone;")
 print("     check whether it survives WITHOUT the acyclicity test:")

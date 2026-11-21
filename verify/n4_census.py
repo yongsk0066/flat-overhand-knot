@@ -1,10 +1,10 @@
-# n4_census.py — n=4 하강 센서스 v1 (문서 16의 check_global 단계에 해당) — n=4 descent census v1 (corresponds to the check_global stage of doc 16)
+# Sample four-crossing configurations and record layer orders and fixed-order descents.
 # ① 대형 블라인드 수확(세포 표 작성) ② 유효 시작점 전부에서 층고정 조임 ③ 군집 분석 vs θ* — ① large-scale blind harvest (build the cell table) ② layer-fixed tightening from every valid start point ③ cluster analysis vs θ*
 import sys, math, random, json, collections
 sys.path.insert(0,'verify')
 from n4_tighten2 import (config, crossings, code_str, canon, orders_making_41,
                          axiom_ok, axiom_exact_ok, valid_fixed2, tighten_fixed2, ell,
-                         ev_over_of, fox5_events, TARGET_CANON)
+                         ev_over_of, fox5_events, TARGET_CANON, general_position_ok)
 import multiprocessing as mp
 
 def _hworker(args):
@@ -25,6 +25,7 @@ def _hworker(args):
         X=crossings(c)
         cd=code_str(X)
         if cd is None or canon(cd)!=TARGET_CANON: continue
+        if not general_position_ok(c,X): continue
         key=tuple(sorted(p for p,_,_ in X))
         cells_shadow[key]+=1
         for m,exts in orders_making_41(X):

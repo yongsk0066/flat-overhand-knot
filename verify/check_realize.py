@@ -1,6 +1,4 @@
-"""
-09 검증: 실현 완결성 정리의 수치 지원.
-09 verification: numerical support for the realization-completeness theorem.
+"""Sample separation conditions and the height construction for Theorem F.
 
   R1. 여유(클리어런스) 계산기:
   R1. margin (clearance) calculator:

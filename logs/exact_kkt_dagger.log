@@ -1,27 +1,13 @@
-S1: lambda(260자리) = ['1.03481223218', '1.03481223218', '1.00232555206', '1.03879647072']
-    5번째 방정식 잔차 = 4.065e-260
-
-S2: lambda in Q(x†) 식별
-  lambda[w1] = 7*x**11/48 + 7*x**9/12 - x**7/48 - x**5/16 - 23*x**3/24 + 53*x/16
-     잔차 = 1.424e-259
-  lambda[w4] = 7*x**11/48 + 7*x**9/12 - x**7/48 - x**5/16 - 23*x**3/24 + 53*x/16
-     잔차 = 3.646e-259
-  lambda[w5] = x**10/24 + x**8/6 - x**4/24 - 3*x**2/8 + 25/24
-     잔차 = 1.549e-259
-  lambda[w6] = 17*x**11/96 + 35*x**9/48 + x**7/16 - x**5/12 - 119*x**3/96 + 161*x/48
-     잔차 = 3.625e-259
-
-S3: KKT 등식 (몫체 정확 연산)
-  성분 0 (x): 0 [정확]
-  성분 1 (g): 0 [정확]
-  성분 2 (h): 0 [정확]
-  성분 3 (a): 0 [정확]
-  성분 4 (b): 0 [정확]
-
-S4: 양수성 — x† ± 1e-30 구간 평가
-  lambda[w1] ⊂ [1.03481223218, 1.03481223218]  양수=True
-  lambda[w4] ⊂ [1.03481223218, 1.03481223218]  양수=True
-  lambda[w5] ⊂ [1.00232555206, 1.00232555206]  양수=True
-  lambda[w6] ⊂ [1.03879647072, 1.03879647072]  양수=True
-
-==== 정리 8.2 승격: theta†-KKT [정확대수 + 구간 양수성] ====
+[exact] band orientations and w6 sign certified without floating-point probes
+[exact] w1 = w4 = w5 = w6 = 0 identically in Q[x]/(p_x)
+[exact] all five KKT stationarity residuals vanish in Q[x]/(p_x)
+[exact] LICQ holds: 4x4 minor in (g,h,a,b) is nonzero in Q[x]/(p_x)
+  lambda[w1] in [1.03481223218, 1.03481223218] > 0
+  lambda[w4] in [1.03481223218, 1.03481223218] > 0
+  lambda[w5] in [1.00232555206, 1.00232555206] > 0
+  lambda[w6] in [1.03879647072, 1.03879647072] > 0
+  inactive w7 in [0.0481680019614, 0.0481680019614] > 0
+  inactive w8 in [0.0481680019614, 0.0481680019614] > 0
+  inactive w9 in [0.0506055712149, 0.0506055712149] > 0
+  inactive w10 in [0.0506055712149, 0.0506055712149] > 0
+PASS: exact KKT stationarity, LICQ, and interval positivity at theta-dagger

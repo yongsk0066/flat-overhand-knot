@@ -1,7 +1,9 @@
-# n4_fig.py — 최종 그림: B_{4_1} 타이트 상태 (정확 θ*) + 육각형 강조 — final figure: the B_{4_1} tight state (exact θ*) + hexagon highlighted
-import sys, math
-sys.path.insert(0,'verify')
-from n4_tighten2 import config, pieces
+"""Write the historical single-panel figure-eight illustration to a new SVG file."""
+import argparse
+import math
+from pathlib import Path
+
+from n4_tighten2 import config
 from n4_render import band_quads
 
 t=math.acos(-0.25); s=2*math.pi-2*t
@@ -39,14 +41,17 @@ A2=T((x1+0.15,1.0)); B2=T((x1-0.75,1.0))
 S.append(f'<line x1="{B2[0]:.0f}" y1="{B2[1]:.0f}" x2="{A2[0]-26:.0f}" y2="{A2[1]:.0f}" stroke="#155" stroke-width="2" marker-end="url(#ar)"/>')
 S.insert(1,'<defs><marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><polygon points="0 0, 9 3.5, 0 7" fill="#155"/></marker></defs>')
 lg=" &gt; ".join(f"P{p}" for p in order)
-import os
-if not os.environ.get("PAPER"):
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument("output", type=Path, help="new SVG file outside the paper figures directory")
+parser.add_argument("--untitled", action="store_true", help="omit the layer-order title")
+args = parser.parse_args()
+if args.output.resolve().is_relative_to(Path(__file__).resolve().parents[1] / "paper/figs"):
+    parser.error("paper/figs is reserved for the current figure generators")
+if not args.untitled:
     S.append(f'<text x="45" y="30" font-family="Georgia" font-size="18" font-style="italic">Tight figure-eight state: hexagon, ell* = 4√15/3 = 5.16398  (layers {lg})</text>')
 for lbl,p,dx,dy in [("E4-",HEX[0],-46,4),("E4+=E2+",HEX[1],-32,-12),("E2-",HEX[2],12,-8),("E1+",HEX[3],14,20),("E1-=E3-",HEX[4],10,22),("E3+",HEX[5],-44,22)]:
     A=T(p); S.append(f'<text x="{A[0]+dx:.0f}" y="{A[1]+dy:.0f}" font-family="Georgia" font-size="15" font-style="italic">{lbl}</text>')
 S.append('</svg>')
-import os
-out = "paper/figs/fig41-tight.svg" if os.environ.get("PAPER") else "paper/figs/fig6-fig8-tight.svg"
-open(out,"w").write("\n".join(S))
-print("->",out)
-print("saved paper/figs/fig6-fig8-tight.svg")
+with args.output.open("x", encoding="utf-8") as target:
+    target.write("\n".join(S))
+print(f"Wrote {args.output}")

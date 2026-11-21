@@ -1,10 +1,17 @@
 cff-version: 1.2.0
-message: "If you use this repository, please cite the accompanying paper."
-title: "Two notions of tightness for the flat overhand knot"
+message: "Please cite the accompanying manuscript when using these calculations."
+title: "Verification suite for Two notions of tightness for the flat overhand knot"
+type: software
 authors:
   - family-names: Jang
     given-names: Yongseok
     email: yongsk0066@gmail.com
-year: 2026
 repository-code: "https://github.com/yongsk0066/flat-overhand-knot"
-notes: "arXiv identifier and Zenodo DOI will be added at submission."
+preferred-citation:
+  type: unpublished
+  title: "Two notions of tightness for the flat overhand knot: Kauffman's pentagon and an S₆-algebraic core-length critical state"
+  authors:
+    - family-names: Jang
+      given-names: Yongseok
+  year: 2026
+  url: "https://github.com/yongsk0066/flat-overhand-knot/blob/main/paper/main.pdf"

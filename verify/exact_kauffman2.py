@@ -1,146 +1,216 @@
-"""L_trunc 오각형 차단의 정확 판정 (2단: 수치 식별 -> 성분별 정확 검증 -> Farkas).
-Exact decision of the blocking of L_trunc at the pentagon (2-stage: numerical identification -> component-wise exact verification -> Farkas).
-전략: 전체 simplify 대신, 50자리 수치로 Q(sqrt5) 후보를 찾고
-strategy: instead of a global simplify, locate the Q(sqrt5) candidates from 50-digit numerics and
-      각 후보만 등식 검증(차이의 유리화)한다.
-      verify the equality for each candidate only (by rationalizing the difference)."""
-from sympy import (symbols, sqrt, Rational, simplify, cancel, diff, Matrix, S,
-                   nsimplify, together, fraction, expand)
-from itertools import combinations
-import math
+"""Exact local optimality of Kauffman's truncation length at the regular pentagon.
 
-x, g, h, a, b = symbols('x g h a b', real=True)
-R = Rational
+All algebraic identities are decided in Q(x0), x0 = sqrt(1 - 2/sqrt(5)),
+using first-order dual numbers (five-variable jets). No floating-point sign
+calibration, heuristic nsimplify, or numerical approximation enters any
+equality or positivity decision.
+"""
+import sympy as sp
+from sympy import Rational as R
+from sympy.polys.matrices import DomainMatrix
+from mpmath import iv
 
-def refl_lin(d):
-    dx, dy = d; n = dx**2 + dy**2
-    return lambda v: (cancel(((dx**2-dy**2)*v[0] + 2*dx*dy*v[1])/n),
-                      cancel((2*dx*dy*v[0] + (dy**2-dx**2)*v[1])/n))
-def cross(u,v): return u[0]*v[1]-u[1]*v[0]
-def dot(u,v): return u[0]*v[0]+u[1]*v[1]
-def sub2(u,v): return (u[0]-v[0], u[1]-v[1])
-def add2(u,v): return (u[0]+v[0], u[1]+v[1])
+def _require(cond, msg="verification failed"):
+    if not cond:
+        raise RuntimeError(msg)
 
-E=(S(0),S(0)); F=(-x,S(1)); G=(g,S(1)); H=(h,S(0))
-d2 = refl_lin(sub2(F,E))((S(1),S(0)))
-w0 = refl_lin(sub2(G,H))((S(1),S(0)))
-Q1 = (g + a*w0[0], 1 + a*w0[1]); Q0 = (h + b*w0[0], b*w0[1])
-rl3 = refl_lin(sub2(Q0,Q1))
-rho3 = lambda P: add2(Q1, rl3(sub2(P,Q1)))
-dD = rl3(w0); e1p = rho3(G); v3 = dD
-M1 = (-x/2, R(1,2)); M2 = ((g+h)/2, R(1,2))
-s23 = cancel(cross(sub2(Q1,M2), sub2(Q0,Q1)) / cross(w0, sub2(Q0,Q1)))
-M3 = (M2[0] + s23*w0[0], M2[1] + s23*w0[1])
-ell = (g+h+x)/2 + s23
-dQ = sub2(Q1, G)
-s_in = cancel(cross(sub2(G, M1), dQ) / cross((-d2[0], -d2[1]), dQ))
-t_out = cancel(-M3[1] / v3[1])
-Ltr = s_in + ell + t_out
 
-s5 = sqrt(5); x0 = sqrt(1 - 2/s5)
-g0 = (1-x0**2)/(2*x0); h0 = (1-3*x0**2)/(2*x0)
-b0expr = dot(sub2(F,H), w0)
-b0 = cancel(b0expr.subs({x:x0, g:g0, h:h0}))
-P0 = {x:x0, g:g0, h:h0, a:h0, b:b0}
+class Jet5:
+    def __init__(self, field, value, grad=None):
+        self.field = field
+        self.v = field.convert(value)
+        self.g = grad if grad is not None else (field.zero,) * 5
 
-print("=== 1단: grad L_trunc 수치(50자리) -> Q(sqrt5) 후보 식별 ===")
-import mpmath
-mpmath.mp.dps = 60
-S5 = mpmath.sqrt(5)
-X0m = mpmath.sqrt(1 - 2/S5)
-BASIS_M = [mpmath.mpf(1), S5, X0m, S5*X0m]
-from sympy import Integer
-x0sym = sqrt(1 - 2/sqrt(5))
-BASIS_S = [Integer(1), sqrt(5), x0sym, sqrt(5)*x0sym]
-def identify(val):
-    """val ∈ Q(x0) = span_Q{1, sqrt5, x0, sqrt5*x0} 를 PSLQ로 정확 식별. — Identify val ∈ Q(x0) = span_Q{1, sqrt5, x0, sqrt5*x0} exactly, via PSLQ."""
-    v = mpmath.mpf(val)
-    if abs(v) < mpmath.mpf('1e-45'): return S(0)
-    rel = mpmath.pslq(BASIS_M + [v], maxcoeff=10**10, maxsteps=10**6)
-    if rel is None or rel[4] == 0: raise ValueError(f"식별 실패: {val}")
-    c = rel
-    return sum(Rational(-c[i], c[4])*BASIS_S[i] for i in range(4))
-cands = []
-for v in (x, g, h, a, b):
-    d_expr = diff(Ltr, v)
-    num = mpmath.mpf(str(d_expr.subs(P0).evalf(52)))
-    cand = identify(num)
-    cands.append(cand)
-    print(f"  d/d{v}: {float(num):+.12f}  ->  후보 {cand}")
+    def _lift(self, other):
+        return other if isinstance(other, Jet5) else Jet5(self.field, other)
 
-print("\n=== 2단: 성분별 정확 검증 (차이 == 0) ===")
-gl = []
-okall = True
-for v, cand in zip((x,g,h,a,b), cands):
-    dif = diff(Ltr, v).subs(P0) - cand
-    z = simplify(nsimplify(dif, [sqrt(5)]))
-    ok = (z == 0)
-    okall &= ok
-    gl.append(cand)
-    print(f"  d/d{v} = {cand}: {'[정확 확인]' if ok else f'[불일치! 잔차={z}]'}")
-assert okall
+    def __add__(self, other):
+        o = self._lift(other)
+        return Jet5(self.field, self.v + o.v, tuple(a + b for a, b in zip(self.g, o.g)))
 
-print("\n=== 3단: 8벽(선언적) Farkas — 정확 ===")
-def _num(e, X): return float(e.subs(X).evalf(30))
-x0n = math.sqrt(1-2/math.sqrt(5)); g0n=(1-x0n**2)/(2*x0n); h0n=(1-3*x0n**2)/(2*x0n)
-X0n = {x:x0n, g:g0n, h:h0n, a:h0n, b: float(b0expr.subs({x:x0n,g:g0n,h:h0n}).evalf(30))}
-sA = 1 if _num(cross(sub2(F,E), d2), X0n) > 0 else -1
-pDp = (M3[0]+v3[0], M3[1]+v3[1])
-sD = 1 if _num(cross(sub2(pDp,e1p), dD), X0n) > 0 else -1
-w1 = -sA*cross(sub2(G,E), d2)
-w7 =  sA*cross(sub2(Q0,E), d2) - 1
-w4 = -sD*cross(sub2(H,e1p), dD)
-w8 =  sD*cross(sub2(F,e1p), dD) - 1
-sI = cancel(cross(sub2(F,G), d2)/cross(w0, d2))
-w5 = a - sI
-Xl = {x:0.25, g:(1-0.0625)/0.5, h:(1-3*0.0625)/0.5, a:(1-3*0.0625)/0.5,
-      b: float(b0expr.subs({x:0.25,g:(1-0.0625)/0.5,h:(1-3*0.0625)/0.5}).evalf(30))}
-w6raw = cross(sub2(E,rho3(H)), dD)
-s6 = 1 if _num(w6raw, Xl) > 0 else -1
-w6 = s6*w6raw
-den = cross(sub2(F,E), sub2(Q0,Q1))
-w9  = cancel(cross(sub2(Q1,E), sub2(Q0,Q1))/den) - 1
-w10 = cancel(cross(sub2(Q1,E), sub2(F,E))/den) - 1
+    __radd__ = __add__
 
-names = ['w1','w4','w5','w6','w7','w8','w9','w10']
-Ws = [w1,w4,w5,w6,w7,w8,w9,w10]
-print("  벽 기울기: 수치 식별 -> 정확 검증 방식")
-Gm = {}
-for nm, wf in zip(names, Ws):
-    row = []
-    for v in (x,g,h,a,b):
-        d_expr = diff(wf, v)
-        num = mpmath.mpf(str(d_expr.subs(P0).evalf(52)))
-        cand = identify(num)
-        z = simplify(nsimplify(d_expr.subs(P0) - cand, [sqrt(5)]))
-        assert z == 0, f"{nm} d/d{v} 식별 실패: {z}"
-        row.append(cand)
-    Gm[nm] = row
-    print(f"    {nm}: {[str(c) for c in row]}")
+    def __neg__(self):
+        return Jet5(self.field, -self.v, tuple(-a for a in self.g))
 
-def farkas(wall_names):
-    for idxs in combinations(wall_names, 5):
-        A = Matrix([[Gm[nm][i] for nm in idxs] for i in range(5)])
-        try: lam = A.solve(Matrix(gl))
-        except Exception: continue
-        lam_s = [simplify(v2) for v2 in lam]
-        vals = [complex(v2.evalf(40)).real for v2 in lam_s]
-        if all(v2 >= -1e-30 for v2 in vals):
-            res = [simplify(sum(lam_s[k]*Gm[idxs[k]][i] for k in range(5)) - gl[i]) for i in range(5)]
-            if all(r == 0 for r in res):
-                return idxs, lam_s, vals
-    return None
+    def __sub__(self, other):
+        return self + (-self._lift(other))
 
-base6 = ['w1','w4','w5','w6','w7','w8']
-allok = True
-for extra in ('w9','w10'):
-    out = farkas(base6+[extra])
-    print(f"\n  branch-{extra}: " + ("증서 발견!" if out else "비음수 해 없음"))
-    if out:
-        idxs, lam_s, vals = out
-        for nm, lv, vn in zip(idxs, lam_s, vals):
-            if abs(vn) > 1e-25:
-                print(f"    lambda[{nm}] = {lv}  (~{vn:.6f})")
-    else:
-        allok = False
-print("\n====", "정리 확립: 오각형은 L_trunc의 1계 국소 최소 [정확대수]" if allok else "차단 실패", "====")
+    def __rsub__(self, other):
+        return (-self) + other
+
+    def __mul__(self, other):
+        o = self._lift(other)
+        return Jet5(
+            self.field,
+            self.v * o.v,
+            tuple(a * o.v + self.v * b for a, b in zip(self.g, o.g)),
+        )
+
+    __rmul__ = __mul__
+
+    def __truediv__(self, other):
+        o = self._lift(other)
+        inv = self.field.one / o.v
+        inv2 = inv * inv
+        return Jet5(
+            self.field,
+            self.v * inv,
+            tuple((a * o.v - self.v * b) * inv2 for a, b in zip(self.g, o.g)),
+        )
+
+    def __rtruediv__(self, other):
+        return self._lift(other) / self
+
+
+def add2(a, b):
+    return (a[0] + b[0], a[1] + b[1])
+
+
+def sub2(a, b):
+    return (a[0] - b[0], a[1] - b[1])
+
+
+def mul2(a, s):
+    return (a[0] * s, a[1] * s)
+
+
+def dot2(a, b):
+    return a[0] * b[0] + a[1] * b[1]
+
+
+def cross2(a, b):
+    return a[0] * b[1] - a[1] * b[0]
+
+
+def reflect2(axis, vector):
+    return sub2(mul2(axis, (2 * dot2(axis, vector)) / dot2(axis, axis)), vector)
+
+
+def certify():
+    alpha = sp.sqrt(1 - 2 / sp.sqrt(5))
+    field = sp.QQ.algebraic_field(alpha)
+    X = field.from_sympy(alpha)
+    S5 = field.convert(2) / (field.one - X * X)
+    _require(S5 * S5 == field.convert(5))
+    S_val = S5 * X  # s = sqrt(5 - 2*sqrt(5))
+    _require(S_val * S_val == field.convert(5) - field.convert(2) * S5)
+    PHI = (field.one + S5) / field.convert(2)
+
+    g0 = (field.one - X * X) / (field.convert(2) * X)
+    h0 = (field.one - field.convert(3) * X * X) / (field.convert(2) * X)
+    b0 = (field.one + X * X) / (field.convert(2) * X)
+    P = (X, g0, h0, h0, b0)
+
+    def J(val, idx=None):
+        grad = tuple(field.one if j == idx else field.zero for j in range(5))
+        return Jet5(field, val, grad)
+
+    xj, gj, hj, aj, bj = (J(P[i], i) for i in range(5))
+    E = (J(0), J(0))
+    F = (-xj, J(1))
+    G = (gj, J(1))
+    H = (hj, J(0))
+    d2 = reflect2(sub2(F, E), (J(1), J(0)))
+    w0 = reflect2(sub2(G, H), (J(1), J(0)))
+    Q1 = add2(G, mul2(w0, aj))
+    Q0 = add2(H, mul2(w0, bj))
+    U = sub2(Q0, Q1)
+    rho3 = lambda pt: add2(Q1, reflect2(U, sub2(pt, Q1)))
+    dD = reflect2(U, w0)
+
+    M1 = (-xj / 2, J(R(1, 2)))
+    M2 = ((gj + hj) / 2, J(R(1, 2)))
+    s23 = cross2(sub2(Q1, M2), U) / cross2(w0, U)
+    M3 = add2(M2, mul2(w0, s23))
+    core = (xj + gj + hj + aj + bj) / 2
+    _require(core.v == (gj.v + hj.v + xj.v) / field.convert(2) + s23.v)
+
+    # Exact interior probes fix the signs of the A- and D-band lateral functionals.
+    A_inside = add2(mul2(add2(E, F), R(1, 2)), d2)
+    D_inside = add2(mul2(add2(Q1, Q0), R(1, 2)), dD)
+    _require(cross2(sub2(A_inside, E), d2).v == field.convert(R(1, 2)))
+    _require(cross2(sub2(D_inside, rho3(G)), dD).v == field.convert(R(1, 2)))
+
+    # Truncation length in the working chart: L_trunc = s_in + core + t_out.
+    s_in = cross2(sub2(G, M1), w0) / cross2((-d2[0], -d2[1]), w0)
+    t_out = (-M3[1]) / dD[1]
+    Ltr = s_in + core + t_out
+
+    _require(Ltr.v == field.convert(4) / S_val, f"L_trunc(P*) mismatch: {Ltr.v}")
+    expected_grad = (field.zero, PHI ** 3, -(PHI ** 2), PHI, field.zero)
+    _require(Ltr.g == expected_grad, f"grad L_trunc(P*) mismatch: {Ltr.g}")
+    print("[exact] L_trunc(P*) = 4 / sqrt(5 - 2*sqrt(5))")
+    print("[exact] grad L_trunc(P*) = (0, phi^3, -phi^2, phi, 0)")
+
+    # Eight active walls (orientations certified above; w6 sign checked on slack slice x = 1/4).
+    walls = {
+        "w1": -cross2(G, d2),
+        "w4": -cross2(sub2(H, rho3(G)), dD),
+        "w5": aj - cross2(sub2(F, G), d2) / cross2(w0, d2),
+        "w6": cross2(sub2(E, rho3(H)), dD),
+        "w7": cross2(Q0, d2) - 1,
+        "w8": cross2(sub2(F, rho3(G)), dD) - 1,
+        "w9": cross2(Q1, U) / cross2(F, U) - 1,
+        "w10": cross2(Q1, F) / cross2(F, U) - 1,
+    }
+    for name, w in walls.items():
+        _require(w.v == field.zero, (name, w.v))
+
+    # Verify w6 > 0 on the slack standard-slice state x = 1/4 (pure rational arithmetic).
+    xr = R(1, 4)
+    gr, hr, ar, br = (1 - xr ** 2) / (2 * xr), (1 - 3 * xr ** 2) / (2 * xr), (1 - 3 * xr ** 2) / (2 * xr), (1 + xr ** 2) / (2 * xr)
+    Gr, Hr = (gr, R(1)), (hr, R(0))
+    w0r = reflect2(sub2(Gr, Hr), (R(1), R(0)))
+    Q1r, Q0r = add2(Gr, mul2(w0r, ar)), add2(Hr, mul2(w0r, br))
+    Ur = sub2(Q0r, Q1r)
+    r3Hr = add2(Q1r, reflect2(Ur, sub2(Hr, Q1r)))
+    dDr = reflect2(Ur, w0r)
+    w6_slack = cross2(sub2((R(0), R(0)), r3Hr), dDr)
+    _require(w6_slack > 0, f"w6 orientation failed at slack x=1/4: {w6_slack}")
+    print(f"[exact] w6(slack x=1/4) = {w6_slack} > 0")
+
+    # Closed-form Farkas multipliers in simplified form (no uncancelled golden-ratio units).
+    lam = {
+        "w1": (field.convert(17) + field.convert(7) * S5) * S_val / field.convert(25),
+        "w4": (field.convert(28) + field.convert(12) * S5) * S_val / field.convert(25),
+        "w5": (field.convert(15) + field.convert(11) * S5) / field.convert(50),
+        "w6": (field.convert(42) + field.convert(20) * S5) * S_val / field.convert(25),
+        "w7": (field.convert(25) + field.convert(11) * S5) * S_val / field.convert(25),
+    }
+    support = ("w1", "w4", "w5", "w6", "w7")
+
+    # Invertibility of the 5x5 active-wall gradient matrix over Q(x0).
+    M = DomainMatrix([[walls[nm].g[i] for nm in support] for i in range(5)], (5, 5), field)
+    det_M = M.det()
+    _require(det_M != field.zero, "5x5 wall gradient matrix is singular")
+    print("[exact] 5x5 wall gradient matrix on {w1,w4,w5,w6,w7} is invertible")
+
+    # Exact stationarity residual in Q(x0); w9 and w10 carry multiplier 0, so both taco branches hold.
+    for i in range(5):
+        residual = sum((lam[nm] * walls[nm].g[i] for nm in support), field.zero) - Ltr.g[i]
+        _require(residual == field.zero, f"Farkas residual nonzero at component {i}: {residual}")
+    print("[exact] grad L_trunc = sum lambda_j grad w_j holds identically in Q(x0) for both taco branches")
+
+    # Outward-rounded interval enclosure confirming positivity and reporting numerical values.
+    iv.dps = 60
+    s5_iv = iv.sqrt(iv.mpf(5))
+    s_iv = iv.sqrt(5 - 2 * s5_iv)
+    lam_iv = {
+        "w1": (17 + 7 * s5_iv) * s_iv / 25,
+        "w4": (28 + 12 * s5_iv) * s_iv / 25,
+        "w5": (15 + 11 * s5_iv) / 50,
+        "w6": (42 + 20 * s5_iv) * s_iv / 25,
+        "w7": (25 + 11 * s5_iv) * s_iv / 25,
+    }
+    for nm in support:
+        bound = lam_iv[nm]
+        _require(bound.a > 0, (nm, bound))
+        print(f"  lambda[{nm}] in [{float(bound.a):.12f}, {float(bound.b):.12f}] > 0")
+
+    print("PASS: regular pentagon is a strict local minimizer of L_trunc with linear growth")
+    return field, lam
+
+
+if __name__ == "__main__":
+    certify()

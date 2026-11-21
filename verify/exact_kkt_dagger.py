@@ -1,167 +1,238 @@
-"""theta†-KKT의 정확대수 승격 (08 정리 8.2 -> [정확대수]).
-Promotion of the theta†-KKT to exact algebra (08 Thm 8.2 -> [exact algebra]).
-핵심 기법: 몫체 Q[x]/(p_x) 원소(차수<=11 다항식)로 식 트리를 직접 평가 —
-key technique: evaluate the expression tree directly over elements of the quotient field Q[x]/(p_x) (polynomials of degree<=11) —
-심볼릭 치환/cancel의 식 폭발 회피. lambda는 PSLQ(기저 x^0..x^11)로 식별.
-avoiding the expression blow-up of symbolic substitution/cancel. lambda is identified by PSLQ (basis x^0..x^11)."""
-from sympy import symbols, Rational, S, cancel, diff, Poly
-import mpmath
-from mpmath import mp
+"""Exact KKT certificate for the core-length critical state theta-dagger.
 
-x, g, h, a, b = symbols('x g h a b', real=True)
-R = Rational
-mp.dps = 260
+All stationarity identities and the 4x4 LICQ minor are evaluated in the
+quotient field Q[x]/(p_x), p_x = x^12 + 4x^10 - 7x^4 + 20x^2 - 2.
+Band orientations are fixed by exact interior probes in Q[x]/(p_x) and a
+rational slack check, never by floating-point signs at active walls.
+Strict positivity of the four multipliers and four inactive walls is
+certified via outward-rounded interval arithmetic on an interval-Newton
+root enclosure of x-dagger.
+"""
+import sympy as sp
+from sympy import Rational as R, Poly, symbols, cancel, diff
+from mpmath import mp, iv, mpf, findroot, nstr
 
-def refl_lin(d):
-    dx, dy = d; n = dx**2 + dy**2
-    return lambda v: (cancel(((dx**2-dy**2)*v[0] + 2*dx*dy*v[1])/n),
-                      cancel((2*dx*dy*v[0] + (dy**2-dx**2)*v[1])/n))
-def cross(u,v): return u[0]*v[1]-u[1]*v[0]
-def sub2(u,v): return (u[0]-v[0], u[1]-v[1])
-def add2(u,v): return (u[0]+v[0], u[1]+v[1])
+def _require(cond, msg="verification failed"):
+    if not cond:
+        raise RuntimeError(msg)
 
-E=(S(0),S(0)); F=(-x,S(1)); G=(g,S(1)); H=(h,S(0))
-d2 = refl_lin(sub2(F,E))((S(1),S(0)))
-w0 = refl_lin(sub2(G,H))((S(1),S(0)))
-Q1 = (g + a*w0[0], 1 + a*w0[1]); Q0 = (h + b*w0[0], b*w0[1])
-rl3 = refl_lin(sub2(Q0,Q1))
-rho3 = lambda P: add2(Q1, rl3(sub2(P,Q1)))
-dD = rl3(w0); e1p = rho3(G)
-M2s = ((g+h)/2, R(1,2))
-s23 = cancel(cross(sub2(Q1,M2s), sub2(Q0,Q1)) / cross(w0, sub2(Q0,Q1)))
-ell = (g+h+x)/2 + s23
-x0n = 0.3221274973112272
-gn=(1-x0n**2)/(2*x0n); hn=1.0363863004307971; bn=1.7132441870641958
-XN = {x:x0n, g:gn, h:hn, a:hn, b:bn}
-sA = 1 if float(cross(sub2(F,E), d2).subs(XN)) > 0 else -1
-pD = (M2s[0] + s23*w0[0] + dD[0], M2s[1] + s23*w0[1] + dD[1])
-sD = 1 if float(cross(sub2(pD,e1p), dD).subs(XN)) > 0 else -1
-w1 = -sA*cross(sub2(G,E), d2)
-w4 = -sD*cross(sub2(H,e1p), dD)
-sI = cancel(cross(sub2(F,G), d2)/cross(w0, d2))
-w5 = a - sI
-w6raw = cross(sub2(E,rho3(H)), dD)
-s6 = 1 if float(w6raw.subs(XN)) > 0 else -1
-w6 = s6*w6raw
-WALLS = [('w1', w1), ('w4', w4), ('w5', w5), ('w6', w6)]
 
-p_x = x**12 + 4*x**10 - 7*x**4 + 20*x**2 - 2
-PX = Poly(p_x, x, domain='QQ')
-h_expr = (2*x**11 + 8*x**9 - x**7 - 4*x**5 - 13*x**3 + 40*x)/12
-b_expr = (x**11 + 4*x**9 - 7*x**3 + 22*x)/4
-g_expr = (1 - x**2)/(2*x)
+def certify():
+    x, g, h, a, b = symbols("x g h a b", real=True)
 
-# ---------- 몫체 원소 ---------- — elements of the quotient field ----------
-class Fe:
-    __slots__ = ('p',)
-    def __init__(self, val):
-        self.p = val if isinstance(val, Poly) else Poly(val, x, domain='QQ').rem(PX)
-    def add(s, o): return Fe((s.p + o.p).rem(PX))
-    def sub(s, o): return Fe((s.p - o.p).rem(PX))
-    def mul(s, o): return Fe((s.p * o.p).rem(PX))
-    def inv(s):
-        return Fe(s.p.invert(PX))
-    def is_zero(s): return s.p.is_zero
+    def refl_lin(d):
+        dx, dy = d
+        n = dx ** 2 + dy ** 2
+        return lambda v: (
+            cancel(((dx ** 2 - dy ** 2) * v[0] + 2 * dx * dy * v[1]) / n),
+            cancel((2 * dx * dy * v[0] + (dy ** 2 - dx ** 2) * v[1]) / n),
+        )
 
-def fe_eval(e, env):
-    if e.is_Symbol: return env[e]
-    if e.is_Integer or e.is_Rational: return Fe(Poly(R(e), x, domain='QQ'))
-    if e.is_Add:
-        out = fe_eval(e.args[0], env)
-        for t in e.args[1:]: out = out.add(fe_eval(t, env))
-        return out
-    if e.is_Mul:
-        out = fe_eval(e.args[0], env)
-        for t in e.args[1:]: out = out.mul(fe_eval(t, env))
-        return out
-    if e.is_Pow:
-        base = fe_eval(e.base, env); n = int(e.exp)
-        if n < 0: base = base.inv(); n = -n
-        out = Fe(Poly(1, x, domain='QQ'))
-        for _ in range(n): out = out.mul(base)
-        return out
-    raise TypeError(f"미지원 노드: {e.func}")
+    def cross(u, v):
+        return u[0] * v[1] - u[1] * v[0]
 
-def fe_div(num, den): return num.mul(den.inv())
+    def sub2(u, v):
+        return (u[0] - v[0], u[1] - v[1])
 
-# 좌표를 몫체 원소로 — turn the coordinates into quotient-field elements
-xe = Fe(Poly(x, x, domain='QQ'))
-def to_fe(expr):
-    # 유리식 -> Fe (x만 포함) — rational function -> Fe (contains x only)
-    n, d = expr.as_numer_denom()
-    return fe_div(Fe(Poly(n, x, domain='QQ')), Fe(Poly(d, x, domain='QQ')))
-ENV = {x: xe, g: to_fe(g_expr), h: to_fe(h_expr), a: to_fe(h_expr), b: to_fe(b_expr)}
+    def add2(u, v):
+        return (u[0] + v[0], u[1] + v[1])
 
-# ---------- S1: 260자리 수치 (mpf 재귀 평가) ---------- — S1: 260-digit numerics (recursive mpf evaluation) ----------
-xd = mpmath.findroot(lambda t: t**12 + 4*t**10 - 7*t**4 + 20*t**2 - 2, mpmath.mpf('0.3221274973112272'))
-def num_eval(e, env):
-    if e.is_Symbol: return env[e]
-    if e.is_Integer or e.is_Rational:
-        q = R(e); return mpmath.mpf(q.p)/mpmath.mpf(q.q)
-    if e.is_Add: return sum(num_eval(t, env) for t in e.args)
-    if e.is_Mul:
-        out = mpmath.mpf(1)
-        for t in e.args: out *= num_eval(t, env)
-        return out
-    if e.is_Pow: return num_eval(e.base, env)**int(e.exp)
-    raise TypeError(str(e.func))
-def coordn(expr):
-    return num_eval(expr, {x: xd})
-NENV = {x: xd, g: coordn(g_expr), h: coordn(h_expr), a: coordn(h_expr), b: coordn(b_expr)}
+    E = (sp.S(0), sp.S(0))
+    F = (-x, sp.S(1))
+    G = (g, sp.S(1))
+    H = (h, sp.S(0))
+    d2 = refl_lin(sub2(F, E))((sp.S(1), sp.S(0)))
+    w0 = refl_lin(sub2(G, H))((sp.S(1), sp.S(0)))
+    Q1 = (g + a * w0[0], 1 + a * w0[1])
+    Q0 = (h + b * w0[0], b * w0[1])
+    rl3 = refl_lin(sub2(Q0, Q1))
+    rho3 = lambda P: add2(Q1, rl3(sub2(P, Q1)))
+    dD = rl3(w0)
+    e1p = rho3(G)
 
-VS = (x, g, h, a, b)
-Dell = [diff(ell, v) for v in VS]
-Dw = {nm: [diff(wf, v) for v in VS] for nm, wf in WALLS}
-gl_n = [num_eval(d_, NENV) for d_ in Dell]
-gw_n = {nm: [num_eval(d_, NENV) for d_ in Dw[nm]] for nm, _ in WALLS}
-Am = mpmath.matrix(4,4); bm = mpmath.matrix(4,1)
-for i in range(4):
-    for j, (nm, _) in enumerate(WALLS): Am[i,j] = gw_n[nm][i]
-    bm[i] = gl_n[i]
-lam_m = mpmath.lu_solve(Am, bm)
-res5 = gl_n[4] - sum(lam_m[j]*gw_n[WALLS[j][0]][4] for j in range(4))
-print("S1: lambda(260자리) =", [mpmath.nstr(lam_m[j], 12) for j in range(4)])
-print("    5번째 방정식 잔차 =", mpmath.nstr(res5, 4))
+    M2 = ((g + h) / 2, R(1, 2))
+    s23 = cancel(cross(sub2(Q1, M2), sub2(Q0, Q1)) / cross(w0, sub2(Q0, Q1)))
+    ell = (g + h + x) / 2 + s23
 
-# ---------- S2: PSLQ 식별 ---------- — S2: PSLQ identification ----------
-print("\nS2: lambda in Q(x†) 식별")
-BAS = [xd**i for i in range(12)]
-lam_fe = []; lam_expr = []
-for j, (nm, _) in enumerate(WALLS):
-    rel = mpmath.pslq(BAS + [lam_m[j]], maxcoeff=10**15, maxsteps=2*10**7)
-    assert rel and rel[12] != 0, f"{nm} 식별 실패"
-    cand = sum(R(-rel[i], rel[12])*x**i for i in range(12))
-    err = abs(sum(mpmath.mpf(R(-rel[i], rel[12]).p)/mpmath.mpf(R(-rel[i], rel[12]).q)*BAS[i] for i in range(12)) - lam_m[j])
-    lam_expr.append(cand); lam_fe.append(to_fe(cand))
-    print(f"  lambda[{nm}] = {cand}")
-    print(f"     잔차 = {mpmath.nstr(err, 4)}")
+    # Certified wall definitions (orientations verified exactly below).
+    w1 = -cross(sub2(G, E), d2)
+    w4 = -cross(sub2(H, e1p), dD)
+    sI = cancel(cross(sub2(F, G), d2) / cross(w0, d2))
+    w5 = a - sI
+    w6 = cross(sub2(E, rho3(H)), dD)
+    w7 = cross(sub2(Q0, E), d2) - 1
+    w8 = cross(sub2(F, e1p), dD) - 1
+    den9 = cross(sub2(F, E), sub2(Q0, Q1))
+    w9 = cancel(cross(sub2(Q1, E), sub2(Q0, Q1)) / den9) - 1
+    w10 = cancel(cross(sub2(Q1, E), sub2(F, E)) / den9) - 1
 
-# ---------- S3: KKT 5등식 정확 검증 ---------- — S3: exact verification of the 5 KKT equalities ----------
-print("\nS3: KKT 등식 (몫체 정확 연산)")
-allok = True
-for i, v in enumerate(VS):
-    lhs = fe_eval(Dell[i], ENV)
-    for j, (nm, _) in enumerate(WALLS):
-        lhs = lhs.sub(lam_fe[j].mul(fe_eval(Dw[nm][i], ENV)))
-    ok = lhs.is_zero()
-    allok &= ok
-    print(f"  성분 {i} ({v}): {'0 [정확]' if ok else '실패: ' + str(lhs.p.as_expr())[:80]}")
-assert allok
+    ACTIVE = [("w1", w1), ("w4", w4), ("w5", w5), ("w6", w6)]
+    INACTIVE = [("w7", w7), ("w8", w8), ("w9", w9), ("w10", w10)]
 
-# ---------- S4: 양수성 (Krawczyk 구간) ---------- — S4: positivity (Krawczyk interval) ----------
-print("\nS4: 양수성 — x† ± 1e-30 구간 평가")
-from mpmath import iv
-iv.dps = 80
-lo = mpmath.nstr(xd - mpmath.mpf('1e-30'), 78); hi = mpmath.nstr(xd + mpmath.mpf('1e-30'), 78)
-xiv = iv.mpf([lo, hi])
-for j, (nm, _) in enumerate(WALLS):
-    pl = Poly(lam_expr[j], x)
-    val = iv.mpf(0)
-    for m_, c_ in zip(pl.monoms(), pl.coeffs()):
-        q = R(c_)
-        val = val + (iv.mpf(int(q.p))/iv.mpf(int(q.q))) * xiv**int(m_[0])
-    pos = val.a > 0
-    allok &= bool(pos)
-    print(f"  lambda[{nm}] ⊂ [{mpmath.nstr(mpmath.mpf(val.a.a), 12)}, {mpmath.nstr(mpmath.mpf(val.b.a), 12)}]  양수={pos}")
+    p_x = x ** 12 + 4 * x ** 10 - 7 * x ** 4 + 20 * x ** 2 - 2
+    PX = Poly(p_x, x, domain="QQ")
+    h_expr = (2 * x ** 11 + 8 * x ** 9 - x ** 7 - 4 * x ** 5 - 13 * x ** 3 + 40 * x) / 12
+    b_expr = (x ** 11 + 4 * x ** 9 - 7 * x ** 3 + 22 * x) / 4
+    g_expr = (1 - x ** 2) / (2 * x)
 
-print("\n====", "정리 8.2 승격: theta†-KKT [정확대수 + 구간 양수성]" if allok else "실패", "====")
+    class Fe:
+        __slots__ = ("p",)
+
+        def __init__(self, val):
+            self.p = val if isinstance(val, Poly) else Poly(val, x, domain="QQ").rem(PX)
+
+        def add(self, o):
+            return Fe((self.p + o.p).rem(PX))
+
+        def sub(self, o):
+            return Fe((self.p - o.p).rem(PX))
+
+        def mul(self, o):
+            return Fe((self.p * o.p).rem(PX))
+
+        def inv(self):
+            return Fe(self.p.invert(PX))
+
+        def is_zero(self):
+            return self.p.is_zero
+
+    def fe_eval(expr, env):
+        if expr.is_Symbol:
+            return env[expr]
+        if expr.is_Integer or expr.is_Rational:
+            return Fe(Poly(R(expr), x, domain="QQ"))
+        if expr.is_Add:
+            out = fe_eval(expr.args[0], env)
+            for t in expr.args[1:]:
+                out = out.add(fe_eval(t, env))
+            return out
+        if expr.is_Mul:
+            out = fe_eval(expr.args[0], env)
+            for t in expr.args[1:]:
+                out = out.mul(fe_eval(t, env))
+            return out
+        if expr.is_Pow:
+            base = fe_eval(expr.base, env)
+            n = int(expr.exp)
+            if n < 0:
+                base = base.inv()
+                n = -n
+            out = Fe(Poly(1, x, domain="QQ"))
+            for _ in range(n):
+                out = out.mul(base)
+            return out
+        raise TypeError(f"Unsupported expression node: {expr.func}")
+
+    def to_fe(expr):
+        num, den = expr.as_numer_denom()
+        return Fe(Poly(num, x, domain="QQ")).mul(Fe(Poly(den, x, domain="QQ")).inv())
+
+    ENV = {
+        x: Fe(Poly(x, x, domain="QQ")),
+        g: to_fe(g_expr),
+        h: to_fe(h_expr),
+        a: to_fe(h_expr),
+        b: to_fe(b_expr),
+    }
+
+    # Exact orientation verification at theta-dagger via genuine band-interior points.
+    A_inside = ((E[0] + F[0]) / 2 + d2[0], (E[1] + F[1]) / 2 + d2[1])
+    D_inside = ((Q1[0] + Q0[0]) / 2 + dD[0], (Q1[1] + Q0[1]) / 2 + dD[1])
+    _require(fe_eval(cross(sub2(A_inside, E), d2) - R(1, 2), ENV).is_zero())
+    _require(fe_eval(cross(sub2(D_inside, e1p), dD) - R(1, 2), ENV).is_zero())
+    # Exact w6 orientation from the rational slack standard-slice state x = 1/4.
+    xr = R(1, 4)
+    slack_env = {
+        x: xr,
+        g: (1 - xr ** 2) / (2 * xr),
+        h: (1 - 3 * xr ** 2) / (2 * xr),
+        a: (1 - 3 * xr ** 2) / (2 * xr),
+        b: (1 + xr ** 2) / (2 * xr),
+    }
+    _require(sp.simplify(w6.subs(slack_env)) > 0)
+    print("[exact] band orientations and w6 sign certified without floating-point probes")
+
+    # Verify all four active walls vanish identically in Q[x]/(p_x).
+    for nm, wf in ACTIVE:
+        _require(fe_eval(wf, ENV).is_zero(), f"Active wall {nm} is nonzero at theta-dagger")
+    print("[exact] w1 = w4 = w5 = w6 = 0 identically in Q[x]/(p_x)")
+
+    # Exact KKT multipliers in Q(x-dagger).
+    lam_exprs = {
+        "w1": R(7, 48) * x ** 11 + R(7, 12) * x ** 9 - R(1, 48) * x ** 7 - R(1, 16) * x ** 5 - R(23, 24) * x ** 3 + R(53, 16) * x,
+        "w4": R(7, 48) * x ** 11 + R(7, 12) * x ** 9 - R(1, 48) * x ** 7 - R(1, 16) * x ** 5 - R(23, 24) * x ** 3 + R(53, 16) * x,
+        "w5": R(1, 24) * x ** 10 + R(1, 6) * x ** 8 - R(1, 24) * x ** 4 - R(3, 8) * x ** 2 + R(25, 24),
+        "w6": R(17, 96) * x ** 11 + R(35, 48) * x ** 9 + R(1, 16) * x ** 7 - R(1, 12) * x ** 5 - R(119, 96) * x ** 3 + R(161, 48) * x,
+    }
+    _require(lam_exprs["w1"] == lam_exprs["w4"])
+    lam_fe = {nm: to_fe(expr) for nm, expr in lam_exprs.items()}
+
+    VS = (x, g, h, a, b)
+    Dell = [diff(ell, v) for v in VS]
+    Dw = {nm: [diff(wf, v) for v in VS] for nm, wf in ACTIVE}
+
+    # Exact stationarity check: all five KKT residuals vanish in Q[x]/(p_x).
+    for i, v in enumerate(VS):
+        res = fe_eval(Dell[i], ENV)
+        for nm, _ in ACTIVE:
+            res = res.sub(lam_fe[nm].mul(fe_eval(Dw[nm][i], ENV)))
+        _require(res.is_zero(), f"KKT stationarity residual nonzero at {v}: {res.p.as_expr()}")
+    print("[exact] all five KKT stationarity residuals vanish in Q[x]/(p_x)")
+
+    # Exact LICQ check: 4x4 minor of active gradients in columns (g, h, a, b) is nonzero.
+    Mfe = [[fe_eval(Dw[nm][j], ENV) for j in (1, 2, 3, 4)] for nm, _ in ACTIVE]
+
+    def det_fe(M):
+        n = len(M)
+        if n == 1:
+            return M[0][0]
+        tot = Fe(Poly(0, x, domain="QQ"))
+        for j in range(n):
+            minor = [row[:j] + row[j + 1:] for row in M[1:]]
+            term = M[0][j].mul(det_fe(minor))
+            tot = tot.add(term) if j % 2 == 0 else tot.sub(term)
+        return tot
+
+    D4 = det_fe(Mfe)
+    _require(not D4.is_zero(), "Active-wall 4x4 minor vanished (LICQ failed)")
+    print("[exact] LICQ holds: 4x4 minor in (g,h,a,b) is nonzero in Q[x]/(p_x)")
+
+    # Certified root enclosure for x-dagger by interval Newton.
+    mp.dps = 80
+    iv.dps = 80
+
+    def iv_rat(q):
+        return iv.mpf(int(q.p)) / iv.mpf(int(q.q))
+
+    def iv_poly_expr(expr, X_iv):
+        pl = Poly(expr, x, domain="QQ")
+        acc = iv.mpf(0)
+        for c in pl.all_coeffs():
+            acc = acc * X_iv + iv_rat(R(c))
+        return acc
+
+    xr_approx = findroot(lambda t: t ** 12 + 4 * t ** 10 - 7 * t ** 4 + 20 * t ** 2 - 2, mpf("0.3221274973112272"))
+    rad = mpf("1e-50")
+    X_box = iv.mpf([xr_approx - rad, xr_approx + rad])
+    m_iv = iv.mpf(xr_approx)
+    N_box = m_iv - iv_poly_expr(p_x, m_iv) / iv_poly_expr(diff(p_x, x), X_box)
+    _require(X_box.a < N_box.a and N_box.b < X_box.b, "Interval Newton contraction failed for x-dagger")
+
+    # Certify strict positivity of all four multipliers on X_box.
+    for nm, _ in ACTIVE:
+        val = iv_poly_expr(lam_exprs[nm], X_box)
+        _require(val.a > 0, f"Multiplier {nm} not strictly positive: {val}")
+        print(f"  lambda[{nm}] in [{nstr(mpf(val.a.a), 12)}, {nstr(mpf(val.b.a), 12)}] > 0")
+
+    # Certify strict positivity of the four inactive walls via their Q[x]/(p_x) representatives.
+    for nm, wf in INACTIVE:
+        rep = fe_eval(wf, ENV).p.as_expr()
+        val = iv_poly_expr(rep, X_box)
+        _require(val.a > 0, f"Inactive wall {nm} not strictly positive: {val}")
+        print(f"  inactive {nm} in [{nstr(mpf(val.a.a), 12)}, {nstr(mpf(val.b.a), 12)}] > 0")
+
+    print("PASS: exact KKT stationarity, LICQ, and interval positivity at theta-dagger")
+
+
+if __name__ == "__main__":
+    certify()

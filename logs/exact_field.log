@@ -1,0 +1,6 @@
+mod 11: factor degrees [6]
+mod 23: factor degrees [1, 5]
+mod 37: factor degrees [1, 1, 1, 3]
+PASS: irreducibility over Q and Q(sqrt(5)); two real roots; resultant.
+PASS: three real ordinates at x=1/5; real-branch selection is necessary.
+PASS: discriminant = 967363264512; cycle types give S6 by Jordan's theorem.

@@ -1,8 +1,8 @@
-# ref14_escape.py — REFEREE: are the 'stragglers' genuine blocked points (a second attractor)
-# or merely stalls of the rejection-sampling descent?  Decisive test: try hard to ESCAPE.
-# A blocked point admits NO feasible direction with d(ell)<0.  A stall does.
+"""Probe descent from stalled endpoints with perturbed searches."""
+from probe_files import VERIFY, read_probe
+
 import sys, math, json, random
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 from n4_tighten2 import config, pieces, valid_fixed2, ell as ELL
 ELLS=4*math.sqrt(15)/3
 t0=math.acos(-0.25); s0=2*math.pi-2*t0; L1=6/math.sqrt(15); L2=8/math.sqrt(15)
@@ -48,7 +48,7 @@ def escape(th0, order, seed, tries=40000):
                 break
     return e0, act, best
 
-ends=json.load(open('/private/tmp/claude-501/-Users-yongseok-dev-pentagon/0c3f9975-7617-44d6-be99-ab855225d015/scratchpad/ref10_endpoints.json'))
+ends=read_probe("ref10_endpoints.json")
 print("Reference: does the SAME search escape from the certified tight state theta*?")
 for nm,th,o in (("theta*",STAR,[1,4,2,0,3]),("mirror",MIRR,[3,0,2,4,1])):
     e0,act,best=escape(th,o,11,tries=40000)
@@ -67,5 +67,4 @@ for k,e in enumerate(ends):
     if best: nesc+=1
     print(f"  {k:>3} {d:>+11.3e} {dist:>22.4e} {len(act):>8}  "
           f"{'ESCAPED d(ell)=%.2e at r=%.0e'%(best[0],best[1]) if best else 'no escape found'}")
-print(f"\n  escaped: {nesc}/{nstall} stragglers admit a feasible descent direction")
-print("  => those are DESCENT STALLS, not blocked points; they are not second attractors.")
+print(f"\n  A lower-length sample passed the numerical panel tests for {nesc}/{nstall} endpoints.")

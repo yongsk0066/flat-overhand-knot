@@ -1,0 +1,28 @@
+{
+  "stage": "strata_filter",
+  "started_utc": "2026-10-23T05:58:21.157604+00:00",
+  "python": "3.13.17 (main, Oct 21 2026, 13:48:20) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "executable": "/private/tmp/pentagon-review-20261023-venv/bin/python",
+  "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "git_head": "000f599696dc3a6c5c873d6b7876a73563a80e78",
+  "sources": {
+    "n4_rerun_reclassify.py": "41fd481b48538940c302cdc992a55e8d294e39898554a93239c9ccfe6229c56b",
+    "n4_rerun.py": "ae95877b119f7874508117ad1e8df6b8470bd65708d44008ec1d7a1076c67dda",
+    "n4_strata2.py": "8738294eac9b7112a6fbcf543e3bf66f4eeffa960f4bf5f46fe7289da6162692",
+    "n4_walls.py": "eeb9c3b1246b98d37e2b87fe34b43a56552356e70ba2602008cad0d8a91d32b4",
+    "n4_tighten2.py": "37fab43cd4e53dc1d236501d9bcf6ce08264b009e7111a29dd557f0a1d18a00c",
+    "n4_geometry.py": "7117cb1a5866cdcd9bd207d1f35410c152472eed72fe4c0c04054f1c5a7e3a5c"
+  },
+  "config": {
+    "harvest_path": "/Users/yongseok/dev/pentagon/verify/artifacts/n4-rerun-20261023/strata",
+    "harvest_sha256": "dbe5a3027fe576b77d28f2ec4912c8c2cf448ce9f8c57312b0752b25487b83c2",
+    "harvest_provenance_sha256": "3e55b2ae0be244aca649f12d45c77c2e9269be949c0ddafdd76eb33b257a0dce",
+    "n_strata": 254,
+    "n_attempts": 1778,
+    "geometry_tolerance": 1e-06,
+    "parameter_tolerance": 1e-08,
+    "gp_tolerance": 1e-09,
+    "multiplier_tolerance": 1e-08,
+    "justification": "Newton equation solve and seeds are independent of geometry filter"
+  }
+}

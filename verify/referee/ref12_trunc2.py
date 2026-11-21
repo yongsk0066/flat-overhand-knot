@@ -1,4 +1,4 @@
-# ref12_trunc2.py — REFEREE: L_trunc convention audit, done robustly (convex half-plane clip).
+"""Compare the two truncation conventions by convex half-plane clipping."""
 import sympy as sp
 r15=sp.sqrt(15)
 HEXs=[(-13,sp.Rational(1,2)),(-7,sp.Rational(3,2)),(1,sp.Rational(3,2)),
@@ -37,11 +37,11 @@ print(f"t_out (out-tail leaves the hexagon at)= {sp.radsimp(t_out)} = {sp.N(t_ou
 print(f"s_in == t_out == L1 == 2*sqrt(15)/5 ? {sp.simplify(s_in-2*r15/5)==0 and sp.simplify(t_out-2*r15/5)==0}")
 Lo=sp.radsimp(sp.simplify(s_in+core+t_out))
 Lc=sp.radsimp(28*r15/15)
-print(f"\nL_trunc, paper's OUTLINE convention (doc 11 SS2 / Def 7.1 / Rem rem:trunclines)")
+print(f"\nL_trunc, paper's OUTLINE convention (Definition def:trunc, Remark rem:trunclines)")
 print(f"   = {sp.radsimp(s_in)} + {sp.radsimp(core)} + {sp.radsimp(t_out)} = {Lo} = {sp.N(Lo,15)}")
-print(f"L_trunc as coded in n4_exact_kkt.py (outermost centreline CROSSING)")
+print(f"Length using the outermost centreline crossings")
 print(f"   = 4sqrt15/15 + {sp.radsimp(core)} + 4sqrt15/15 = {Lc} = {sp.N(Lc,15)}")
-print(f"\nDISAGREE: {sp.simplify(Lo-Lc)!=0};  difference = {sp.radsimp(sp.simplify(Lo-Lc))} = {sp.N(Lo-Lc,10)}")
+print(f"\nOutline length minus crossing-based length = {sp.radsimp(sp.simplify(Lo-Lc))} = {sp.N(Lo-Lc,10)}")
 print(f"ratio L_trunc/core under the outline rule = {sp.simplify(Lo/core)}")
 # where exactly does the in-tail leave, and through which side?
 X=M0-s_in*d0

@@ -1,15 +1,7 @@
-"""
-문서 06 검증: 층 순서, 크리스 이웃 공리, 벽의 금지 방향.
-Verification of document 06: layer order, the crease-neighborhood axiom, and the walls' forbidden directions.
+"""Numerical verification of layer order, crease-neighbourhood axiom, and wall signs.
 
-이론 입력 (06에서 증명/정식화):
-Theoretical input (proved/formalized in 06):
-  - 층 순서 정리: 교대 세잎 다이어그램 => 국소 층 순서 A>C, D>A, B>D
-    => 전역 순서 B > D > A > C (뒤집기 제외 유일).
-  - layer-order theorem: an alternating trefoil diagram => the local layer orders A>C, D>A, B>D
-    => the global order B > D > A > C (unique up to flipping).
-  - 크리스 이웃 공리: 크리스 근방에서, 접히는 두 패널 사이(층 순서상 strictly between)에
-    다른 패스가 놓이면 관통. 크리스1(A-B 접힘): 사이 = {D}. 크리스2(B-C): 사이 = {D, A}.
+Under the global layer order B > D > A > C on the three-crease overhand branch,
+checks the prohibition lists Btw(k1)={D}, Btw(k2)={A,D}, Btw(k3)={A} and wall signs.
     크리스3(C-D): 사이 = {A}.
   - crease-neighborhood axiom: near a crease, if another pass lies between the two folded panels
     (strictly between in the layer order), that is a penetration. crease1 (the A-B fold): between = {D}.
@@ -159,7 +151,6 @@ x0 = math.sqrt(1-2/math.sqrt(5))
 for xv in (0.25, 0.30, x0):
     print(f"  x={xv:.4f}: c6 = {c6_of(slice_theta(xv)):.6f}" + ("  (tight: 0이어야 함)" if abs(xv-x0)<1e-9 else ""))
 
-# ======== L4: 벽 방향 프로브 ======== — L4: wall-direction probes
 print("\n=== L4: 벽의 금지 방향 (프로브) ===")
 def probe_wall(name, param_idx, delta, test):
     res = {}
@@ -181,7 +172,7 @@ probe_wall("c4 (a±0.08, D vs 크리스2@H)", 3, 0.08,
 probe_wall("c2 (h±0.08, 공리 전체)", 2, 0.08, lambda cc: bool(axiom_violations(cc)))
 # c3: b 이동 => 공리 전체 검사 — move b => check the whole axiom
 probe_wall("c3 (b±0.08, 공리 전체)", 4, 0.08, lambda cc: bool(axiom_violations(cc)))
-# c5(Delta): 슬라이스에서 x를 x0 너머로 => A가 크리스3 이웃을 덮는가 (asset-1 비관통의 유도 확인) — push x past x0 on the slice => does A cover the neighborhood of crease3 (confirms the derivation of asset-1 non-penetration)
+# c5(Delta): pushing x past x0 on the standard slice causes pass A to cover a neighbourhood of crease 3.
 thp = slice_theta(x0+0.004); thm = slice_theta(x0-0.004)
 print(f"  c5 (슬라이스 x = x0±0.004, A vs 크리스3): x0+ 위반={bool(axiom_violations(config(thp)))}, "
       f"x0- 위반={bool(axiom_violations(config(thm)))}   => Delta>=0은 관통 벽")

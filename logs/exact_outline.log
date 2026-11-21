@@ -1,22 +1,8 @@
-[칠각형 변 중점 — 외곽 판정: 수직 양측 섭동 중 정확히 한쪽만 커버 (δ=1/1000, 전부 정확 부호)]
-  EH: 중점폐포=B  +측=B  -측=None  → 외곽 ✓
-  HG: 중점폐포=B  +측=B  -측=None  → 외곽 ✓
-  GK: 중점폐포=C  +측=C  -측=None  → 외곽 ✓
-  KX: 중점폐포=C  +측=C  -측=None  → 외곽 ✓
-  XY: 중점폐포=D  +측=D  -측=None  → 외곽 ✓
-  YF: 중점폐포=B  +측=B  -측=None  → 외곽 ✓
-  FE: 중점폐포=B  +측=B  -측=None  → 외곽 ✓
-[쐐기 XYF 무게중심] 커버=None  → 미커버 ✓ (노치 실재)
-
-결론: 칠각형 = 절단-실루엣 ∂(B∪C∪D)의 정확 외곽 [정확대수+구간부호]
-       — 7변 전부 한쪽커버/중점폐포 확인, 쐐기 미커버: 명제의 수치 성분 해소
-
-[진단] XYmid = (-0.283044244209519, 1.0398131224469858)
-  A:  [(1.039813, 1), (-0.039813, 1), (-0.051908, 1)]
-  B:  [(1.039813, 1), (-0.039813, 1), (-0.051908, -1), (1.688284, 1)]
-  C:  [(0.027115, -1), (1.152948, 1), (1.688284, 1), (0.041262, 1)]
-  D:  [(0.0, 1), (-1.125834, -1), (0.041262, 1)]
-  X=Q0: (-0.29388164845972614, 1.0796262448939713)  Y: (-0.2722068399593119, 1.0)  F: (-0.3221274973112272, 1.0)
-  fK3(XYmid)= 0.04126177468142983  fr3H(XYmid)= 0.0  fr3G(XYmid)= -1.1258336491086594
-  섭동 +: {'A': 'no', 'B': 'no', 'C': 'no', 'D': 'in'}
-  섭동 -: {'A': 'no', 'B': 'no', 'C': 'no', 'D': 'no'}
+[exact] Four flush-cut panels: A=EFKG, B=EHGF, C=HGKX, D=XKHE
+[exact] A union B = EHGKF; C union D = EHGKX; their intersection = EHGKY
+[exact] Complete simple boundary E-H-G-K-X-Y-F; sole reflex vertex Y
+[exact] Open triangle XYF disjoint from untruncated A: ('KF', [-1, 0, 0])
+[exact] Open triangle XYF disjoint from untruncated B: ('GF', [-1, -1, 0])
+[exact] Open triangle XYF disjoint from untruncated C: ('XH', [0, -1, -1])
+[exact] Open triangle XYF disjoint from untruncated D: ('XE', [0, 0, -1])
+PASS: full four-panel silhouette and whole open notch, with exact rational signs

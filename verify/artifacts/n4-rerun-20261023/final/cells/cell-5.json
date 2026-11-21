@@ -1,0 +1,24 @@
+{
+  "cell": [
+    [
+      0,
+      3
+    ],
+    [
+      0,
+      4
+    ],
+    [
+      1,
+      4
+    ],
+    [
+      2,
+      4
+    ]
+  ],
+  "best_mismatch": 0,
+  "shadow_hits": 34,
+  "valid_hits": 0,
+  "theta": null
+}

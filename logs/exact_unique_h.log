@@ -1,3 +1,4 @@
-h-선형 subresultant: deg A = 18  deg B = 19
-A·h†+B mod p_x = 0  (0 ⟺ 유일성)
-gcd(A,p_x) = Poly(1, x, domain='ZZ')  (1 ⟺ A(x†)≠0)
+h-linear subresultant: deg A = 18, deg B = 19
+A*h_dagger + B mod p_x = 0
+gcd(A, p_x) = 1
+PASS: critical ordinate h-dagger is unique above x-dagger

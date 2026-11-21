@@ -1,40 +1,5 @@
-[활성 검산 — 전부 0이어야]
-  g1   : 0
-  g2   : 0
-  g3a  : 0
-  g3b  : 0
-  g1p  : 1
-  g2p  : 1/2
-  g3ap : 0
-  g3bp : 0
-  → 라벨 스왑: {3: True}
-  g1   : 0
-  g2   : 0
-  g3a  : 0
-  g3b  : 0
-  g1p  : 0
-  g2p  : 0
-  g3ap : 0
-  g3bp : 0
-
-[정확 KKT 승수] (g1,g3a,g3b,g1',g2',g3a',g3b')
-  λ_g1    = 7*sqrt(15)/15  = 7*sqrt(15)/15   후보일치: True  양수: True
-  λ_g3a   = sqrt(15)/15  = sqrt(15)/15   후보일치: True  양수: True
-  λ_g3b   = 7*sqrt(15)/15  = 7*sqrt(15)/15   후보일치: True  양수: True
-  λ_g1p   = 13*sqrt(15)/45  = 13*sqrt(15)/45   후보일치: True  양수: True
-  λ_g2p   = 4*sqrt(15)/45  = 4*sqrt(15)/45   후보일치: True  양수: True
-  λ_g3ap  = 17*sqrt(15)/45  = 17*sqrt(15)/45   후보일치: True  양수: True
-  λ_g3bp  = sqrt(15)/9  = sqrt(15)/9   후보일치: True  양수: True
-  잔차: [0, 0, 0, 0, 0, 0, 0]  (전부 0이어야)
-
-[L_trunc — 외곽-이탈 규약 (referee-H F1 정정)]
-  스텁(입구,출구) = 2*sqrt(15)/5 , 2*sqrt(15)/5   (= L1 = L3 = 2*sqrt(15)/5 )
-  검증 스텁-L1 = 0 0
-  코어 = 4*sqrt(15)/3
-  L_trunc = 32*sqrt(15)/15 = 8.26236447190915602171576618620
-  비율 L_trunc/ell_core = 8/5
-
-[접근성 방향 — 정확]
-  v (Q(√15)) = [0, 0, 0, 0, 8*sqrt(15)/15, 4*sqrt(15)/5, 8*sqrt(15)/15]
-  ∇g2·v = 1  >0: True
-  ⟹ 8개 방향도함수 = (1,1,1,1,1,1,1, 1 ) — 전부 정확 양수
+[exact] eight primal contacts vanish in Q(sqrt(15))
+[exact] det(A) = -sqrt(15)/2; seven multipliers = (21,3,21,13,4,17,5)*sqrt(15)/45 > 0
+[exact] stubs s_in = s_out = 2*sqrt(15)/5; core = 4*sqrt(15)/3; L_trunc = 32*sqrt(15)/15 (ratio 8/5)
+[exact] opening direction v = (0,0,0,0, 8,12,8)*sqrt(15)/15 satisfies J*v = 1 and grad(core).v = 28*sqrt(15)/15
+PASS: exact KKT, opening ray, and truncation length for the figure-eight state

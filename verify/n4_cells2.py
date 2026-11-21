@@ -1,5 +1,4 @@
-# n4_cells2.py — 세포 전수 v2: 폐포점(회전) 8종 전부. 장매듭 절단 위치가 어디든, — cell enumeration v2: all 8 closure points (rotations). Wherever the long-knot cut is placed,
-# 열린 재료어 = ABCADCBD의 회전. 회전 시 letter의 첫/둘째 방문이 바뀌면 배정 부호 뒤집힘. — the open material word = a rotation of ABCADCBD. Under rotation, if a letter's first/second visit swaps, the assignment sign flips.
+# Historical rotation enumeration using the determinant-one masks. Use n4_cells3.py for Theorem H.
 import itertools
 from collections import defaultdict
 W="ABCADCBD"

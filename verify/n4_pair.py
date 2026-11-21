@@ -1,5 +1,8 @@
 # n4_pair.py — 논문 본판: figure-8 (a) top view | (b) hidden-line 페어 — paper master version: figure-8 (a) top view | (b) hidden-line pair
+import argparse
+from pathlib import Path
 import sys, json, math
+from svg_labels import math_text, save_svg
 sys.path.insert(0,'verify')
 from n4_tighten2 import config, pieces
 from n4_render import band_quads
@@ -28,7 +31,7 @@ from shapely.ops import unary_union
 
 cols={0:"#8ecae6",1:"#219ebc",2:"#ffb703",3:"#fb8500",4:"#c1121f"}
 
-def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labels_b=None):
+def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labels_b=None, check=False, pdf=False):
     c=config(tuple(th)); q=band_quads(c)
     PW,PH=560,520; GAP=36; W=PW*2+GAP+30; H=PH+56
     pts=[p for k in q for p in q[k]]
@@ -48,7 +51,11 @@ def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labe
     def mdots(T):
         for i,M in enumerate(c['M']):
             A=T(M); S.append(f'<circle cx="{A[0]:.1f}" cy="{A[1]:.1f}" r="4" fill="#d00"/>')
-            S.append(f'<text x="{A[0]+7:.0f}" y="{A[1]-7:.0f}" font-family="Georgia" font-style="italic" font-size="24">M{i+1}</text>')
+            if hexoverlay:
+                dx,dy,anchor=[(13,7,'start'),(0,-15,'middle'),(0,29,'middle'),(-14,4,'end')][i]
+                S.append(math_text(A[0]+dx,A[1]+dy,f'M_{i+1}',24,anchor,halo=2.5))
+            else:
+                S.append(f'<text x="{A[0]+7:.0f}" y="{A[1]-7:.0f}" font-family="Georgia" font-style="italic" font-size="24">M{i+1}</text>')
     def hexdraw(T, with_labels):
         if not hexoverlay: return
         S.append(f'<polygon points="{ps(T,hexoverlay)}" fill="none" stroke="#0a0a0a" stroke-width="3.4"/>')
@@ -57,8 +64,9 @@ def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labe
             A=T(p)
             S.append(f'<circle cx="{A[0]:.1f}" cy="{A[1]:.1f}" r="{6.5 if dbl else 5}" fill="{"#d00000" if dbl else "#111"}" stroke="white" stroke-width="1.5"/>')
         if with_labels and labels_b:
-            for lbl,p,dx,dy in labels_b:
-                A=T(p); S.append(f'<text x="{A[0]+dx:.0f}" y="{A[1]+dy:.0f}" font-family="Georgia" font-style="italic" font-size="28">{lbl}</text>')
+            for lbl,p,dx,dy,anchor in labels_b:
+                A=T(p)
+                S.append(math_text(A[0]+dx,A[1]+dy,lbl,27,anchor,halo=3))
     def tarrows(T):
         if not tails: return
         A=T((x0-0.1,0.0)); B=T((x0+0.7,0.0))
@@ -98,18 +106,28 @@ def render_pair(th, order, out, hexoverlay=None, doubles=None, tails=False, labe
     chords(Tb); hexdraw(Tb, True); tarrows(Tb); mdots(Tb)
     S.append(f'<text x="{10+PW+GAP+PW/2}" y="{H-10}" font-family="Georgia" font-size="18" text-anchor="middle">(b)</text>')
     S.append('</svg>')
-    open(out,"w").write("\n".join(S))
-    print("saved",out)
+    save_svg('\n'.join(S),out,check=check,pdf=pdf)
 
 if __name__=="__main__":
-    h=json.load(open("verify/n4_valid41.json"))
+    parser=argparse.ArgumentParser(description='Render paired figure-eight diagrams, retaining the stored geometry.')
+    group=parser.add_mutually_exclusive_group()
+    group.add_argument('--check',action='store_true')
+    group.add_argument('--pdf',action='store_true')
+    parser.add_argument('--only',choices=('loose','tight','all'),default='all')
+    args=parser.parse_args()
+    root=Path(__file__).resolve().parents[1]
+    h=json.loads((root/'verify/n4_valid41.json').read_text())
     th,order=h[1]
-    render_pair(th, order, "paper/figs/fig41-loose.svg")
+    if args.only in ('loose','all'):
+        render_pair(th, order, root/'paper/figs/fig41-loose.svg',check=args.check,pdf=args.pdf)
     t=math.acos(-0.25); s=2*math.pi-2*t
     L1=2*math.sqrt(15)/5; L2=8*math.sqrt(15)/15
     TH=[t,s,-s,-t,L1,L2,L1]
     r15=math.sqrt(15)
     HEX=[(-13*r15/30,0.5),(-7*r15/30,1.5),(r15/30,1.5),(3*r15/30,0.5),(-3*r15/30,-0.5),(-11*r15/30,-0.5)]
     DBL=[(-7*r15/30,1.5),(-3*r15/30,-0.5)]
-    LB=[("E4-",HEX[0],-42,4),("E4+=E2+",HEX[1],-95,-12),("E2-",HEX[2],10,-8),("E1+",HEX[3],12,18),("E1-=E3-",HEX[4],8,20),("E3+",HEX[5],-40,20)]
-    render_pair(TH, [1,4,2,0,3], "paper/figs/fig41-tight.svg", hexoverlay=HEX, doubles=DBL, tails=True, labels_b=LB)
+    LB=[('E_4^{−}',HEX[0],-13,0,'end'),('E_4^{+} = E_2^{+}',HEX[1],-14,-28,'end'),
+        ('E_2^{−}',HEX[2],12,-17,'start'),('E_1^{+}',HEX[3],14,19,'start'),
+        ('E_1^{−} = E_3^{−}',HEX[4],8,35,'start'),('E_3^{+}',HEX[5],-13,30,'end')]
+    if args.only in ('tight','all'):
+        render_pair(TH, [1,4,2,0,3], root/'paper/figs/fig41-tight.svg', hexoverlay=HEX, doubles=DBL, tails=True, labels_b=LB,check=args.check,pdf=args.pdf)

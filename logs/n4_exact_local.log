@@ -1,0 +1,5 @@
+[exact KKT] eight primal equalities; seven positive multipliers; residual exactly zero
+[exact rank] determinant = -sqrt(15)/2
+[exact opening] J v = (1,1,1,1,1,1,1,1)
+PASS: strict local minimum in the explicitly stated eight-contact chamber
+Scope: full-cell local optimality additionally requires necessity of these contact inequalities

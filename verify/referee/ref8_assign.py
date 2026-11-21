@@ -1,13 +1,14 @@
-# ref8_assign.py — REFEREE: is n4_cells2.py's hardcoded ASSIGNS the 4_1 pair?
-# Three independent tests: (i) alternation, (ii) integer determinant, (iii) Kauffman bracket -> Jones.
+"""Check the old layer masks with alternation, determinants and the Jones polynomial."""
+from probe_files import VERIFY
+
 import itertools, collections, sys
 from fractions import Fraction
 import sympy as sp
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 W="ABCADCBD"
 
 def seq(asg):
-    """asg[ch]=+1 means the FIRST visit of ch is the over-crossing (authors' 'top=first')."""
+    """asg[ch]=+1 means the FIRST visit of ch is the over-crossing (positive first-visit sign)."""
     seen=set(); out=[]
     for ch in W:
         first = ch not in seen; seen.add(ch)
@@ -68,10 +69,10 @@ def bracket_jones(asg):
         total += A_**(nA-nB) * (-A_**2-A_**-2)**(loops-1)
     return sp.simplify(sp.expand(total))
 
-CAND={"authors' ASSIGNS[0] (+,-,-,+)":dict(zip("ABCD",(1,-1,-1,1))),
-      "authors' ASSIGNS[1] (-,+,+,-)":dict(zip("ABCD",(-1,1,1,-1))),
-      "referee's pair [0]  (-,+,-,-)":dict(zip("ABCD",(-1,1,-1,-1))),
-      "referee's pair [1]  (+,-,+,+)":dict(zip("ABCD",(1,-1,1,1)))}
+CAND={"legacy ASSIGNS[0] (+,-,-,+)":dict(zip("ABCD",(1,-1,-1,1))),
+      "legacy ASSIGNS[1] (-,+,+,-)":dict(zip("ABCD",(-1,1,1,-1))),
+      "determinant-five pair [0]  (-,+,-,-)":dict(zip("ABCD",(-1,1,-1,-1))),
+      "determinant-five pair [1]  (+,-,+,+)":dict(zip("ABCD",(1,-1,1,1)))}
 print("code W = ABCADCBD;  a 4-crossing diagram of 4_1 must be MINIMAL hence ALTERNATING")
 print(f"{'assignment':32} {'O/U sequence':12} {'alternating':>11} {'det':>5}  knot")
 for nm,a in CAND.items():
@@ -94,7 +95,7 @@ for nm,a in list(CAND.items()):
     except Exception as e:
         print(f"  {nm:30} bracket failed: {e}")
 
-# ---- does the 72 come out of the WRONG assignment?  reproduce it with mine ----
+# Compare the cells selected by the determinant-one and determinant-five mask pairs.
 def enumerate_cells(assign_pair):
     BASEPOS={ch:[i for i,c in enumerate(W) if c==ch] for ch in "ABCD"}
     cells=collections.defaultdict(int)
@@ -125,10 +126,9 @@ def enumerate_cells(assign_pair):
     return cells
 cA=enumerate_cells([(1,-1,-1,1),(-1,1,1,-1)])
 cR=enumerate_cells([(-1,1,-1,-1),(1,-1,1,1)])
-print(f"\ncell count with the authors' (non-alternating, det!=5) pair : {len(cA)}  <- their published 72")
+print(f"\ncell count with the determinant-one mask pair : {len(cA)} (legacy count)")
 print(f"cell count with the true 4_1 (alternating, det=5) pair      : {len(cR)}")
 sel=tuple(sorted([(0,2),(0,3),(1,4),(2,4)])); wit=tuple(sorted([(0,2),(0,3),(0,4),(1,3)]))
-print(f"  realised cell {sel}: authors' list {sel in cA}, true list {sel in cR}")
-print(f"  doc-17 witness  {wit}: authors' list {wit in cA}, true list {wit in cR}")
-print(f"  => doc 18 SS2 'the witness pairing is excluded by the geometric necessary condition'")
-print(f"     is FALSE in BOTH enumerations: (1,3) and (0,2),(0,3),(0,4) are all non-adjacent.")
+print(f"  realised cell {sel}: legacy list {sel in cA}, true list {sel in cR}")
+print(f"  abstract witness  {wit}: legacy list {wit in cA}, true list {wit in cR}")
+print("  The witness pairs (1,3), (0,2), (0,3) and (0,4) all satisfy non-adjacency.")

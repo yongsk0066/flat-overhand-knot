@@ -1,9 +1,8 @@
-# n4_cells.py — 추상 전수: ABCADCBD에 크리스 4개 삽입(패스 분해) 전부에 대해 — abstract enumeration: over every insertion of 4 creases into ABCADCBD (pass decomposition),
-# 4_1 배정 (+,-,-,+)/(-,+,+,-)가 비순환 층 그래프(=평면 접힘 층 전순서 존재)를 주는가 — does the 4_1 assignment (+,-,-,+)/(-,+,+,-) yield an acyclic layer graph (= a flat-folding layer total order exists)
+# Historical mask enumeration. Both masks have determinant one. Use n4_cells3.py for the figure-eight counts.
 import itertools, sys
 WORD="ABCADCBD"
 POS={ch:[i for i,c in enumerate(WORD) if c==ch] for ch in "ABCD"}
-ASSIGNS=[(1,-1,-1,1),(-1,1,1,-1)]   # 문서17: V(4_1) 배정 (첫 방문 over = +1), 거울쌍 — doc 17: V(4_1) assignment (first visit over = +1), mirror pair
+ASSIGNS=[(1,-1,-1,1),(-1,1,1,-1)]
 
 def pass_of(pos, cuts):
     # cuts: 오름차순 4개 (0..8), 갭 g = 위치 g 앞. pass = 잘린 구간 인덱스 — cuts: 4 values in ascending order (0..8), gap g = just before position g. pass = index of the cut interval

@@ -1,9 +1,4 @@
-"""Kauffman 절단 길이 규약 검증과 오각형/theta† 비교 (11 §2).
-   Verification of the Kauffman truncation-length convention, and pentagon/theta† comparison (11 §2).
-   규약: L_trunc = 레이인 스텁 + ell_core + 레이아웃 스텁 (중심선, 외곽 flush 절단).
-   Convention: L_trunc = ray-in stub + ell_core + ray-out stub (centerline, flush truncation at the outline).
-   오각형에서 4/sqrt(5-2 sqrt5)와 10자리 일치 확인.
-   Confirms 10-digit agreement with 4/sqrt(5-2 sqrt5) for the pentagon."""
+"""Compare outline-based truncation at the pentagon and theta-dagger, including both centreline stubs."""
 import sys, os, math
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from check_edge import config, slice_theta

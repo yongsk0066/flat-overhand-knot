@@ -1,0 +1,49 @@
+{
+  "index": 166,
+  "labels": [
+    "a:c1P4E+",
+    "a:c4P0E-",
+    "a:c3P0E+",
+    "a:c2P4E+",
+    "a:c3P0E-"
+  ],
+  "attempts": [
+    {
+      "seed_index": 0,
+      "converged": false,
+      "seconds": 0.35234645899618044
+    },
+    {
+      "seed_index": 1,
+      "converged": false,
+      "seconds": 0.35353150000446476
+    },
+    {
+      "seed_index": 2,
+      "converged": false,
+      "seconds": 0.3548588329940685
+    },
+    {
+      "seed_index": 3,
+      "converged": false,
+      "seconds": 0.3528147499964689
+    },
+    {
+      "seed_index": 4,
+      "converged": false,
+      "seconds": 0.352842000000237
+    },
+    {
+      "seed_index": 5,
+      "converged": false,
+      "seconds": 0.3527170829984243
+    },
+    {
+      "seed_index": 6,
+      "converged": false,
+      "seconds": 0.3533965409951634
+    }
+  ],
+  "solutions": [],
+  "seconds": 2.4725125420009135
+}

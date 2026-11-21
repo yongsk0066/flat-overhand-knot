@@ -1,6 +1,4 @@
-"""
-08 검증 2: theta†의 합법성 최종 사냥.
-08 verification 2: final hunt for the legitimacy of theta†.
+"""Numerically trace crossing and general-position conditions along the second family. See exact_branch.py for the certificate.
 
   B1. 중심선 조각 A,B,C,D의 '전' 쌍별 교차 조사 (범위 포함):
   B1. survey of crossings over 'all' pairs of the centerline pieces A,B,C,D (ranges included):

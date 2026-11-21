@@ -1,13 +1,12 @@
-# ref1_exact.py — REFEREE: fully independent re-derivation of theta*_{4_1}.
-# Nothing is imported from verify/. Geometry rebuilt from the flat-fold axioms.
+"""Exact geometry of the historical figure-eight candidate."""
 import sympy as sp
 from fractions import Fraction as F
 
 print("="*78)
-print("REFEREE ref1: independent re-derivation of the claimed tight figure-eight state")
+print("Independent construction of the four-crease figure-eight state")
 print("="*78)
 
-# ---- my own model -----------------------------------------------------------
+# Folding geometry in material coordinates.
 # centerline: phi_0 = 0, phi_i = tau_1+..+tau_i ; d_i = (cos phi_i, sin phi_i)
 # M_0 = 0, M_i = M_{i-1} + L_i d_i (i=1,2,3)
 # pass P_0 = ray from M_0 along -d_0 ; P_i = [M_{i-1},M_i] ; P_4 = ray from M_3 along d_4
@@ -38,13 +37,13 @@ L1 = 6/r15; L2 = 8/r15
 G = build([t, s, -s, -t], [L1, L2, L1])
 sim = lambda e: sp.radsimp(sp.simplify(sp.expand_trig(sp.simplify(e))))
 
-print("\n--- fold points (my derivation) ---")
+print("\n--- fold points from reflected directions ---")
 for i, m in enumerate(G['M']):
     print(f"  M{i} = ({sim(m[0])}, {sim(m[1])})")
 print("  claim: M3 = (-sqrt(15)/3, 1)  ->",
       "MATCH" if sim(G['M'][3][0]+r15/3)==0 and sim(G['M'][3][1]-1)==0 else "MISMATCH")
 
-print("\n--- crease chord endpoints (my derivation), in units x = xs*sqrt(15)/30 ---")
+print("\n--- crease chord endpoints, in units x = xs*sqrt(15)/30 ---")
 def scaled(p):
     xs = sim(p[0]*30/r15); ys = sim(p[1])
     return (sp.nsimplify(xs), sp.nsimplify(ys))
@@ -59,7 +58,7 @@ claim = {"E1+":(3,sp.Rational(1,2)), "E1-":(-3,sp.Rational(-1,2)),
          "E3-":(-3,sp.Rational(-1,2)),"E3+":(-11,sp.Rational(-1,2)),
          "E4-":(-13,sp.Rational(1,2)),"E4+":(-7,sp.Rational(3,2))}
 bad = [k for k in claim if (sp.simplify(SC[k][0]-claim[k][0])!=0 or sp.simplify(SC[k][1]-claim[k][1])!=0)]
-print("  vs paper's claimed endpoints:", "ALL MATCH" if not bad else f"MISMATCH {bad}")
+print("  comparison with the paper's endpoints:", "ALL MATCH" if not bad else f"MISMATCH {bad}")
 print("  double points: E2+=E4+ ?", SC["E2+"]==SC["E4+"], "  E1-=E3- ?", SC["E1-"]==SC["E3-"])
 
 # ---- exact tiling / no-notch, in EXACT RATIONAL scaled coordinates ----------

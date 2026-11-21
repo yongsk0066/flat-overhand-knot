@@ -1,10 +1,8 @@
-# ref13_final.py — REFEREE closing checks:
-#  (A) at the TREFOIL pentagon, do "outline exit" and "outermost centreline crossing" coincide?
-#      (if they differ there too, the n=3 calibration against Kauffman picks the outline rule
-#       and the n=4 script's rule is simply the wrong one)
-#  (B) straggler diagnosis with mirror-aware distance and active-contact counting.
+"""Compare truncation rules on the trefoil and classify mirror-related endpoints."""
+from probe_files import VERIFY, read_probe
+
 import sys, math, json, collections
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 
 print("="*76); print("(A) trefoil pentagon: outline rule vs outermost-crossing rule"); print("="*76)
 import check_edge as CE
@@ -64,7 +62,7 @@ def contacts(th, order):
 for nm,o in (("theta*",(1,4,2,0,3)),("mirror",(3,0,2,4,1))):
     cs=contacts(STAR[o],list(o))
     print(f"  reference {nm:8}: ell-ell*={ELL(STAR[o])-ELLS:+.2e}  active(<1e-9)={sum(1 for x in cs if abs(x)<1e-9)}/12")
-ends=json.load(open('/private/tmp/claude-501/-Users-yongseok-dev-pentagon/0c3f9975-7617-44d6-be99-ab855225d015/scratchpad/ref10_endpoints.json'))
+ends=read_probe("ref10_endpoints.json")
 print(f"\n  {'#':>3} {'ell-ell*':>11} {'|dtheta| to own-branch theta*':>30} {'active<1e-4':>12} {'active<1e-2':>12}")
 worst=[]
 for k,e in enumerate(ends):
@@ -78,7 +76,6 @@ for k,e in enumerate(ends):
 far=[w for w in worst if w[0]>1e-3]
 print(f"\n  endpoints stalled above ell*+1e-3: {len(far)}/{len(ends)}")
 print(f"  max |dtheta| among them: {max((w[1] for w in far), default=0):.4e}"
-      f"   -> all stalls sit within this distance of theta* (or its mirror)")
+      f"   (distance to the reference with the same layer order)")
 print(f"  active contacts (<1e-4) among the stalls: {[w[2] for w in far]}")
-print("  A second attractor would have to be BLOCKED: >=7 active contacts spanning grad(ell).")
 print(f"  none of the stalls reaches 8 active contacts: {all(w[2]<8 for w in far)}")

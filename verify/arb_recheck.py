@@ -1,4 +1,4 @@
-# arb_recheck.py — 핵심 구간 계산의 Arb(FLINT) 독립 재인증 [리뷰 04 #11] — independent Arb (FLINT) re-certification of the core interval computations [review 04 #11]
+# arb_recheck.py — independent Arb (FLINT) ball-arithmetic re-certification of the core interval bounds.
 # mpmath와 독립인 ball-arithmetic 백엔드로: (i) p_x 근 브래킷+유일성 (ii) ℓ''(x†)>0 (iii) KKT λ>0 — using a ball-arithmetic backend independent of mpmath: (i) root bracket + uniqueness for p_x, (ii) ℓ''(x†)>0, (iii) KKT λ>0
 from flint import arb, ctx
 from fractions import Fraction as F
@@ -20,9 +20,7 @@ PX = to_coeffs([(12,F(1)),(10,F(4)),(4,F(-7)),(2,F(20)),(0,F(-2))],12)
 DPX= to_coeffs([(11,F(12)),(9,F(40)),(3,F(-28)),(1,F(40))],11)
 lo="0.32212749731122717"; hi="0.32212749731122719"
 XL,XH=arb(lo),arb(hi)
-HULL = XL.union(XH) if hasattr(XL,'union') else (XL+XH)/2 + (XH-XL)/2*arb("0",rad=1) if False else None
 # hull: mid±rad 구성 — hull: built as mid±rad
-mid=(F(32212749731122718),)  # 사용 안함 — 안전한 구성: — unused; the safe construction follows:
 X_hull = arb("0.32212749731122718", "1e-17")
 vlo=poly_eval(PX,XL); vhi=poly_eval(PX,XH); dv=poly_eval(DPX,X_hull)
 print("[Arb] p_x(lo) =",vlo," <0 :",vlo<0)
@@ -44,12 +42,13 @@ for nm,cs in (("λ_w1=λ_w4",L14),("λ_w5",L5),("λ_w6",L6)):
     print(f"[Arb] {nm} =",v," >0 :",v>0)
 print("\n결론: mpmath와 독립인 Arb ball 산술로 세 핵심 양수성·근 유일성 재인증")
 
-# ---- [리뷰 05 #8.2] census 벽-부호 제외(67건)의 Arb 독립 재인증 ---- — [review 05 #8.2] independent Arb re-certification of the census wall-sign exclusions (67 cases)
+# Independent Arb ball-arithmetic re-certification of the census wall-sign exclusions.
 # uniq_certified.json의 "W_k<0 구간 인증" 판정 후보들: 해당 벽의 부호 확정 유리식을 — the candidates in uniq_certified.json whose verdict is "W_k<0 interval certificate": reduce the sign-determining rational expression of that wall
 # 정수계수 분자/분모 다항으로 환원해 반경 1e-12 arb ball에서 재평가 (mpmath 독립). — to integer-coefficient numerator/denominator polynomials and re-evaluate on an arb ball of radius 1e-12 (independent of mpmath)
-import sys, os, json, io, contextlib
+import contextlib, io, json, re
+from functools import cache
+from pathlib import Path
 import sympy as sp
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 with contextlib.redirect_stdout(io.StringIO()):
     import uniq_setup as US
 
@@ -64,27 +63,38 @@ def arb_eval_poly(P, vals):
         tot=tot+term
     return tot
 
-C=json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'uniq_certified.json')))
-signed={nm: US.sign_fix[nm]*raw for nm,raw in zip(US.NAMES,US.RAWS)}
+C = json.loads(Path(__file__).with_name("uniq_certified.json").read_text())
+signed = {nm: US.sign_fix[nm]*raw for nm, raw in zip(US.NAMES, US.RAWS)}
+
+
+@cache
+def wall_polynomials(name):
+    numerator, denominator = sp.fraction(sp.cancel(sp.together(signed[name])))
+    # Clearing denominators multiplies each polynomial by a positive integer.
+    return tuple(sp.Poly(expr, *US.TH, domain=sp.QQ).clear_denoms(convert=True)[1]
+                 for expr in (numerator, denominator))
+
+
 npass=0; nskip=0; nfail=[]
 for it in C:
-    v=str(it['verdict'])
-    import re
-    m=re.match(r'(W\d+)<0', v)
-    if not m: nskip+=1; continue
-    nm=m.group(1)
-    expr=sp.cancel(sp.together(signed[nm]))
-    num,den=sp.fraction(expr)
-    def lcm_den(e):
-        ds=[sp.denom(c) for c in sp.Poly(e,US.TH).coeffs()]
-        out=1
-        for dd in ds: out=sp.ilcm(out,dd)
-        return out
-    l1=lcm_den(num); l2=lcm_den(den)
-    Pn=sp.Poly(sp.expand(num*l1),US.TH); Pd=sp.Poly(sp.expand(den*l2),US.TH)
+    m = re.match(r'(W\d+)<0', it['verdict'])
+    if not m:
+        nskip += 1
+        continue
+    nm = m.group(1)
+    Pn, Pd = wall_polynomials(nm)
     vals=[arb(str(t),"1e-12") for t in it['theta']]
     vn=arb_eval_poly(Pn,vals); vd=arb_eval_poly(Pd,vals)
     if vd>0 and vn<0: npass+=1
     elif vd<0 and vn>0: npass+=1
     else: nfail.append((it['S'],nm))
 print(f"\n[Arb] census 벽-부호 제외 재인증: 통과 {npass} / 건너뜀(비벽 판정: Krawczyk·미결·λ) {nskip} / 실패 {len(nfail)} {nfail if nfail else ''}")
+if not (vlo < 0 and vhi > 0 and dv > 0):
+    raise RuntimeError("Arb p_x root bracket check failed")
+if not (poly_eval(H2, X_hull) > 0):
+    raise RuntimeError("Arb reduced Hessian positivity failed")
+for nm, cs in (("λ_w1=λ_w4", L14), ("λ_w5", L5), ("λ_w6", L6)):
+    if not (poly_eval(cs, X_hull) > 0):
+        raise RuntimeError(f"Arb multiplier positivity failed for {nm}")
+if nfail or (npass, nskip) != (71, 33):
+    raise RuntimeError(f"Arb census wall recheck failed: npass={npass}, nskip={nskip}, nfail={nfail}")

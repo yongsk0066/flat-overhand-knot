@@ -19,7 +19,10 @@ E2p=M1+rs*es; E2m=M1-rs*es
 E3p=M2+rs*es; E3m=M2-rs*es
 E4p=M3+rt*et; E4m=M3-rt*et
 
-ok=lambda name,expr: print(f"  {name:34} {'PASS' if sp.simplify(expr)==0 else 'FAIL: '+str(sp.simplify(expr))}")
+def ok(name, expr):
+    residual = sp.simplify(expr)
+    assert residual == 0, (name, residual)
+    print(f"  {name:34} PASS")
 print("[접촉 등식 — Q(√15,√10,√6) 정확]")
 ok("M3.y - 1", M3[1]-1)
 ok("g1: (M3.y-E1p.y) - 1/2", (M3[1]-E1p[1])-sp.Rational(1,2))
@@ -34,7 +37,6 @@ ok("g2': -lat_P2(E4p) - 1/2", -lat2b(E4p)-sp.Rational(1,2))
 ok("g3a': -(E3p.y) - 1/2", -E3p[1]-sp.Rational(1,2))          # P0 하모서리 y=-1/2 — lower edge
 ok("g3b': -(E3m.y) - 1/2", -E3m[1]-sp.Rational(1,2))
 print("[코어 육각형 꼭짓점 (정확)]")
-V=[E4m if False else None]
 hexv={"V0=E4-": (E4m, sp.Matrix([-13*r15/30, sp.Rational(1,2)])),
       "W1=E4+": (E4p, sp.Matrix([-7*r15/30, sp.Rational(3,2)])),
       "V4=E2-": (E2m, sp.Matrix([ r15/30, sp.Rational(3,2)])),
@@ -53,13 +55,10 @@ for k in range(6):
     a=hexv[seq[k]][1]; b=hexv[seq[(k+1)%6]][1]
     ok(f"{seq[k]}->{seq[(k+1)%6]} = {tgt[k]}", sp.simplify((b-a).norm()-tgt[k]))
 print("[내각]")
-import sympy as sp2
-angs=[]
 for k in range(6):
     p=hexv[seq[k]][1]; a=hexv[seq[(k-1)%6]][1]; b=hexv[seq[(k+1)%6]][1]
     v1=a-p; v2=b-p
     cosang=sp.simplify((v1.dot(v2))/(v1.norm()*v2.norm()))
-    angs.append(cosang)
     print(f"  {seq[k]}: cos(내각) = {cosang}  (= {sp.deg(sp.acos(cosang)).evalf(8)}°)")
 print("[총합 검산]")
 ok("ell* - 4√15/3", 2*L1+L2-4*r15/3)
@@ -68,13 +67,13 @@ A=sp.S(0)  # 신발끈 — shoelace
 for k in range(6):
     a=hexv[seq[k]][1]; b=hexv[seq[(k+1)%6]][1]
     A+=a[0]*b[1]-b[0]*a[1]
-print("  면적 =", sp.simplify(A/2), "=", sp.simplify(A/2).evalf(12))
+print("  면적 =", sp.simplify(abs(A)/2), "=", sp.simplify(abs(A)/2).evalf(12))
 
-# ---- [referee-H F7] 타일링의 정확 증명: 스케일 x_s=2√15·x 에서 전 좌표 유리 ---- — exact proof of the tiling: at the scale x_s=2√15·x all coordinates are rational
+# Exact tiling proof in scaled coordinates (x_s = 2*sqrt(15)*x, all vertices rational).
 print("[타일링 정확 증명 (스케일 좌표, 유리 포함-배제)]")
 S=2*r15
-def sc(P): return (sp.nsimplify(sp.expand(S*P[0]),[r15]), sp.nsimplify(sp.expand(P[1]),[r15]))   # x축만 스케일 (y는 이미 유리) — scale the x-axis only (y is already rational)
-# 코어 패널: P1=quad(E1-,E1+,E2+,E2-)? 패널 k = 크리스 k, k+1 현 사이 밴드 사각형 — core panels: P1=quad(E1-,E1+,E2+,E2-)? panel k = the band quadrilateral between the chords of creases k and k+1
+def sc(P): return (sp.simplify(sp.expand(S*P[0])), sp.simplify(sp.expand(P[1])))   # x축만 스케일 (y는 이미 유리) — scale the x-axis only (y is already rational)
+# Each core panel joins the endpoints of two consecutive crease chords.
 Pan1=[sc(E1m),sc(E1p),sc(E2p),sc(E2m)]
 Pan2=[sc(E2m),sc(E2p),sc(E3p),sc(E3m)]
 Pan3=[sc(E3m),sc(E3p),sc(E4p),sc(E4m)]
@@ -90,8 +89,21 @@ def rat(pts):
 Pan1,Pan2,Pan3,HEXs=rat(Pan1),rat(Pan2),rat(Pan3),rat(HEXs)
 def convex_order(pts):
     cx=sum(p[0] for p in pts)/len(pts); cy=sum(p[1] for p in pts)/len(pts)
-    import math as _m
-    return sorted(pts, key=lambda p:_m.atan2(float(p[1]-cy),float(p[0]-cx)))
+    from functools import cmp_to_key
+    def compare(p, q):
+        px, py = p[0]-cx, p[1]-cy
+        qx, qy = q[0]-cx, q[1]-cy
+        hp = 0 if py > 0 or (py == 0 and px >= 0) else 1
+        hq = 0 if qy > 0 or (qy == 0 and qx >= 0) else 1
+        if hp != hq:
+            return -1 if hp < hq else 1
+        turn = px*qy-py*qx
+        return -1 if turn > 0 else (1 if turn < 0 else 0)
+    result = sorted(pts, key=cmp_to_key(compare))
+    for i in range(len(result)):
+        a, b, c = result[i], result[(i+1)%len(result)], result[(i+2)%len(result)]
+        assert (b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0]) > 0
+    return result
 Pan1,Pan2,Pan3,HEXs=convex_order(Pan1),convex_order(Pan2),convex_order(Pan3),convex_order(HEXs)
 def area(poly):
     A=sp.S(0)
@@ -129,9 +141,10 @@ ahex=area(HEXs)
 union=a1+a2+a3-a12-a23-a13+a123
 print(f"  |P1|={a1} |P2|={a2} |P3|={a3}  ∩12={a12} ∩23={a23} ∩13={a13} ∩123={a123}")
 print(f"  합집합 = {union},  육각형 = {ahex},  일치: {sp.simplify(union-ahex)==0}")
-inside=all(any(v==h for h in HEXs) or True for v in Pan1+Pan2+Pan3)
+inside=all(v in HEXs for v in Pan1+Pan2+Pan3)
+assert inside
 verts_on_hex=sum(1 for v in Pan1+Pan2+Pan3 if v in HEXs)
 print(f"  패널 꼭짓점 12개 중 육각형 꼭짓점과 일치: {verts_on_hex}/12 (볼록성 ⟹ 합집합 ⊆ 육각형)")
 print(f"  평균 겹침 = {(a1+a2+a3)}/{ahex} = {sp.Rational(a1+a2+a3,ahex)}")
-if sp.simplify(union-ahex)==0:
-    print("  ⟹ 노치 없음 [정확대수] — shapely 1e-15 검증을 대체")
+assert sp.simplify(union-ahex)==0
+print("  ⟹ 노치 없음 [정확대수] — shapely 1e-15 검증을 대체")

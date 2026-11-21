@@ -1,6 +1,4 @@
-# ref4_interior.py — REFEREE: is theta* a genuine (accessible) constrained local minimum?
-# Uses a TRUE interior direction of the 8-constraint cone and a high-precision nonlinear
-# feasibility test, then searches adversarially for any nearby feasible point with smaller ell.
+"""Examine the interior of the contact cone."""
 import sympy as sp, mpmath as mp, random, itertools
 mp.mp.dps = 60
 r15=sp.sqrt(15)
@@ -76,8 +74,8 @@ for r in ('1e-1','1e-2','1e-3','1e-4','1e-6'):
     print(f"  r={r:6}: penetration = {mp.nstr(penetration(th2),4):>12}  ell-ell* = {mp.nstr(sum(th2[4:])-ELLS,6):>12}"
           f"   {'FEASIBLE' if penetration(th2)<=0 else 'violates'}")
 
-# ---------- adversarial search: any feasible point with SMALLER ell? ----------
-print("\n[adversarial descent search from theta*, high precision, 30000 cone+random probes]")
+# Sample the linearized cone and random directions at four radii.
+print("\n[sampled descent from theta*: 1200 cone directions and 1800 random directions]")
 rnd=random.Random(31337)
 Wn=[[mp.mpf(str(sp.N(rays[k][j],40))) for j in range(7)] for k in range(7)]
 best=None; nfeas=0
@@ -103,4 +101,4 @@ for v in trials:
             break
 print(f"  feasible probes: {nfeas}/{len(trials)};  smallest ell-ell* over all feasible probes = "
       f"{mp.nstr(best[0],8) if best else 'n/a'} at radius {mp.nstr(best[1],2) if best else '-'}")
-print(f"  => {'NO feasible point with ell < ell* found (consistent with blocked)' if (best is None or best[0]>0) else '*** FOUND ell < ell* : CERTIFICATE BROKEN ***'}")
+print(f"  lower core length observed among accepted samples: {best is not None and best[0] < 0}")

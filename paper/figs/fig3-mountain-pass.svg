@@ -1,1 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="440" viewBox="0 0 880 440"><rect width="880" height="440" fill="white"/><ellipse cx="310" cy="230" rx="215" ry="133" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.12"/><ellipse cx="310" cy="230" rx="170" ry="105" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.18"/><ellipse cx="310" cy="230" rx="125" ry="78" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.26"/><ellipse cx="310" cy="230" rx="82" ry="51" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.36"/><path d="M 800,70 C 700,100 620,155 560,230" fill="none" stroke="#1f77b4" stroke-width="3.2"/><path d="M 560,230 C 490,290 400,285 310,230 C 250,196 235,140 232,95" fill="none" stroke="#d62728" stroke-width="3.2"/><defs><marker id="ar" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#444"/></marker></defs><path d="M 745,95 C 675,120 625,160 592,198" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#ar)"/><path d="M 536,252 C 480,288 420,288 366,262" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#ar)"/><circle cx="560" cy="230" r="6" fill="#000"/><text x="574" y="218" font-family="Helvetica" font-size="16" fill="#000" text-anchor="start">P* — contact-mode junction (8 walls)</text><circle cx="310" cy="230" r="6" fill="#d62728"/><text x="310" y="292" font-family="Helvetica" font-size="16" fill="#d62728" text-anchor="middle">θ† — strict minimum</text><text x="640" y="52" font-family="Helvetica" font-size="15" fill="#1f77b4" text-anchor="end">standard slice</text><text x="225" y="72" font-family="Helvetica" font-size="15" fill="#d62728" text-anchor="middle">second family</text><text x="310" y="402" font-family="Helvetica" font-size="14" fill="#888" text-anchor="middle">schematic contact-mode junction (not a smooth saddle) — contours of ℓ_core on the wall stratum</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="880" height="440" viewBox="0 0 880 440">
+<title>Schematic pentagonal contact-mode junction</title>
+<rect width="880" height="440" fill="white"/>
+<ellipse cx="310" cy="230" rx="215" ry="133" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.12"/>
+<ellipse cx="310" cy="230" rx="170" ry="105" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.18"/>
+<ellipse cx="310" cy="230" rx="125" ry="78" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.26"/>
+<ellipse cx="310" cy="230" rx="82" ry="51" fill="none" stroke="#d62728" stroke-width="1.4" opacity="0.36"/>
+<path id="standard-slice" d="M 800,70 C 700,100 620,155 560,230" fill="none" stroke="#1f77b4" stroke-width="3.2"/>
+<path id="second-family" d="M 560,230 C 490,290 400,285 310,230 C 250,196 235,140 232,95" fill="none" stroke="#d62728" stroke-width="3.2"/>
+<defs><marker id="ar" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#444"/></marker></defs>
+<path d="M 745,95 C 675,120 625,160 592,198" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#ar)"/>
+<path d="M 536,252 C 480,288 420,288 366,262" fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#ar)"/>
+<circle cx="560" cy="230" r="6" fill="#000"/>
+<path d="M 568,238 L 596,273" fill="none" stroke="#666" stroke-width="1.2"/>
+<text x="607.00" y="281.00" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="22" text-anchor="start" xml:space="preserve" fill="#111">P<tspan baseline-shift="8.80px" dx="0.00" font-size="14.96" font-style="normal">*</tspan></text>
+<text x="607" y="307" font-family="Helvetica,Arial,sans-serif" font-size="16">contact-mode junction (8 walls)</text>
+<circle cx="310" cy="230" r="6" fill="#d62728"/>
+<rect x="245" y="289" width="185" height="31" rx="4" fill="white" fill-opacity="0.94"/>
+<text x="252.00" y="311.00" font-family="Georgia,Times New Roman,serif" font-style="italic" font-size="21" text-anchor="start" xml:space="preserve" fill="#d62728">θ<tspan baseline-shift="8.40px" dx="0.00" font-size="14.28" font-style="normal">†</tspan></text>
+<text x="284" y="311" font-family="Helvetica,Arial,sans-serif" font-size="16" fill="#d62728">strict minimum</text>
+<text x="640" y="52" font-family="Helvetica,Arial,sans-serif" font-size="15" fill="#1f77b4" text-anchor="end">standard slice</text>
+<text x="225" y="72" font-family="Helvetica,Arial,sans-serif" font-size="15" fill="#d62728" text-anchor="middle">second family</text>
+<text x="440" y="402" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#777" text-anchor="middle">Schematic contact-mode junction (not a smooth saddle); contours indicate core length on the wall stratum.</text>
+</svg>

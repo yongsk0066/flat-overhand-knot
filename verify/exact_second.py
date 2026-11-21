@@ -1,23 +1,23 @@
-# exact_second.py — 명제 11.3의 2계 충분조건 정확대수 승격 — exact-algebra promotion of the second-order sufficient condition of Prop. 11.3
+# exact_second.py — exact-algebra and interval certification of the second-order
+# sufficient condition at theta-dagger (Theorem 6.6 / Theorem D).
 #
-# 목표: 제2족 위에서 ℓ(x) = h(x) + (x²+1)/(2x), N5(x,h)=0 (음함수)의 — goal: on the second family, for ℓ(x) = h(x) + (x²+1)/(2x) with N5(x,h)=0 (implicit function),
-#   ℓ''(x†) ∈ ℚ(x†) = ℚ[x]/(p_x) 를 닫힌 형태로 계산하고, — compute ℓ''(x†) ∈ ℚ(x†) = ℚ[x]/(p_x) in closed form, and
-#   (i) 정확 항등식 검사  N5(x†,h†)=0,  ℓ'(x†)=0  (몫체에서 0으로 감축) — (i) check the exact identities  N5(x†,h†)=0,  ℓ'(x†)=0  (they reduce to 0 in the quotient field)
-#   (ii) ℓ''(x†)의 정확 다항식 표현 (차수 ≤ 11, 유리 계수) — (ii) exact polynomial representation of ℓ''(x†) (degree ≤ 11, rational coefficients)
-#   (iii) 구간 뉴턴으로 x†의 인증 상자를 만든 뒤 ℓ''(x†) > 0 을 구간산술로 인증 — (iii) build a certified box for x† by interval Newton, then certify ℓ''(x†) > 0 by interval arithmetic
-#   (iv) 독립 크로스체크: 80자리 수치 음함수 연속 + 중심 2차 차분 — (iv) independent cross-check: 80-digit numerical implicit-function continuation + centred second difference
+# On the second family ell(x) = h(x) + (x^2+1)/(2x) with N5(x,h) = 0, computes
+# ell''(x-dagger) in Q(x-dagger) = Q[x]/(p_x) and checks:
+#   (i) exact identities N5(x-dagger, h-dagger) = 0 and ell'(x-dagger) = 0 mod p_x;
+#   (ii) exact degree-11 polynomial representative of ell''(x-dagger);
+#   (iii) interval-Newton enclosure of x-dagger and positivity of ell''(x-dagger);
+#   (iv) independent 80-digit numerical implicit-function second difference.
 #
-# SOSC 연결 (문서 11 §3.5): 활성 벽 {w1,w4,w5,w6} 랭크 4 (정확), 승수 전부 양수 — SOSC connection (document 11 §3.5): the active walls {w1,w4,w5,w6} have rank 4 (exact), and all multipliers are positive
-# ⇒ 임계 원뿔 = 활성 기울기의 핵 = 제2족 접선 span{c'(x†)}.  족 곡선 c(x)에서 — ⇒ critical cone = kernel of the active gradients = the second family's tangent span{c'(x†)}.  Along the family curve c(x),
-# w_j∘c ≡ 0, KKT ⇒ ∇ℒ(θ†)=0 이므로 d²(ℓ∘c)/dx² = c'ᵀ∇²ℒc'.  따라서 — w_j∘c ≡ 0 and KKT ⇒ ∇ℒ(θ†)=0, hence d²(ℓ∘c)/dx² = c'ᵀ∇²ℒc'.  Therefore
-# ℓ''(x†) > 0 ⟺ 축소 헤시안 양정치 ⟺ (Nocedal–Wright Thm 12.6) 엄격 국소 최소. — ℓ''(x†) > 0 ⟺ the reduced Hessian is positive definite ⟺ (Nocedal–Wright Thm 12.6) a strict local minimum.
+# With rank-4 LICQ and strictly positive KKT multipliers on {w1, w4, w5, w6},
+# the critical cone is spanned by c'(x-dagger), so ell''(x-dagger) > 0 certifies
+# strict local minimality (Nocedal-Wright, Theorem 12.6).
 
 import sympy as sp
 from mpmath import mp, iv, mpf, findroot, nstr as mstr
 
 x, h = sp.symbols('x h')
 
-# ---- 기초 데이터 (05/08/10에서 확립된 정확 표현) ---- — basic data (exact expressions established in 05/08/10) ----
+# Exact defining polynomials of the second family and theta-dagger.
 px = sp.expand(x**12 + 4*x**10 - 7*x**4 + 20*x**2 - 2)          # x†의 최소다항식 — minimal polynomial of x†
 N5 = sp.expand(8*h**3*x**3 + 4*h**2*x**4 + 4*h**2*x**2
                + 2*h*x**5 - 4*h*x**3 - 6*h*x
@@ -119,5 +119,4 @@ print("     2차 차분(80자리):", mstr(num2, 40))
 print("     |차|            :", mstr(abs(ex_mid - num2), 5))
 assert abs(ex_mid - num2) < mpf('1e-30'), "크로스체크 불일치"   # 2차 차분 절단오차 O(d²·ℓ⁗) ≈ 1e-34 수준 — the truncation error of the second difference is on the order of O(d²·ℓ⁗) ≈ 1e-34
 
-print("\n결론: ℓ''(x†) > 0 [정확대수 + 구간산술] — 명제 11.3의 2계 충분조건 승격 완료.")
-print("      (LICQ 랭크4 + KKT 정확 + λ>0 구간 + 본 증서 ⇒ θ† 엄격 국소 최소, SOSC)")
+print("\nPASS: ell''(x-dagger) > 0 certified in Q[x]/(p_x) and interval arithmetic (strict local minimum)")

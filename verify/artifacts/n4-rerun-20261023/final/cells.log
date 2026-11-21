@@ -1,0 +1,9 @@
+cell ((0, 2), (0, 3), (0, 4), (1, 3)): shadow=52, valid=0
+cell ((0, 2), (0, 3), (0, 4), (1, 4)): shadow=36, valid=0
+cell ((0, 2), (0, 3), (1, 3), (1, 4)): shadow=0, valid=0
+cell ((0, 2), (0, 3), (1, 3), (2, 4)): shadow=0, valid=0
+cell ((0, 3), (0, 4), (1, 4), (2, 4)): shadow=34, valid=0
+cell ((0, 4), (1, 3), (1, 4), (2, 4)): shadow=52, valid=0
+cell ((0, 2), (1, 3), (1, 4), (2, 4)): shadow=0, valid=0
+cell ((0, 3), (1, 3), (1, 4), (2, 4)): shadow=0, valid=0
+COMPLETE cells: all8 targetedcells,60restarts each

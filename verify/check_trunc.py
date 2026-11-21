@@ -1,4 +1,4 @@
-# check_trunc.py — 정의 7.1(절단선)의 근방 정당화 감사 (body.md §7 TODO 해소) — neighborhood-justification audit for Definition 7.1 (truncation lines) (resolves the body.md §7 TODO)
+# Probe the stability of the outline truncation lines in Definition def:trunc.
 #
 # 주장: P* 근방의 유효 상태에서, 인-꼬리(M1에서 −d2 방향 후방 연장)가 코어 외곽을
 # 마지막으로 가로지르는 모서리는 ℓ2 위 변 [G,Q1]이고, 아웃-꼬리(M3에서 v3 방향)는

@@ -3,10 +3,9 @@
 import math, random, sys, json, itertools
 
 TARGET_CANON="ABCADCBD"
-# RAY: 반직선 절단 길이. 수용 상태에는 영향 없음 [referee-H F6 증명 요지]: — RAY: the ray truncation length; it has no effect on accepted states [referee-H F6 proof sketch]:
-# 코어 반경 <= ΣL <= 12 ⟹ 반직선-코어 교차 파라미터 <= 24 < 60; 장거리 교차 후보는 — core radius <= ΣL <= 12 ⟹ the ray-core intersection parameter is <= 24 < 60; the only long-range crossing candidate is
-# (0,4) 반직선쌍뿐인데 유효 세포에서 M3.y ≈ 1 > 0 ⟹ P4가 y=0에 닿는 x가 양수라 — the (0,4) ray pair, but in a valid cell M3.y ≈ 1 > 0 ⟹ the x at which P4 meets y=0 is positive, so
-# P0 ⊂ {x<=0}과 만나지 않는다. (검증: RAY 60→1e7 변경 시 수용 상태 변화 0/총계) — it never meets P0 ⊂ {x<=0}. (check: changing RAY from 60 to 1e7 changes 0 of all accepted states)
+# Legacy length sentinel exposed by pieces() for old plotting/probe callers.
+# crossings() treats the two tails as true unbounded rays, and all pass
+# nonpenetration uses actual crease half-planes, so validity has no ray cutoff.
 RAY=60.0
 
 def canon(code):
@@ -52,8 +51,56 @@ def crossings(c):
             if abs(det)<1e-12: continue
             rx,ry=P2[0]-P1[0],P2[1]-P1[1]
             s=(rx*d2[1]-ry*d2[0])/det; u=(rx*d1[1]-ry*d1[0])/det
-            if 1e-9<s<l1-1e-9 and 1e-9<u<l2-1e-9: X.append(((i,j),s,u))
+            if (s > 1e-9 and u > 1e-9
+                    and (i in (0, 4) or s < l1-1e-9)
+                    and (j in (0, 4) or u < l2-1e-9)):
+                X.append(((i,j),s,u))
     return X
+
+def general_position_ok(c, X, tol=1e-9):
+    """Numerical GP check; tol is a width-normalized distance tolerance.
+
+    Crossings must be distinct and off all complete crease segments. Parallel
+    nonadjacent pieces must not overlap. This does not prohibit projected
+    crease/crease crossings: those are governed by the layer axiom.
+    """
+    segs=pieces(c)
+    points=[]
+    for (i,j),s,u in X:
+        p,v,_=segs[i]
+        pt=(p[0]+s*v[0],p[1]+s*v[1])
+        if any(math.hypot(pt[0]-q[0],pt[1]-q[1])<=tol for q in points):
+            return False
+        points.append(pt)
+        for a,b in c['CH']:
+            ex,ey=b[0]-a[0],b[1]-a[1]
+            t=max(0.,min(1.,((pt[0]-a[0])*ex+(pt[1]-a[1])*ey)/(ex*ex+ey*ey)))
+            if math.hypot(pt[0]-a[0]-t*ex,pt[1]-a[1]-t*ey)<=tol:
+                return False
+    for i in range(5):
+        for j in range(i+2,5):
+            p,v,li=segs[i]; q,w,lj=segs[j]
+            delta=(q[0]-p[0],q[1]-p[1])
+            determinant=v[0]*w[1]-v[1]*w[0]
+            if abs(determinant)>1e-12:
+                s=(delta[0]*w[1]-delta[1]*w[0])/determinant
+                u=(delta[0]*v[1]-delta[1]*v[0])/determinant
+                closed_i=s>=-tol and (i in (0,4) or s<=li+tol)
+                closed_j=u>=-tol and (j in (0,4) or u<=lj+tol)
+                at_end=(s<=tol or u<=tol or (i not in (0,4) and li-s<=tol)
+                        or (j not in (0,4) and lj-u<=tol))
+                # crossings() omits endpoints, so GP must check these closed
+                # intersections independently, including extra fold contacts.
+                if closed_i and closed_j and at_end: return False
+                continue
+            if abs(delta[0]*v[1]-delta[1]*v[0])>tol: continue
+            hi=math.inf if i in (0,4) else li
+            start=delta[0]*v[0]+delta[1]*v[1]
+            sense=v[0]*w[0]+v[1]*w[1]
+            end=(math.copysign(math.inf,sense) if j in (0,4) else start+sense*lj)
+            lo2,hi2=sorted((start,end))
+            if min(hi,hi2)-max(0.,lo2)>tol: return False
+    return True
 
 def events(X):
     ev=[]
@@ -165,25 +212,19 @@ def orders_making_41(X):
             res.append((mask,exts))
     return res
 
-def covers(c,k,pt,tol=0.0):
-    P,dd,l=pieces(c)[k]
-    rx,ry=pt[0]-P[0],pt[1]-P[1]
-    lon=rx*dd[0]+ry*dd[1]; lat=abs(-rx*dd[1]+ry*dd[0])
-    return (-tol<lon<l+tol) and lat<0.5+tol
+def covers(c, k, pt, tol=0.0):
+    """Membership in the actual open pass; tol expands geometric edges."""
+    from n4_geometry import halfplanes
+    sign = lambda v: int(v > 0)-int(v < 0)
+    return all(a*pt[0]+b*pt[1]+offset > -tol*math.hypot(a,b)
+               for a,b,offset in halfplanes(c,k,sign=sign))
+
 
 def axiom_ok(c, order, nsamp=31):
-    rank={p:i for i,p in enumerate(order)}
-    for i in range(4):
-        ra,rb=rank[i],rank[i+1]
-        lo,hi=min(ra,rb),max(ra,rb)
-        between=[order[r] for r in range(lo+1,hi)]
-        if not between: continue
-        (x1,y1),(x2,y2)=c['CH'][i]
-        for t in range(1,nsamp+1):
-            f=t/(nsamp+1); pt=(x1+f*(x2-x1),y1+f*(y2-y1))
-            for k in between:
-                if covers(c,k,pt,tol=-1e-9): return False
-    return True
+    """Compatibility entrypoint; no finite sampling is used anymore."""
+    from n4_geometry import numeric_axiom_ok
+    return numeric_axiom_ok(c, order)
+
 
 def valid_any(th):
     c=config(th)
@@ -191,6 +232,7 @@ def valid_any(th):
     X=crossings(c)
     cd=code_str(X)
     if cd is None or canon(cd)!=TARGET_CANON: return None
+    if not general_position_ok(c,X): return None
     good=[]
     for mask,exts in orders_making_41(X):
         for order in exts:
@@ -205,6 +247,7 @@ def valid_fixed(th, order):
     cd=code_str(X)
     if cd is None or canon(cd)!=TARGET_CANON: return None
     if fox5_events(ev_over_of(X,order))!=25: return None
+    if not general_position_ok(c,X): return None
     if not axiom_ok(c,order): return None
     return dict(c=c,X=X)
 
@@ -216,7 +259,10 @@ def _test():
     tre=[(0,True),(1,False),(2,True),(0,False),(1,True),(2,False)]
     f8 =[(0,True),(1,False),(2,True),(3,False),(1,True),(0,False),(3,True),(2,False)]
     unk=[(0,True),(0,False)]
-    print("세잎: fox3 =",fox3_events(tre),"(기대 9*? => 3^(1+null)=9? det3 => 27? )","fox5 =",fox5_events(tre))
+    assert (fox3_events(tre), fox5_events(tre)) == (9, 5)
+    assert (fox3_events(f8), fox5_events(f8)) == (3, 25)
+    assert (fox3_events(unk), fox5_events(unk)) == (3, 5)
+    print("세잎: fox3 =",fox3_events(tre),"(기대 9)","fox5 =",fox5_events(tre))
     print("8자 : fox3 =",fox3_events(f8), "fox5 =",fox5_events(f8),"(기대 25)")
     print("언노트: fox3 =",fox3_events(unk),"fox5 =",fox5_events(unk),"(기대 3, 5)")
 
@@ -329,50 +375,28 @@ if __name__=="__main__":
 
 # ---------------- 정확 공리 (표본 없음: affine 구간 산술) ---------------- — exact axiom (no sampling: affine interval arithmetic)
 def axiom_exact_ok(c, order, tol=1e-11):
-    """크리스 i의 '열린' 현이, 층에서 사이에 끼는 패스의 열린 밴드영역과
-    양의 길이로 만나면 위반. 밴드=직선 슬랩×종방향 창 => f의 선형 부등식.
-    It is a violation if the 'open' chord of crease i meets, in positive length, the open band
-    region of a pass sandwiched between the two in the layer order. band = straight slab ×
-    longitudinal window => linear inequalities in f."""
-    segs=pieces(c)
-    rank={p:q for q,p in enumerate(order)}
-    for i in range(4):
-        ra,rb=rank[i],rank[i+1]; lo,hi=min(ra,rb),max(ra,rb)
-        between=[order[r] for r in range(lo+1,hi)]
-        if not between: continue
-        (ax,ay),(bx,by)=c['CH'][i]
-        for k in between:
-            P,dd,l=segs[k]
-            n=(-dd[1],dd[0])
-            latA=(ax-P[0])*n[0]+(ay-P[1])*n[1]; latB=(bx-P[0])*n[0]+(by-P[1])*n[1]
-            lonA=(ax-P[0])*dd[0]+(ay-P[1])*dd[1]; lonB=(bx-P[0])*dd[0]+(by-P[1])*dd[1]
-            # f∈[0,1]에서 |lat|<1/2 구간 — the subinterval of f∈[0,1] where |lat|<1/2
-            f0,f1=0.0,1.0
-            dB=latB-latA
-            def clip(lo_,hi_,c0,c1,f0,f1):
-                # c0 + (c1-c0) f 가 (lo_,hi_) 안에 있는 f 구간과 교차 — intersect with the f-interval on which c0 + (c1-c0) f lies inside (lo_,hi_)
-                d=c1-c0
-                if abs(d)<1e-15:
-                    if not (lo_<c0<hi_): return 1.0,0.0
-                    return f0,f1
-                fa=(lo_-c0)/d; fb=(hi_-c0)/d
-                if fa>fb: fa,fb=fb,fa
-                return max(f0,fa),min(f1,fb)
-            DEL=1e-12   # referee-H F4: 정확 flush 접촉(lat≡±1/2)의 부동소수점 knife-edge 수용 — accept the floating-point knife-edge of an exact flush contact (lat≡±1/2)
-            g0,g1=clip(-0.5+DEL,0.5-DEL,latA,latB,0.0,1.0)
-            if g0>=g1: continue
-            g0,g1=clip(0.0+DEL,l-DEL,lonA,lonB,g0,g1)
-            if g1-g0>tol: return False
-    return True
+    """Analytic affine clipping of actual passes (floating-point probe).
 
-def valid_fixed2(th, order):
+    The historical function name is retained for callers. Exact arithmetic
+    certification is provided by n4_exact_valid.py; this numerical predicate
+    uses explicit distance and parameter tolerances.
+    """
+    from n4_geometry import numeric_axiom_ok
+    return numeric_axiom_ok(c, order, parameter_tolerance=tol)
+
+
+def valid_fixed2(th, order, *, distance_tolerance=1e-12,
+                 parameter_tolerance=1e-11, gp_tolerance=1e-9):
     c=config(th)
     if c is None: return None
     X=crossings(c)
     cd=code_str(X)
     if cd is None or canon(cd)!=TARGET_CANON: return None
     if fox5_events(ev_over_of(X,order))!=25: return None
-    if not axiom_exact_ok(c,order): return None
+    if not general_position_ok(c,X,gp_tolerance): return None
+    from n4_geometry import numeric_axiom_ok
+    if not numeric_axiom_ok(c,order,distance_tolerance=distance_tolerance,
+                            parameter_tolerance=parameter_tolerance): return None
     return dict(c=c,X=X)
 
 def tighten_fixed2(th0, order, rnd, rounds=8):

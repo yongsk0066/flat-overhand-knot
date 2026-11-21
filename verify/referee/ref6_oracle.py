@@ -1,11 +1,9 @@
-# ref6_oracle.py — REFEREE: independent knot-type oracle + RAY-truncation attack + "42 vs 21".
-# Independent oracle: the INTEGER determinant |det(Alexander matrix at t=-1)| from the
-# Wirtinger/Fox relations, i.e. the Goeritz-free coloring matrix over Z (not mod 5).
-# For a 4-crossing diagram the only possible knots are unknot/3_1/4_1 (det 1/3/5), so any
-# other value proves the arc/closure bookkeeping is broken.
+"""Compare the integer determinant and Fox five-colouring on sampled states."""
+from probe_files import VERIFY, read_probe
+
 import sys, math, random, json, collections
 from fractions import Fraction
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 from n4_tighten2 import (config, crossings, code_str, canon, events, ev_over_of,
                          fox5_events, fox3_events, axiom_exact_ok, orders_making_41,
                          linear_extensions, ell, TARGET_CANON)
@@ -88,8 +86,8 @@ for _ in range(400000):
         if D not in (1,3,5): badval.append((list(th),mask,D))
         if (D%5==0) != (F==25): mism+=1
 print(f"  4-crossing configs scanned: {n4};  determinant multiset over acyclic layerings: {dict(seen)}")
-print(f"  values outside {{1,3,5}}: {len(badval)}  {'-> bookkeeping OK' if not badval else '*** BROKEN ***'}")
-print(f"  (det%5==0) disagrees with (fox5==25): {mism} times  {'-> oracle CONSISTENT' if mism==0 else '*** ORACLE WRONG ***'}")
+print(f"  sampled determinant values outside {{1,3,5}}: {len(badval)}")
+print(f"  samples where (det%5==0) differs from (fox5==25): {mism}")
 
 print()
 print("="*78)
@@ -117,12 +115,12 @@ def check_ray(label, states):
         tot+=1
         if len(crossings_R(c,1e7))!=4: bad+=1
     print(f"  {label}: {bad}/{tot} accepted states gain/lose a crossing when RAY 60 -> 1e7")
-hits=json.load(open('/Users/yongseok/dev/pentagon/verify/n4_valid41.json'))
-check_ray("authors' harvested valid starts (n4_valid41.json)", [(t,o) for t,o in hits])
-cen=json.load(open('/Users/yongseok/dev/pentagon/verify/n4_census.json'))
+hits=json.load(open(VERIFY / 'n4_valid41.json'))
+check_ray("archived valid starts (n4_valid41.json)", [(t,o) for t,o in hits])
+cen=json.load(open(VERIFY / 'n4_census.json'))
 check_ray("census descent endpoints (n4_census.json)", [(e['theta'],e['order']) for e in cen['endpoints']])
-mine=json.load(open('/private/tmp/claude-501/-Users-yongseok-dev-pentagon/0c3f9975-7617-44d6-be99-ab855225d015/scratchpad/ref_hits.json'))
-check_ray("my independent harvest (seed 424242)", [(t,o) for t,o,cd in mine])
+independent_hits=read_probe("ref_hits.json")
+check_ray("independent harvest (seed 424242)", [(t,o) for t,o,cd in independent_hits])
 # and among ALL canon-passing 4-crossing configs, how often does RAY matter?
 rnd=random.Random(5551212); tot=0; bad=0
 for _ in range(400000):

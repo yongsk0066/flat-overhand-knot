@@ -1,0 +1,5 @@
+[Arb] 72/72 regular census roots freshly isolated (half-width 2^-66) and excluded by true geometric slivers: {'W4': 19, 'W6': 8, 'W5': 12, 'W8': 12, 'W7': 17, 'W1': 4}
+[Arb] weakest isolated-root geometric-sliver upper bound across all 72 roots: -0.3150976115 < -0.315
+[exact] 32 Krawczyk-inconclusive saved centres classified: {'|1-qx|<1e-6': 18, '|q+x|<1e-6': 6, 'other(h,a<0)': 4, 'x<0': 4}
+[Arb] 104/104 saved decimal centres violate a true geometric sliver (< -0.315) on radius-10^-12 boxes
+PASS: all 72 isolated census roots and 32 inconclusive centres certified

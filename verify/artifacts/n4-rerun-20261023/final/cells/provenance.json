@@ -1,0 +1,30 @@
+{
+  "stage": "cells",
+  "started_utc": "2026-10-23T06:01:43.810601+00:00",
+  "python": "3.13.17 (main, Oct 21 2026, 13:48:20) [Clang 21.0.0 (clang-2100.3.34.2)]",
+  "executable": "/Users/yongseok/dev/pentagon/.venv/bin/python",
+  "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+  "git_head": "000f599696dc3a6c5c873d6b7876a73563a80e78",
+  "sources": {
+    "n4_cells3.py": "cf2d7c4c77631c1d912ddedce034e945b68117031204d6c718bb2c99d9c5582e",
+    "n4_fig8.py": "46a8b0ec2fcf7becd939e7bdf7137d389a451daf4ee0baf16bd23f5ade387b05",
+    "n4_cells_probe.py": "d44f0928fa8bc68b5c053c44a362df3492454eb6b73fe262402199a8f50c1c03",
+    "n4_tighten2.py": "37fab43cd4e53dc1d236501d9bcf6ce08264b009e7111a29dd557f0a1d18a00c",
+    "n4_geometry.py": "7117cb1a5866cdcd9bd207d1f35410c152472eed72fe4c0c04054f1c5a7e3a5c"
+  },
+  "config": {
+    "seeds": [
+      1000,
+      1001,
+      1002,
+      1003,
+      1004,
+      1005,
+      1006,
+      1007
+    ],
+    "restarts_per_cell": 60,
+    "steps_per_restart": 4000,
+    "workers": 4
+  }
+}

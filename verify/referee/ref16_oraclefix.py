@@ -1,10 +1,8 @@
-# ref16_oraclefix.py — REFEREE: the float knife-edge in axiom_exact_ok.
-# At theta* the flush chords have lat == 1/2 EXACTLY, but in double precision lat rounds to
-# 0.4999999999999993, which the degenerate branch reads as "strictly inside the open slab".
-# Consequence: the shipped oracle REJECTS theta* and almost everything near it, so the descent
-# cannot approach the tight state.  Fix: test against a slab shrunk by delta (closed contact).
+"""Compare boundary tolerances and knot-type oracles at recorded states."""
+from probe_files import VERIFY, read_probe
+
 import sys, math, random, json, collections
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 import n4_tighten2 as A
 from n4_tighten2 import config, pieces, crossings, code_str, canon, ev_over_of, fox5_events, ell as ELL
 ELLS=4*math.sqrt(15)/3
@@ -48,8 +46,8 @@ def valid_fixed3(th, order):
     if not axiom_fixed(c,order): return None
     return dict(c=c,X=X)
 
-print("[knife-edge] shipped oracle vs patched oracle at the certified tight state")
-print(f"  axiom_exact_ok(theta*) = {A.axiom_exact_ok(config(STAR),O)}   <- rejects the exact tight state")
+print("Actual oblique panels and a rectangular slab approximation at the reference state")
+print(f"  axiom_exact_ok(theta*) = {A.axiom_exact_ok(config(STAR),O)}   (actual panel geometry)")
 print(f"  axiom_fixed   (theta*) = {axiom_fixed(config(STAR),O)}   (slab shrunk by delta={DELTA:.0e})")
 
 rnd=random.Random(4242)
@@ -61,14 +59,14 @@ def rate(oracle, radius, n=400):
         if oracle(th2,O) is not None: ok+=1
     return ok
 for r in (1e-3,1e-4,1e-5):
-    print(f"  neighbourhood validity rate at radius {r:.0e}: shipped {rate(A.valid_fixed2,r)}/400"
-          f"   patched {rate(valid_fixed3,r)}/400")
+    print(f"  neighbourhood validity rate at radius {r:.0e}: actual panels {rate(A.valid_fixed2,r)}/400"
+          f"   rectangular slabs {rate(valid_fixed3,r)}/400")
 
-# ---- re-descend with the patched oracle -------------------------------------
+# Descend using the rectangular slab approximation.
 A.valid_fixed2 = valid_fixed3           # tighten_fixed2 calls valid_fixed2 by name
 from n4_tighten2 import tighten_fixed2
-mine=json.load(open('/private/tmp/claude-501/-Users-yongseok-dev-pentagon/0c3f9975-7617-44d6-be99-ab855225d015/scratchpad/ref_hits.json'))
-starts=[(tuple(t),o) for t,o,cd in mine]
+independent_hits=read_probe("ref_hits.json")
+starts=[(tuple(t),o) for t,o,cd in independent_hits]
 import multiprocessing as mp
 def dw(a):
     seed,th0,order=a
@@ -81,9 +79,8 @@ def dw(a):
 if __name__=="__main__":
     with mp.get_context("fork").Pool(8) as pool:
         res=sorted(pool.map(dw,[(990000+i,th,o) for i,(th,o) in enumerate(starts)]))
-    print(f"\n[descent with the patched oracle] {len(res)} independent starts")
+    print(f"\n[descent with the rectangular slab approximation] {len(res)} independent starts")
     print(f"  best ell = {res[0]:.9f}   ell* = {ELLS:.9f}   gap = {res[0]-ELLS:.3e}")
-    print(f"  (shipped-oracle census best gap was 1.09e-4; authors' n4_tight41.json gap 7.6e-4)")
     print(f"  within 1e-4 of ell*: {sum(1 for e in res if e-ELLS<1e-4)}/{len(res)};"
           f"  within 1e-5: {sum(1 for e in res if e-ELLS<1e-5)}/{len(res)};"
           f"  within 0.01: {sum(1 for e in res if e-ELLS<0.01)}/{len(res)}")

@@ -1,0 +1,11 @@
+[exact] L_trunc(P*) = 4 / sqrt(5 - 2*sqrt(5))
+[exact] grad L_trunc(P*) = (0, phi^3, -phi^2, phi, 0)
+[exact] w6(slack x=1/4) = 101/289 > 0
+[exact] 5x5 wall gradient matrix on {w1,w4,w5,w6,w7} is invertible
+[exact] grad L_trunc = sum lambda_j grad w_j holds identically in Q(x0) for both taco branches
+  lambda[w1] in [0.948936493770, 0.948936493770] > 0
+  lambda[w4] in [1.593534902325, 1.593534902325] > 0
+  lambda[w5] in [0.791934955050, 0.791934955050] > 0
+  lambda[w6] in [2.520270231981, 2.520270231981] > 0
+  lambda[w7] in [1.441365859718, 1.441365859718] > 0
+PASS: regular pentagon is a strict local minimizer of L_trunc with linear growth

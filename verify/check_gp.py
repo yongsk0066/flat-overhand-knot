@@ -1,6 +1,7 @@
-# check_gp.py — 일반 위치(GP) 감사 (referee-15 처방 #7) — general position (GP) audit (referee-15 prescription #7)
+# check_gp.py — general position (GP) margin audit for the three-crease overhand branch.
 #
-# 문서 15 §1 / 논문 §3.4 의 GP 주장을 실제로 감사한다: — actually audits the GP claim of document 15 §1 / paper §3.4:
+# Audits the general-position conditions of Definition 3.6 across P*, theta-dagger,
+# a loose slice state (x = 0.25), and random valid samples:
 #   (i)  어떤 두 중심선 조각도 1점 초과로 겹치지 않음 (공선쌍 없음) — (i) no two centerline pieces overlap in more than one point (no collinear pair)
 #   (ii) 이중점: 횡단(교차각>0), 서로 다름(쌍별 거리>0), 접힘점·크리스 선분에서 양의 거리 — (ii) double points: transversal (crossing angle>0), mutually distinct (pairwise distance>0), positive distance from fold points and crease segments
 #   (iii) 접힘각 비퇴화 — (iii) fold angles non-degenerate

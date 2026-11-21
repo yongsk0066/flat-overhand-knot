@@ -1,49 +1,13 @@
-[w7] 분자 차수: 6  분모 = 4*h**2*x**2 + 4*h*x**3 - 4*h*x + x**4 + 2*x**2 + 1
-[w9] n² = 1  (양수 유리)
-  ⟹ ŵ0 = (q²-1, 2q)/(q²+1) 유리 — n 우회 불필요. 재구성:
-[w9] t9-1 분자 차수: 2  / 분모 차수: 2
-[ℓ'] 분자 차수: 7  분모 = 2x²·N5_h
-저장: /tmp/reach_polys.pkl
-
-[앵커] 가지 수치 추적
-  h(x†)=1.03638630043 → h(x0)=1.05146222424
-  sign(P7) 경로: 시작 1.0, 끝 1.0, 내부 균일: True
-  sign(P9n) 경로: 시작 1.0, 끝 1.0, 내부 균일: True
-  sign(P9d) 경로: 시작 1.0, 끝 1.0, 내부 균일: True
-  sign(A) 경로: 시작 -1.0, 끝 -1.0, 내부 균일: True
-  sign(N5h) 경로: 시작 -1.0, 끝 -1.0, 내부 균일: True
-
-[끝점 항등 — 정확]
-  N5(x†,h†) ≡ 0
-  A(x†,h†) ≡ 0  (= ℓ'(x†)=0)
-  h0 수치 = 1.0514622242382672121
-  h0 후보(√5-체): sqrt(2 - 2*sqrt(5)/5)
-
-[오각형 끝점 — 정확]
-  (h²=1+x² 정합식) mod q4 = 0
-  P7n(x0,h0) 분자 mod q4 = 0  (0 ⟺ 오각형에서 벽 소멸)
-  P9n(x0,h0) 분자 mod q4 = 0  (0 ⟺ 오각형에서 벽 소멸)
-
-[종결식 + Sturm 무근 인증]  구간 [a,b]=[0.322, 0.325] ⊃ [x†, x0]
-  N5h: deg(res)=21 → [0.322,0.325] 실근 0개
-  P7n: deg(res)=25 [배제인수 5*x**4 - 10*x*… 제거] → [0.322,0.325] 실근 0개
-  P9n: deg(res)=9 [배제인수 5*x**4 - 10*x*… 제거] → [0.322,0.325] 실근 0개
-  P9d: deg(res)=6 → [0.322,0.325] 실근 0개
-  Aell: deg(res)=28 [배제인수 x**12 + 4*x**1… 제거] → [0.322,0.325] 실근 0개
-
-[판정] 전 항목 무근 — 가지 위 부호 균일성이 구간 전체로 확장됨 ✓
-
-[내부 인증점] x_m = 1293/4000 = 0.32325 에서 가지 h-상자 + 부호 구간평가
-  크라우칙 K(H)⊂int H: True  (반경 1e-20, K 폭 1.23e-49)
-  P7n(x_m, H) 부호: +  [0.0156925, 0.0156925]
-  P9n(x_m, H) 부호: +  [0.0131067, 0.0131067]
-  P9d(x_m, H) 부호: +  [0.417962, 0.417962]
-  Aell(x_m, H) 부호: -  [-0.0377581, -0.0377581]
-  N5h(x_m, H) 부호: -  [-0.226273, -0.226273]
-
-[결론 — 정리 (도달가능성, 정확대수+구간)]
-  제2 가족 가지 h(x) 는 [x†, x0] 전체에서 유일·매끄럽고 (N5_h ≠ 0 무근 + 크라우칙),
-  그 위에서 w7 = w8 > 0, w9 = w10 > 0 (내부; 오각형에서 정확히 0, θ†에서 양수),
-  dℓ/dx > 0 (내부; x†에서 정확히 0).
-  ⟹ 오각형 → θ† 로의 경로는 유효집합 안에서 ℓ_core 를 순단조 감소시킨다:
-     θ† 는 정의 5.3 의미로 도달가능 — "the tight state" 명명이 정리로 정당화된다.
+[endpoint] dagger: isolated in (32212749/100000000, 128851/400000), exact endpoint identities verified
+[endpoint] pentagon: isolated in (32491969/100000000, 3249197/10000000), exact endpoint identities verified
+[Sturm] P7n: zero residual roots on [0.322, 0.325]
+[Sturm] P9n: zero residual roots on [0.322, 0.325]
+[Sturm] P9d: zero residual roots on [0.322, 0.325]
+[Sturm] Aell: zero residual roots on [0.322, 0.325]
+[Sturm] N5_h: zero residual roots on [0.322, 0.325]
+[interval] P7n: interior sign +1
+[interval] P9n: interior sign +1
+[interval] P9d: interior sign +1
+[interval] Aell: interior sign -1
+[interval] N5_h: interior sign -1
+PASS: the two wall pairs are positive away from the pentagon and core length strictly decreases from the pentagon to dagger

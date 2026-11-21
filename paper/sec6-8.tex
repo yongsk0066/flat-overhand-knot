@@ -6,12 +6,12 @@ Theorem~\ref{thm:pass} leaves the pulling problem in an unusual position. At the
 \end{equation}
 the second mirror-symmetric one-parameter family of Proposition~\ref{prop:families}. This section follows $\mathcal E$ to its end.
 
-The outcome is a single point $\td$, and the fortunate feature of that point is that everything about it is algebra over one number field: its coordinates, the multipliers that block further pulling, and the curvature that makes the block strict all lie in a degree-twelve extension of $\Q$, so the entire optimality analysis can be carried out by exact arithmetic rather than by approximation. The unfortunate feature is that the field is wild. Its Galois group is the full symmetric group $S_6$, and so the tight state of Definition~\ref{def:pull} admits no expression by radicals: its $x$-coordinate already has none.
+The outcome is a single point $\td$, and every quantity associated with it is algebraic over one number field: its coordinates, the multipliers that block further pulling, and the curvature that makes the block strict all lie in a degree-twelve extension of $\Q$, so the entire optimality analysis can be carried out by exact arithmetic rather than approximation. At the same time, the field is not solvable by radicals: the splitting field of the defining sextic for $(x^\dagger)^2$ has Galois group $S_6$, so the tight state of Definition~\ref{def:pull} admits no radical expression, its $x$-coordinate already having none.
 
 \subsection{Reduction to a plane curve}
 
 \begin{proposition}[Family reduction]\label{prop:familyreduction}
-Along $\mathcal E$ the coordinates satisfy the identities
+On the mirror-symmetric component of $\mathcal E$ through $P^*$ and $\td$, the coordinates satisfy the identities
 \begin{equation}\label{eq:familyids}
   g=\frac{1-x^2}{2x},\qquad a=h,\qquad b=g+x=\frac{x^2+1}{2x},\qquad \core=g+h+x=h+b,
 \end{equation}
@@ -19,7 +19,7 @@ and the residual relation between the two remaining coordinates is the plane alg
 \begin{equation}\label{eq:n5}
   N_5(x,h)=8h^3x^3+4h^2x^4+4h^2x^2+2hx^5-4hx^3-6hx+x^6+3x^4+3x^2+1=0 .
 \end{equation}
-Consequently $\mathcal E$ is the curve $\{N_5=0\}$ read in the chart $x$, and on it the objective becomes a single-variable function: we abbreviate $\ell(x):=\core(c(x))$ for the restriction of the core length to the family curve $c(x)=\bigl(x,g(x),h(x),h(x),b(x)\bigr)$, so that
+Consequently this geometric family is represented by the selected real branch of $\{N_5=0\}$ with the positive chart and feasibility conditions retained, and on it the objective becomes a single-variable function: we abbreviate $\ell(x):=\core(c(x))$ for the restriction of the core length to the family curve $c(x)=\bigl(x,g(x),h(x),h(x),b(x)\bigr)$, so that
 \begin{equation}\label{eq:ellofx}
   \ell(x)=h(x)+\frac{x^2+1}{2x} .
 \end{equation}
@@ -30,11 +30,11 @@ The first wall admits the exact polynomial representative $2gx+x^2-1$, a positiv
 \end{proof}
 
 \begin{proposition}[Irreducibility of the family curve]\label{prop:n5irred}
-The polynomial $N_5$ is irreducible over $\Q$. Hence the identities \eqref{eq:familyids}, being proved by division against $N_5$, hold on the \emph{entire} curve $\{N_5=0\}$, and no branch bookkeeping is needed in passing between the geometric family and the plane curve.
+The polynomial $N_5$ is irreducible over $\Q$. Polynomial identities established modulo $N_5$ therefore hold on its algebraic zero set; rational identities also require nonzero denominators. This does not identify all real points of that curve with valid folded states. We use only the real branch through $(x^\dagger,h^\dagger)$ and the pentagon, isolated in a rational height interval at an interior point and continued over $[x^\dagger,x_0]$ by the root-free certificates in Remark~\ref{rem:edge}.
 \end{proposition}
 
 \begin{proof}
-Irreducibility is a finite computation with integer coefficients, verified by exact arithmetic in the ancillary suite \cite{anc}. Since $\Q[x,h]/(N_5)$ is then a domain, a polynomial vanishing on a Zariski-dense subset of the curve is divisible by $N_5$ and so vanishes on all of it.
+Irreducibility is a finite computation with integer coefficients, verified by exact arithmetic in the ancillary suite \cite{anc}. The quotient $\Q[x,h]/(N_5)$ is then a domain. Remainder-zero computations establish the stated algebraic identities, while the interval and resultant certificates separately select the real branch and retain its geometric inequalities. Irreducibility alone says nothing about uniqueness of the real ordinate: at $x=1/5$, for example, the cubic $N_5(x,h)$ has three real roots.
 \end{proof}
 
 \subsection{Existence and exact identification}
@@ -93,7 +93,7 @@ The minimal polynomial of $y^\dagger=(x^\dagger)^2$ is $q(y)=y^6+4y^5-7y^2+20y-2
 \end{theorem}
 
 \begin{proof}
-Let $G\le S_6$ be the Galois group of the irreducible sextic $q$, acting transitively on its roots. Reduction modulo primes of good reduction exhibits elements of $G$ of prescribed cycle type: $q$ is irreducible modulo $11$, which gives a six-cycle, and modulo $23$ it factors as an irreducible quintic times a linear factor, which gives a five-cycle. The discriminant of $q$ is not a rational square, so $G\not\le A_6$. A transitive subgroup of $S_6$ containing a five-cycle is one of $A_5$, $S_5$ in a transitive degree-six action, $\mathrm{PSL}(2,5)$, $\mathrm{PGL}(2,5)$, $A_6$ or $S_6$, by the classification of transitive groups of degree six \cite{dixonmortimer1996}; the six-cycle and the discriminant condition leave only $\mathrm{PGL}(2,5)$ and $S_6$, and the factorization type of $q$ modulo $37$ is incompatible with $\mathrm{PGL}(2,5)$. Hence $G=S_6$, which is not solvable, and the classical Galois criterion denies a radical expression. The factorization data, the discriminant, and the irreducibility of $p_x$ over $\Q(\sqrt5)$---which gives $[\Q(\sqrt5,x^\dagger):\Q(x^\dagger)]=2$ and therefore $\sqrt5\notin\Q(x^\dagger)$---are verified by exact arithmetic in the ancillary suite \cite{anc}.
+Let $G\le S_6$ be the Galois group of the irreducible sextic $q$, acting transitively on its roots. Exact factorization modulo $11$, $23$, and $37$ has degree patterns $(6)$, $(5,1)$, and $(3,1,1,1)$, respectively. The discriminant is $2^{19}3^6\cdot2531$, so all three primes are of good reduction. Thus $G$ contains a six-cycle, a five-cycle, and a three-cycle. The five-cycle excludes a nontrivial block system: such a system in degree six has either two or three blocks of size three or two, and an element of order five can act nontrivially on neither the blocks nor their interiors. Hence $G$ is primitive. Jordan's theorem for a primitive group containing a three-cycle gives $A_6\le G$ \cite{jones2014}. The six-cycle is odd, so $G=S_6$. The classical Galois criterion rules out radicals. Finally, $p_x$ remains irreducible over $\Q(\sqrt5)$, giving $[\Q(\sqrt5,x^\dagger):\Q(x^\dagger)]=2$ and $\sqrt5\notin\Q(x^\dagger)$. All polynomial factorizations, the discriminant, and the resultant are checked by \texttt{exact\_field}.
 \end{proof}
 
 \begin{remark}[The two algebraic worlds]\label{rem:worlds}
@@ -124,7 +124,7 @@ All four are strictly positive, being $\lambda_{w_1}=\lambda_{w_4}=1.0348$, $\la
 That $w_1,w_4,w_5,w_6$ vanish at $\td$ is the definition \eqref{eq:family} of the family; strict positivity of the four inactive walls and of the four multipliers follows from interval evaluation over the Krawczyk box of Theorem~\ref{thm:existence}. All wall functions and $\core$ are rational in $\theta$ with denominators bounded away from zero near $\td$, so their gradients there are elements of $\Q(x^\dagger)$. The nonvanishing of the stated minor, whose value is $-0.956\ldots$, and the vanishing of all five components of \eqref{eq:kkt} after substitution of \eqref{eq:lam14}--\eqref{eq:lam6} are decided by exact arithmetic in $\Q[x]/(p_x)$ in the ancillary suite \cite{anc}. Full row rank of the active gradient matrix makes the multipliers unique, so no competing list exists.
 \end{proof}
 
-The reading of \eqref{eq:kkt} is mechanical rather than merely formal, and it is the flat analogue of the contact-force characterization of ropelength criticality \cite{svdm2004,cks2002}: the four multipliers are the forces with which the four contacts resist further pulling, and their strict positivity says that all four are load-bearing. In the language of Definition~\ref{def:pull}, the state cannot be tightened without simultaneously reopening every one of its contacts.
+The four positive multipliers in \eqref{eq:kkt} give a sensitivity interpretation analogous to contact-force formulations of ropelength criticality \cite{svdm2004,cks2002}. Every active constraint contributes to the stationarity balance. This does not imply that every feasible motion must reopen all four contacts, and no physical force law is asserted. The strict local minimum follows from the second-order argument below.
 
 \begin{theorem}[Strict local minimality]\label{thm:sosc}
 The state $\td$ is a strict local minimizer of $\core$ on $\overline{\M}$. The critical cone is the one-dimensional span of the tangent $c'(x^\dagger)$ to the family curve $c(x)=\bigl(x,g(x),h(x),h(x),b(x)\bigr)$, and the reduced Hessian on it is the exact element
@@ -137,11 +137,11 @@ The state $\td$ is a strict local minimizer of $\core$ on $\overline{\M}$. The c
 \end{theorem}
 
 \begin{proof}
-By Theorem~\ref{thm:kkt} the constraint qualification holds with active rank four and all multipliers strictly positive, so the critical cone of the standard second-order theory is the entire kernel of the active gradient matrix, a line in $\R^5$. The family curve $c$ lies in $\mathcal E$, so $w_j\circ c\equiv0$ for $j\in\{1,4,5,6\}$, and hence $c'(x^\dagger)$ lies in that kernel and spans it. Write $\mathcal L=\core-\sum_j\lambda_{w_j}w_j$ for the Lagrangian. Then $\mathcal L\circ c=\ell\circ c$ identically, while $\nabla\mathcal L(\td)=0$ by \eqref{eq:kkt}, so the chain rule loses its first-order term and
+By Theorem~\ref{thm:kkt} the constraint qualification holds with active rank four and all multipliers strictly positive, so the critical cone of the standard second-order theory is the entire kernel of the active gradient matrix, a line in $\R^5$. The family curve $c$ lies in $\mathcal E$, so $w_j\circ c\equiv0$ for $j\in\{1,4,5,6\}$, and hence $c'(x^\dagger)$ lies in that kernel and spans it. Write $\mathcal L=\core-\sum_j\lambda_{w_j}w_j$ for the Lagrangian. Then $\mathcal L\circ c=\core\circ c=\ell$ identically, while $\nabla\mathcal L(\td)=0$ by \eqref{eq:kkt}, so the chain rule loses its first-order term and
 \[
-  \frac{d^2}{dx^2}\bigl(\ell\circ c\bigr)\Big|_{x^\dagger}=c'(x^\dagger)^{\top}\nabla^2\mathcal L(\td)\,c'(x^\dagger) :
+  \ell''(x^\dagger)=c'(x^\dagger)^{\top}\nabla^2\mathcal L(\td)\,c'(x^\dagger) :
 \]
-the second derivative of the objective \emph{along the family} is the reduced Hessian on the critical cone. Differentiating $N_5(x,h)=0$ twice and using \eqref{eq:ellofx} expresses that number as a polynomial in $x^\dagger$. The computation is a sequence of operations in $\Q[x]/(p_x)$---the required inverse of $\partial_hN_5$ exists in the quotient, and the side identities $N_5(x^\dagger,h^\dagger)=0$ and $\ell'(x^\dagger)=0$ hold there exactly---and it yields \eqref{eq:hessian}, verified by exact arithmetic in $\Q[x]/(p_x)$ in the ancillary suite \cite{anc}. The sign is certified by interval arithmetic over an interval-Newton-certified root box and cross-checked against an independent eighty-digit second difference, the two agreeing to $4.7\times10^{-34}$. A positive reduced Hessian together with strictly positive multipliers is the standard second-order sufficient condition, for which see \cite{nocedal2006}, and strictness follows.
+the second derivative of the objective \emph{along the family} is the reduced Hessian on the critical cone. There is no conflict with $\nabla^2\core=0$: the curvature comes from the constraints in the Lagrangian and from the curved path $c$. Differentiating $N_5(x,h)=0$ twice and using \eqref{eq:ellofx} expresses that number as a polynomial in $x^\dagger$. The computation is a sequence of operations in $\Q[x]/(p_x)$---the required inverse of $\partial_hN_5$ exists in the quotient, and the side identities $N_5(x^\dagger,h^\dagger)=0$ and $\ell'(x^\dagger)=0$ hold there exactly---and it yields \eqref{eq:hessian}, verified by exact arithmetic in $\Q[x]/(p_x)$ in the ancillary suite \cite{anc}. The sign is certified by interval arithmetic over an interval-Newton-certified root box and cross-checked against an independent eighty-digit second difference, the two agreeing to $4.7\times10^{-34}$. A positive reduced Hessian together with strictly positive multipliers is the standard second-order sufficient condition, for which see \cite{nocedal2006}, and strictness follows.
 \end{proof}
 
 \begin{remark}[Parity]\label{rem:parity}
@@ -151,12 +151,12 @@ The reduced Hessian \eqref{eq:hessian} is an \emph{odd} polynomial in $x^\dagger
 Proposition~\ref{prop:familyreduction}, Proposition~\ref{prop:elimination} and Theorems~\ref{thm:existence}--\ref{thm:sosc} together constitute Theorem~\ref{mainthm:dagger}.
 
 \begin{remark}[Branch preservation, and two numerical points]\label{rem:branchaudit}
-The branch datum is no longer a numerical point: along the entire second family, twenty-two condition numerators---the open-window parameters of the three crossings, their determinants, the two passage-order signs, and the nine crossing-to-crease-line margins---have root-free resultants with $N_5$ on $[0.322,0.325]$ by exact Sturm counts, and their signs agree and are nonzero at the pentagon (in $\Q[x]/(5x^4-10x^2+1)$), at $\td$ (in $\Q[x]/(p_x)$), and at a Krawczyk-certified interior box; hence the crossing pattern, the passage word, the layer order $B>D>A>C$, and the general-position margins are constant along the family, and membership of $\td$ in $\M$ is certified exactly (\texttt{exact\_branch}; the earlier pairwise audit \texttt{check\_branch} survives as corroboration, with the $\kappa_1$--$\kappa_3$ line intersection at parameter $1.0506$, outside both segments). Two points remain numerical. First, the decimal values quoted above for the inactive walls, the multipliers, and \eqref{eq:hessian} are evaluations of quantities that are exact elements of $\Q(x^\dagger)$; only the decimal expansions are approximate. Second, reachability: $\td$ \emph{is} reached from a slack state along the certified path of Theorem~\ref{mainthm:pass} together with the slack start of Corollary~\ref{cor:slackstart}, and it is the unique \emph{certified} blocked state of the census of Theorem~\ref{mainthm:census}; but that a \emph{generic} descent from an arbitrary slack state also lands there is supported by descent experiments only and is not claimed as a theorem.
+Along the certified second-family segment, twenty-two condition numerators---the open-window parameters of the three crossings, their determinants, the two passage-order signs, and the nine crossing-to-crease-line margins---have root-free resultants with $N_5$ on $[0.322,0.325]$ by exact Sturm counts, and their signs agree and are nonzero at the pentagon (in $\Q[x]/(5x^4-10x^2+1)$), at $\td$ (in $\Q[x]/(p_x)$), and at the isolated interior root; hence the crossing pattern, the passage word, the layer order $B>D>A>C$, and the general-position margins are constant along the family, and membership of $\td$ in $\M$ is certified exactly (\texttt{exact\_branch}; the earlier pairwise audit \texttt{check\_branch} survives as corroboration, with the $\kappa_1$--$\kappa_3$ line intersection at parameter $1.0506$, outside both segments). Two points remain numerical. First, the decimal values quoted above for the inactive walls, the multipliers, and \eqref{eq:hessian} are evaluations of quantities that are exact elements of $\Q(x^\dagger)$; only the decimal expansions are approximate. Second, reachability: $\td$ \emph{is} reached from a slack state along the certified path of Theorem~\ref{mainthm:pass} together with the slack start of Corollary~\ref{cor:slackstart}, and it is the unique \emph{certified} blocked state of the census of Theorem~\ref{mainthm:census}; but that a \emph{generic} descent from an arbitrary slack state also lands there is supported by descent experiments only and is not claimed as a theorem.
 \end{remark}
 
 \section{Kauffman's functional and the dichotomy}\label{sec:kauffman}
 
-Kauffman's \emph{Minimal Flat Knotted Ribbons} \cite{kauffman2004} models the same category of objects as this paper: a piecewise linear centreline, panels related by reflection in the creases, bundles of parallel lines for the ribbon, and a non-overlap requirement corresponding to the crease-neighbourhood axiom of Definition~\ref{def:axiom}. What differs is the measured quantity. Kauffman cuts the two tails flush with the outer boundary of the flattened knot, unfolds, and measures the length of the resulting flat piece---the \emph{truncation length}. For the pentagonal trefoil, with $l$ the side and $d$ the diagonal of the pentagon, this gives $L=2(l+d)$ and $W=\frac12\sqrt{3l^2-d^2+2ld}$, whence the ratio $L/W=4(\varphi+1)/\sqrt{2+\varphi}$ of \eqref{eq:kauffman-ratio}, conjectured there to be minimal among flattened truncated trefoils. The conjecture came with no criticality or locality analysis, and none has appeared since; the modern folded-ribbon literature measures ribbonlength of \emph{closed} folded ribbons through upper-bound constructions ranging over all diagrams \cite{denne2020,chen2025}, and the immersed thread obtains exact minima for $C^1$ immersed disc diagrams by vertex tension balance \cite{immersed2020,ayala2025}---both of them different quantities from the truncated, fixed-branch functional at issue here. This section proves the local form of Kauffman's conjecture inside the three-crease branch, and shows along the way that $\td$ is not a counterexample to it.
+Kauffman's \emph{Minimal Flat Knotted Ribbons} \cite{kauffman2004} models the same category of objects as this paper: a piecewise linear centreline, panels related by reflection in the creases, bundles of parallel lines for the ribbon, and a non-overlap requirement corresponding to the crease-neighbourhood axiom of Definition~\ref{def:axiom}. What differs is the measured quantity. Kauffman cuts the two tails flush with the outer boundary of the flattened knot, unfolds, and measures the length of the resulting flat piece---the \emph{truncation length}. For the pentagonal trefoil, with $l$ the side and $d$ the diagonal of the pentagon, this gives $L=2(l+d)$ and $W=\frac12\sqrt{3l^2-d^2+2ld}$, whence the ratio $L/W=4(\varphi+1)/\sqrt{2+\varphi}$ of \eqref{eq:kauffman-ratio}, conjectured there to be minimal among flattened truncated trefoils. The conjecture came with no criticality or locality analysis, the comparison here is limited to the works surveyed in Section~\ref{sec:intro}; the modern folded-ribbon literature measures ribbonlength of \emph{closed} folded ribbons through upper-bound constructions ranging over all diagrams \cite{denne2020,chen2025}, and the immersed thread obtains exact minima for $C^1$ immersed disc diagrams by vertex tension balance \cite{immersed2020,ayala2025}---both of them different quantities from the truncated, fixed-branch functional at issue here. This section proves the local form of Kauffman's conjecture inside the three-crease branch, and shows along the way that $\td$ is not a counterexample to it.
 
 \subsection{The convention and its validation}
 
@@ -183,7 +183,7 @@ On the standard slice the configuration is invariant under the end exchange, whi
 The agreement of the two expressions has been confirmed to fifteen digits. It is used to validate the translation of conventions between \cite{kauffman2004} and Definition~\ref{def:trunc}, and not as an input to any proof below.
 
 \begin{remark}[The flush edges near $P^*$, exactly]\label{rem:trunclines}
-Kauffman's truncation cuts each tail flush with the outline edge that the tail \emph{last} crosses on its way out of the core, so Definition~\ref{def:trunc} is faithful only as long as those two edges are the ones it names. At $P^*$ this is now settled by exact arithmetic in $\Q[x]/(5x^4-10x^2+1)$, where the slice is rational: each tail crosses the outline exactly once---the in-tail on $[G,Q_1]\subset\ell_2$, the out-tail on $[E,H]\subset\{y=0\}$---\emph{at the exact midpoint of its edge}, $u\equiv\tfrac12$, at the exact angle $72^\circ$, with $\cos72^\circ=\tfrac{\sqrt5-1}4$ verified as a field identity; every other edge is excluded by exact sign decisions on the crossing parameters (behind the ray, outside the segment, or parallel). All the excluding inequalities are strict, so the identity of the two flush edges persists on a neighbourhood of $P^*$ by continuity alone; the earlier perturbation audit (\texttt{check\_trunc}, margin $\ge0.49$, angle $\ge71.6^\circ$) survives as corroboration, and the exact certificate is \texttt{exact\_trunc\_nbhd} \cite{anc}. Definition~\ref{def:trunc} therefore computes Kauffman's flush truncation on the whole neighbourhood in which Theorem~\ref{thm:strictL} operates.
+Kauffman's truncation cuts each tail flush with the outline edge that the tail \emph{last} crosses on its way out of the core, so Definition~\ref{def:trunc} is faithful only as long as those two edges are the ones it names. At $P^*$ this is now settled by exact arithmetic in $\Q[x]/(5x^4-10x^2+1)$, where the slice is rational: each tail crosses the outline exactly once---the in-tail on $[G,Q_1]\subset\ell_2$, the out-tail on $[E,H]\subset\{y=0\}$---\emph{at the exact midpoint of its edge}, $u\equiv\tfrac12$, at the exact angle $72^\circ$, with $\cos72^\circ=\tfrac{\sqrt5-1}4$ verified as a field identity; every other edge is excluded by exact sign decisions on the crossing parameters (behind the ray, outside the segment, or parallel). All the excluding inequalities are strict, so the identity of the two flush edges persists on a neighbourhood of $P^*$ by continuity alone; the numerical probe \texttt{check\_trunc} gives margin $\ge0.49$ and angle $\ge71.6^\circ$ on its samples, and the exact certificate is \texttt{exact\_trunc\_nbhd} \cite{anc}. Definition~\ref{def:trunc} therefore computes Kauffman's flush truncation on the whole neighbourhood in which Theorem~\ref{thm:strictL} operates.
 \end{remark}
 
 \subsection{The two functionals separate}
@@ -195,7 +195,7 @@ Evaluating both functionals at both distinguished states gives
   \trunc(P^*)&=5.5055277\ldots, &\qquad \trunc(\td)&=5.5817845\ldots .
 \end{aligned}
 \end{equation}
-Passing from the pentagon to $\td$ shortens the core by $3.13\times10^{-3}$ but lengthens each truncation stub by $0.0397$, so the total grows. The two functionals therefore select different strict local optima on the trefoil branch, and in particular $\td$ is not a counterexample to Kauffman's conjecture. The mechanism is transparent once stated: $\trunc$ is the material needed to \emph{build} the flat knot, whereas $\core$ is the material \emph{trapped} by it, and pulling on the tails does not cut the stubs off. Pulling minimizes the core and pays for it in stub length.
+Passing from the pentagon to $\td$ shortens the core by $3.13\times10^{-3}$ but lengthens each truncation stub by $0.0397$, so the total grows. The two functionals therefore select different strict local optima on the trefoil branch, and in particular $\td$ is not a counterexample to Kauffman's conjecture. The mechanism is transparent once stated: $\trunc$ is the material needed to \emph{build} the flat knot, whereas $\core$ is the material \emph{trapped} by it, and pulling on the tails does not cut the stubs off. In the kinematic model, decreasing the core along the certified path increases the stub contribution.
 
 \subsection{The pentagon is a strict local minimizer of the truncation length}
 
@@ -206,24 +206,20 @@ At the pentagon the truncation length has the exact gradient
 \end{equation}
 and on each of the two taco branches of \eqref{eq:taco} there are Farkas multipliers, supported on $\{w_1,w_4,w_5,w_6,w_7\}$ and identical in the two branches, given in closed form with $s:=\sqrt{5-2\sqrt5}$ by
 \begin{equation}\label{eq:kauffmanlam1}
-  \lambda_{w_1}=\frac{(17+7\sqrt5)\,s}{25},\qquad
-  \lambda_{w_5}=\frac3{10}+\frac{11\sqrt5}{50},\qquad
-  \lambda_{w_7}=\Bigl(1+\frac{11\sqrt5}{25}\Bigr)s,
+  \lambda_{w_1}=\frac{17+7\sqrt5}{25}\,s,\qquad
+  \lambda_{w_4}=\frac{28+12\sqrt5}{25}\,s,\qquad
+  \lambda_{w_5}=\frac{15+11\sqrt5}{50},
 \end{equation}
 \begin{equation}\label{eq:kauffmanlam2}
-  \lambda_{w_4}=\frac{8\,(606965+271443\sqrt5)}{25\,s\,(167761+75025\sqrt5)},\qquad
-  \lambda_{w_6}=\frac{2\,(346235+154841\sqrt5)}{25\,s\,(15127+6765\sqrt5)} .
+  \lambda_{w_6}=\frac{42+20\sqrt5}{25}\,s,\qquad
+  \lambda_{w_7}=\frac{25+11\sqrt5}{25}\,s .
 \end{equation}
 All five are strictly positive, numerically $\lambda_{w_1}=0.9489$, $\lambda_{w_4}=1.5935$, $\lambda_{w_5}=0.7919$, $\lambda_{w_6}=2.5203$ and $\lambda_{w_7}=1.4414$, and neither certificate charges the taco walls $w_9,w_{10}$, whose multipliers vanish; the blocking therefore holds on the whole disjunctive system.
 \end{theorem}
 
 \begin{proof}
-All wall functions and $\trunc$ are rational in $\theta$, so their gradients at $P^*$ are elements of $\Q(\sqrt5,x_0)$. The components of \eqref{eq:gradL} and the closed forms \eqref{eq:kauffmanlam1}--\eqref{eq:kauffmanlam2} were located by high-precision lattice identification in the basis $\{1,\sqrt5,x_0,\sqrt5\,x_0\}$ and then verified componentwise by exact arithmetic in $\Q(\sqrt5,s)$ in the ancillary suite \cite{anc}: on each taco branch the identity $\nabla\trunc=\sum_j\lambda_{w_j}\nabla w_j$ reduces to $0=0$ in that field. Positivity of the five closed forms is immediate from $s>0$ and $\sqrt5>2$.
+All wall functions and $\trunc$ are rational in $\theta$, so their values and gradients at $P^*$ lie in the degree-four field $\Q(x_0)=\Q(\sqrt5,s)$. Using first-order five-variable jets over $\Q(x_0)$ with band orientations fixed by exact interior probes (\texttt{exact\_kauffman2}), every component of \eqref{eq:gradL}, the invertibility of the five-by-five active gradient matrix on $\{w_1,w_4,w_5,w_6,w_7\}$, and all five stationarity residuals $\nabla\trunc-\sum_j\lambda_{w_j}\nabla w_j=0$ reduce identically to $0$ in $\Q(x_0)$, with no numerical approximation. Positivity of all five multipliers in \eqref{eq:kauffmanlam1}--\eqref{eq:kauffmanlam2} is immediate from $s>0$ and $\sqrt5>2$ (and independently enclosed by outward-rounded interval arithmetic).
 \end{proof}
-
-\begin{observation}[Lucas and Fibonacci denominators]\label{obs:fibonacci}
-The two multipliers \eqref{eq:kauffmanlam2} that are not of the simple shape \eqref{eq:kauffmanlam1} carry conspicuous integers: their denominators are $25\,s\,(L_{25}+F_{25}\sqrt5)$ and $25\,s\,(L_{20}+F_{20}\sqrt5)$, with the Lucas and Fibonacci pairs $(L_{25},F_{25})=(167761,75025)$ and $(L_{20},F_{20})=(15127,6765)$. Since $L_n+F_n\sqrt5=2\varphi^n$, the two denominators are $50\,s\,\varphi^{25}$ and $50\,s\,\varphi^{20}$: the golden ratio of the gradient \eqref{eq:gradL} reappears, raised to high powers, in the prices that the walls charge.
-\end{observation}
 
 \begin{observation}[The stubs absorb the core's $x$-derivative]\label{obs:xcancel}
 The first component of \eqref{eq:gradL} vanishes even though $\partial\core/\partial x\equiv\frac12$ everywhere on $\M$ by Proposition~\ref{prop:nointerior}. Hence $\partial_x(s_{\mathrm{in}}+t_{\mathrm{out}})=-\frac12$ at $P^*$: to first order the two truncation stubs return exactly what sliding the first crease takes out of the core. This is the smallest visible instance of the phenomenon that separates the two functionals in \eqref{eq:separate}.
@@ -264,7 +260,7 @@ Theorem~\ref{thm:strictL} proves the \emph{local} form of the conjecture of \cit
 
 \section{Realization completeness for the three-crease branch}\label{sec:realization}
 
-Throughout the paper the physical prohibition against paper passing through paper has been carried by combinatorics: a total layer order, the crease-neighbourhood axiom of Definition~\ref{def:axiom}, and crease-pair non-crossing. Conditions of this kind go back to Justin \cite{justin1997} and Hull \cite{hull2002} and are standard in the flat-origami literature \cite{demaine2007}; they are invariably introduced as axioms, and the question whether they capture exactly the states that can be built from thin material is usually left aside. This section answers it for the three-crease overhand branch: the axioms hold if and only if the state can be realized by embeddings of the strip into slabs $\R^2\times[0,\varepsilon]$ as $\varepsilon\downarrow0$. No claim is made for general flat origami. We write $\pi\colon\R^3\to\R^2$ for the horizontal projection, $\zeta$ for the height coordinate, and $R=\R\times[0,1]$ for the material.
+The model uses a total layer order, the crease-neighbourhood axiom of Definition~\ref{def:axiom}, and crease-pair non-crossing \cite{justin1997,hull2002,demaine2007}. On the three-crease overhand branch with order $B>D>A>C$, a limit realization inducing that order by sheet separation satisfies the two geometric conditions. Conversely, an open state satisfying them has a strong realization for every sufficiently small $\varepsilon>0$. At zero clearance the sufficient condition is approximation by open valid states with the same order, established below for $P^*$ and $\td$. We write $\pi\colon\R^3\to\R^2$ for horizontal projection, $\zeta$ for height, and $R=\R\times[0,1]$ for the material.
 
 \subsection{Two notions of realization}
 
@@ -284,7 +280,7 @@ A \emph{limit realization} of $(f,\lambda)$ is a sequence $\varepsilon_k\downarr
 Both definitions compare sheets over regions rather than individual overlapping material points. This is what the slab picture is really about---locally the passes occupy separated height slabs---and it is the form consumed by the converse argument of Theorem~\ref{thm:necessity}. Whether the pointwise form is equivalent is not settled here: under the pointwise form alone one cannot yet exclude realizations that corrugate vertically inside the slab, which is exactly the pathology the parity argument must rule out.
 \end{remark}
 
-\begin{definition}[Clearances and the thickness budget]\label{def:clearance}
+\begin{definition}[Clearances and the slab-height budget]\label{def:clearance}
 For a state $\theta$ set
 \begin{equation}\label{eq:clearances}
 \begin{gathered}
@@ -349,7 +345,20 @@ The minor is computed by exact arithmetic in $\Q[x]/(p_x)$ and the interval rang
 \end{proof}
 
 \begin{corollary}[Slack start at the pentagon]\label{cor:slackstart}
-For all sufficiently small $t>0$ the state $q_t=P^*+t\,\delta^{\mathrm{op}}$ is slack: every wall satisfies $w_j(q_t)\ge0.98\,t+O(t^2)>0$ by \eqref{eq:openingdir}. Moreover $\nabla\core(P^*)\cdot\delta^{\mathrm{op}}=\tfrac12\bigl(-\tfrac{93}{1000}+\tfrac{2197}{1000}+\tfrac{1021}{500}+\tfrac{509}{250}+\tfrac{419}{200}\bigr)=\tfrac{8277}{2000}$ exactly, so $\core(q_t)=\core(P^*)+\tfrac{8277}{2000}\,t+O(t^2)$, and the reverse segment $s\mapsto q_{t-s}$ is a pulling path from the slack state $q_t$ to $P^*$ with strictly decreasing core length. Concatenated with the certified monotone path of Remark~\ref{rem:edge}, this exhibits $\td$ as reachable from slack states, closing the reachability clause of Definition~\ref{def:pull}.
+For all sufficiently small $t>0$ the state $q_t=P^*+t\,\delta^{\mathrm{op}}$ is slack: every wall satisfies $w_j(q_t)\ge0.98\,t+O(t^2)>0$ by \eqref{eq:openingdir}. The exact directional derivative is
+\[
+\begin{aligned}
+\nabla\core(P^*)\cdot\delta^{\mathrm{op}}
+ &=\frac12\left(-\frac{93}{1000}+\frac{2197}{1000}
+                  +\frac{1021}{500}+\frac{509}{250}+\frac{419}{200}\right)\\
+ &=\frac{8277}{2000}.
+\end{aligned}
+\]
+Since $\core$ is affine on the forward chart,
+\[
+\core(q_t)=\core(P^*)+\frac{8277}{2000}\,t
+\]
+holds exactly. The reverse segment $s\mapsto q_{t-s}$, $0\le s\le t$, is therefore a pulling path from the slack state $q_t$ to $P^*$ with strictly decreasing core length. Concatenated with the certified monotone path of Remark~\ref{rem:edge}, this exhibits $\td$ as reachable from slack states, closing the reachability clause of Definition~\ref{def:pull}.
 \end{corollary}
 \begin{proof}
 Positivity of the eight directional derivatives on the stated interval is the interval certificate of Lemma~\ref{lem:opening}; the gradient identity $\nabla\core(P^*)=\tfrac12\mathbf 1$ is Proposition~\ref{prop:gradpent}; the arithmetic is exact. Monotonicity of the concatenation is strict on each segment by the displayed rate and by Remark~\ref{rem:edge}.
@@ -385,30 +394,30 @@ If a state of the overhand branch has a limit realization, then it satisfies the
 Suppose the axiom fails: a pass $Q$ lying strictly between $P$ and $P'$ in the layer order covers a neighbourhood of an interior point $p_0$ of the crease joining $P$ and $P'$. Choose a short material segment $\sigma$ crossing that crease at $p_0$ whose image remains inside the covered neighbourhood, and perturb it into general position so that the images of its two endpoints avoid all three creases. Let $V_\pm$ be small \emph{fixed} discs about those two endpoint images, at positive distance from the creases and inside the relevant overlap regions. Because the discs are fixed, and not shrinking with $k$, the separation clause of Definition~\ref{def:limitreal} applies on them for all large $k$; it places $F_k(\sigma(-1))$ below and $F_k(\sigma(+1))$ above the entire $S$-part of their respective fibres, where $S=F_k(W)$ for a compact $W\subset Q$ lying over the relevant disc. Lemma~\ref{lem:mod2} then forces $F_k\circ\sigma$ to meet $S$, that is, forces two disjoint material sets to share an image, contradicting injectivity of $F_k$. The point of the argument is that separation is needed only \emph{near the endpoints} of $\sigma$, never at $p_0$ itself, where the crease makes separation impossible; and $\sigma$ may always be taken short enough for its endpoint discs to clear the creases, however small the violated neighbourhood. The routine verifications are carried out in the ancillary suite \cite{anc}.
 \end{proof}
 
-\begin{theorem}[Realization completeness for the three-crease branch]\label{thm:completeness}
-For states of the overhand branch, with the opening hypothesis of Lemma~\textup{\ref{lem:opening}} imposed on states of zero clearance, the following are equivalent:
+\begin{theorem}[Realization completeness for the globally ordered three-crease branch]\label{thm:completeness}
+For states $(f_\theta,\lambda)$ of the globally ordered overhand branch $\mathcal B$ (fixing the total layer order $B>D>A>C$), with the opening hypothesis of Lemma~\textup{\ref{lem:opening}} imposed on states of zero clearance, the following are equivalent:
 \begin{enumerate}
-\item[(a)] the state satisfies the global layer order $B>D>A>C$, the crease-neighbourhood axiom, and crease-pair non-crossing;
-\item[(b)] the state admits a limit realization by embeddings into $\R^2\times[0,\varepsilon_k]$ with $\varepsilon_k\downarrow0$.
+\item[(a)] the state satisfies the crease-neighbourhood axiom and crease-pair non-crossing (with respect to $B>D>A>C$);
+\item[(b)] the state admits a limit realization by embeddings into $\R^2\times[0,\varepsilon_k]$ with $\varepsilon_k\downarrow0$ inducing the order $B>D>A>C$ in the sheet-separation sense.
 \end{enumerate}
-Here (a) implies (b) unconditionally for open states, and is there strengthened to strong $\varepsilon$-realizations for every $\varepsilon<\varepsilon_0(\theta)$; for states of zero clearance the implication holds under the opening hypothesis, which is established exactly for $\td$ and for the regular pentagon. The converse implication is unconditional.
+Here (a) implies (b) unconditionally for open states, and is there strengthened to strong $\varepsilon$-realizations for every $\varepsilon<\varepsilon_0(\theta)$; for states of zero clearance the implication holds under the opening hypothesis, which is certified for $\td$ and for the regular pentagon. The converse implication is unconditional within $\mathcal B$. By contrast, if $\lambda$ is allowed to be an arbitrary pointwise local order, then strong $\varepsilon$-realizability does not force a global total order \textup{(Remark~\ref{rem:cyclic-counterexample})}, though it does wherever all four passes share a common interior point \textup{(Lemma~\ref{lem:common-overlap})}.
 \end{theorem}
 
 \begin{proof}
-For (a) implies (b): open states are covered by Theorem~\ref{thm:openreal}, and a strong $\varepsilon$-realization for all small $\varepsilon$ yields a limit realization on taking $\varepsilon_k=1/k$; states of zero clearance are covered by Theorem~\ref{thm:limitreal} together with Lemma~\ref{lem:opening}. For (b) implies (a): the crease-neighbourhood axiom is Theorem~\ref{thm:necessity}, and the layer order and crease-pair non-crossing follow from Proposition~\ref{prop:axred}, the branch datum forcing the total order and the total order together with the axiom forcing the transversality clause of crease-pair non-crossing.
+For (a) implies (b): open states are covered by Theorem~\ref{thm:openreal}, and a strong $\varepsilon$-realization for all small $\varepsilon$ yields a limit realization on taking $\varepsilon_k=1/k$; states of zero clearance are covered by Theorem~\ref{thm:limitreal} together with Lemma~\ref{lem:opening}. For (b) implies (a): the crease-neighbourhood axiom is Theorem~\ref{thm:necessity}, and with the global layer order $B>D>A>C$ fixed in $\mathcal B$, the transversality clause of crease-pair non-crossing follows from Proposition~\ref{prop:axred}.
 \end{proof}
 
 Theorem~\ref{thm:completeness} is Theorem~\ref{mainthm:realization}.
 
 \begin{remark}[What the axioms actually are]\label{rem:axiomreduction}
-Theorem~\ref{thm:completeness} makes the logical economy of the model visible. Of the four conditions carried through the paper---branch datum, global layer order, crease-neighbourhood axiom, crease-pair non-crossing---only two are independent, by Proposition~\ref{prop:axred}: the branch datum, which forces the layer order combinatorially, and the crease-neighbourhood axiom, from which crease-pair non-crossing follows. That the taco pair $w_9,w_{10}$ appears as a separate pair of walls is a matter of analytic signature rather than of logic; geometrically, by Observation~\ref{obs:corner}, it is the corner contact of the crease pair $\kappa_1,\kappa_3$.
+Within the globally ordered branch $\mathcal B$, Theorem~\ref{thm:completeness} and Proposition~\ref{prop:axred} separate the independent hypotheses: the crossing datum together with the global total order $B>D>A>C$ (which is forced locally by Lemma~\ref{lem:common-overlap} on the common-overlap locus, but not globally by Remark~\ref{rem:cyclic-counterexample}), and the crease-neighbourhood axiom, from which transverse crease-pair non-crossing follows. That the taco pair $w_9,w_{10}$ appears as a separate pair of walls is a matter of analytic signature rather than logical independence; geometrically, by Observation~\ref{obs:corner}, it is the corner contact of the crease pair $\kappa_1,\kappa_3$.
 \end{remark}
 
 \begin{remark}[Numerical remark]\label{rem:slabnumerics}
-The clearance values behind Observation~\ref{obs:budget} are $c_{\mathrm{cr}}(\td)=0.0845$ and $m_{\mathrm{mat}}(\td)=1.036$ against $c_{\mathrm{nb}}(\td)=0$, while at the pentagon $c_{\mathrm{nb}}=c_{\mathrm{cr}}=0$ (\texttt{check\_realize}). Along the opening path $\theta_t=\td+t\delta$ of Lemma~\ref{lem:opening} one finds $c_{\mathrm{nb}}(\theta_t)\approx0.96\,t$ and $\varepsilon_0(\theta_t)\approx1.16\,t$, so realizing the state in a slab of fixed thickness $\varepsilon$ along this path costs an opening $t\gtrsim\varepsilon/1.16$, and then, using $\nabla w_j\cdot\delta=1$ and the multipliers of Theorem~\ref{thm:kkt},
+The clearance values behind Observation~\ref{obs:budget} are $c_{\mathrm{cr}}(\td)=0.0845$ and $m_{\mathrm{mat}}(\td)=1.036$ against $c_{\mathrm{nb}}(\td)=0$, while at the pentagon $c_{\mathrm{nb}}=c_{\mathrm{cr}}=0$ (\texttt{check\_realize}). Along the opening path $\theta_t=\td+t\delta$ of Lemma~\ref{lem:opening} one finds $c_{\mathrm{nb}}(\theta_t)\approx0.96\,t$ and $\varepsilon_0(\theta_t)\approx1.16\,t$, so realizing the state in a slab of fixed height $\varepsilon$ along this path costs an opening $t\gtrsim\varepsilon/1.16$, and then, using $\nabla w_j\cdot\delta=1$ and the multipliers of Theorem~\ref{thm:kkt},
 \[
   \core(\theta_t)-\ell^\dagger=\Bigl(\sum_j\lambda_{w_j}\nabla w_j\cdot\delta\Bigr)t+O(t^2)
   =\Bigl(\sum_j\lambda_{w_j}\Bigr)t+O(t^2)\approx4.111\,t ,
 \]
-in agreement with the measured value $\core-\ell^\dagger=4.11\times10^{-3}$ at $t=10^{-3}$. Composing the two estimates gives $\core(\varepsilon)-\ell^\dagger\lesssim3.5\,\varepsilon$: paper of thickness $\varepsilon$ stops short of $\td$ by a first-order amount whose coefficient is the sum of the KKT multipliers, which are thereby the unit prices of the ramp clearances. This is an upper bound produced by one particular construction, and no matching lower bound is established, an optimal thickness-corrected state possibly doing better. Two further points remain open: whether a state of zero clearance admits a \emph{strong} $\varepsilon$-realization at fixed small $\varepsilon$---the constant-height construction certainly fails there, and a wedge-shaped height assignment is the natural candidate---and the equivalence of the two forms of the induced layer order discussed in Remark~\ref{rem:sheetform}.
+in agreement with the measured value $\core-\ell^\dagger=4.11\times10^{-3}$ at $t=10^{-3}$. Composing the two estimates gives $\core(\varepsilon)-\ell^\dagger\lesssim3.5\,\varepsilon$: this construction supplies nearby zero-thickness states in a slab of height $\varepsilon$ with an $O(\varepsilon)$ core-length cost. The coefficient combines the KKT multiplier sum with the chosen opening rate; it is not a material-thickness law or a prediction that physical pulling must stop there. This is an upper bound produced by one particular construction, and no matching lower bound is established, another slab realization possibly doing better. Two further points remain open: whether a state of zero clearance admits a \emph{strong} $\varepsilon$-realization at fixed small $\varepsilon$---the constant-height construction certainly fails there, and a wedge-shaped height assignment is the natural candidate---and the equivalence of the two forms of the induced layer order discussed in Remark~\ref{rem:sheetform}.
 \end{remark}

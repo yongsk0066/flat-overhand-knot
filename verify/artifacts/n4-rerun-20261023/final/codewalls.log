@@ -1,0 +1,16 @@
+codewall 1/15 (0,2)U: observed_min=0.530097368, 0.2s
+codewall 2/15 (0,2)s: observed_min=0.823676424, 0.2s
+codewall 3/15 (0,2)u: observed_min=1.622333960, 0.3s
+codewall 4/15 (0,3)U: observed_min=1.117055180, 0.2s
+codewall 5/15 (0,3)s: observed_min=1.070914051, 0.2s
+codewall 6/15 (0,3)u: observed_min=0.529364936, 0.2s
+codewall 7/15 (1,4)S: observed_min=0.527286050, 0.2s
+codewall 8/15 (1,4)s: observed_min=1.056897386, 0.2s
+codewall 9/15 (1,4)u: observed_min=1.043933054, 0.3s
+codewall 10/15 (2,4)S: observed_min=1.696996618, 0.2s
+codewall 11/15 (2,4)s: observed_min=0.525259879, 0.2s
+codewall 12/15 (2,4)u: observed_min=0.841013506, 0.2s
+codewall 13/15 L1: observed_min=1.565187661, 0.3s
+codewall 14/15 L2: observed_min=2.397627134, 0.5s
+codewall 15/15 L3: observed_min=1.587742096, 0.3s
+COMPLETE codewalls: 15 targets x4starts; observed minimum=0.525259879

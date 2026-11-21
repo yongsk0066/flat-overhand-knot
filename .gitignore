@@ -5,7 +5,7 @@ __pycache__/
 verify/.venv/
 formal/.lake/
 *.svg.png
-ancillary.tar.gz
+/build/
 .personal_docs/
 # TeX intermediates (main.pdf and main.bbl are tracked)
 paper/*.aux

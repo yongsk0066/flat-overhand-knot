@@ -1,0 +1,4 @@
+The top-level sweep/walls/descent are preserved interim runs before the endpoint-GP review fix.
+The top-level strata contains all 254 x7 geometry-independent Newton solves.
+Use final/ for the final-predicate sweep, walls, descent and KKT reclassification.
+All original historical JSON files remain unchanged.

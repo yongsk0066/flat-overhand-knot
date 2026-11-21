@@ -1,7 +1,4 @@
-# exact_strata1.py — 층별 정확 소거 엔진 (16 §8): W1→g, W5→a, W7→b 선형 해소 — stratum-wise exact elimination engine (16 §8): W1→g, W5→a, W7→b resolved linearly
-# 결과 1 (기록): 층 {W1,W5,W7,W9,W10} 은 res_h ≡ 0 — 0차원이 아니라 F-다양체(명제 16.7') — Result 1 (recorded): the stratum {W1,W5,W7,W9,W10} has res_h ≡ 0 — not 0-dimensional but a 1-dimensional locus
-#   에 흡수되는 1차원 궤적 (W9=W10=0 ⟺ Q0=F 일 때 W7 자동 소멸 = 방정식 종속의 대수적 확인). — absorbed into the F-variety (Prop. 16.7') (when W9=W10=0 ⟺ Q0=F, W7 vanishes automatically = algebraic confirmation of the dependency among the equations).
-# 결과 2: taco 1개짜리 대표 층 {W1,W5,W7,W9} + KKT-lambda 소거는 후속(det 계산 무거움). — Result 2: the representative single-taco stratum {W1,W5,W7,W9} + KKT-lambda elimination is deferred (the det computation is heavy).
+# Eliminate W1, W5 and W7 on a census stratum. When Q0=F, the equations are dependent and leave a curve.
 import sys, sympy as sp
 sys.path.insert(0,'.')
 import uniq_poly as P

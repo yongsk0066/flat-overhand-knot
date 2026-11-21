@@ -1,8 +1,6 @@
-# ref3_cone.py — REFEREE: is theta* an ACCESSIBLE boundary point?
-#  (1) exact linearized feasible cone C = {v : J v >= 0} at theta*  (8 constraints, 7 dims)
-#  (2) does ell strictly increase along every extreme ray?
-#  (3) high-precision *nonlinear* feasibility along cone rays: is theta* a limit of valid states?
-#  (4) why does the authors' float oracle reject theta*?
+"""Test the linearized contact cone at the figure-eight candidate."""
+from probe_files import VERIFY
+
 import sympy as sp, itertools, math, mpmath as mp
 mp.mp.dps = 50
 r15 = sp.sqrt(15)
@@ -114,8 +112,9 @@ if vint is not None:
               f"   {'FEASIBLE' if dep<=0 else 'violates'}")
 
 # ---- (4) why the float oracle rejects theta* -----------------------------
-print("\n[float-oracle forensics] authors' axiom_exact_ok at theta*")
-import sys; sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+print("\n[float-oracle forensics] axiom_exact_ok at theta*")
+import sys
+sys.path.insert(0, str(VERIFY))
 from n4_tighten2 import config, pieces
 t0=math.acos(-0.25); s0=2*math.pi-2*t0
 TH0f=(t0,s0,-s0,-t0,6/math.sqrt(15),8/math.sqrt(15),6/math.sqrt(15))

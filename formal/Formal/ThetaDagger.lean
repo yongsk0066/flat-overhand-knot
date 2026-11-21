@@ -1,4 +1,11 @@
-import Mathlib
+/-
+Copyright (c) 2026 Yongseok Jang. All rights reserved.
+Released under the MIT license as described in the file LICENSE.
+Authors: Yongseok Jang
+-/
+module
+
+public import Mathlib
 
 /-!
 # ThetaDagger — the algebra of the tight state θ†
@@ -17,6 +24,8 @@ certificates, `verify/exact_elim.py`). Machine-checked here:
    `linear_combination` certificate was pre-verified in exact algebra
    by `verify/certify.py` (certificate C4).
 -/
+
+public section
 
 namespace ThetaDagger
 
@@ -44,13 +53,9 @@ theorem p_hasDerivAt (x : ℝ) :
     ((((hasDerivAt_pow 12 x).add ((hasDerivAt_pow 10 x).const_mul 4)).sub
         ((hasDerivAt_pow 4 x).const_mul 7)).add
       ((hasDerivAt_pow 2 x).const_mul 20)).sub_const 2
-  convert h using 1
-  · rfl
-  · rfl
-  · funext y
-    simp [p]
-  · norm_num
-    ring
+  convert h using 1 <;> try rfl
+  norm_num
+  ring
 
 /-- p is strictly increasing on [0,1]. -/
 theorem p_strictMonoOn : StrictMonoOn p (Set.Icc (0 : ℝ) 1) := by

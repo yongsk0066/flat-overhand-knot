@@ -1,6 +1,4 @@
-"""
-08 검증 1: 제2 대칭족의 고정밀 추적과 theta†의 대수적 정체.
-08 verification 1: high-precision tracking of the second symmetric family and the algebraic identity of theta†.
+"""Trace the second symmetric family at high precision and identify candidate algebraic coordinates.
 
 구조 (모든 양이 theta의 유리함수 — 반사가 노름 보존이라 단위화 불필요):
 structure (every quantity is a rational function of theta — reflections preserve the norm, so no normalization is needed):

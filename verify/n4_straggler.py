@@ -1,4 +1,4 @@
-# n4_straggler.py — 하강 정체점의 Farkas 배제 [referee-H F8 재현] — Farkas exclusion of descent stall points [reproducing referee-H F8]
+# Historical Farkas probe at endpoints of the constrained descent.
 # 각 센서스 종점: 활성 접촉(여유<1e-3) 기울기 원뿔에 ∇ell 소속 검사 — 잔차 크면 차단점 아님 — for each census endpoint: test whether ∇ell lies in the gradient cone of the active contacts (margin<1e-3); a large residual means it is not a blocked point
 import sys, json, math, itertools
 sys.path.insert(0,'verify')

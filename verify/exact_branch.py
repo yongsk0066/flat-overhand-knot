@@ -1,10 +1,13 @@
-# exact_branch.py — 제2족 위 가지(branch) 보존의 정확 인증 [리뷰 04 #1] — exact certification that the branch is preserved along the second family [review 04 #1]
+# exact_branch.py — exact certification of crossing-branch preservation along the second family.
 # 대상: 교차 3개(A-C, A-D, B-D)의 존재(파라미터 열린창)·행렬식 비영·통과 순서 부호· — targets: existence of the 3 crossings (A-C, A-D, B-D) (an open parameter window)·nonvanishing determinants·passage-order signs·
 #       교차-크리스선 거리 비영 — 각 분자 C_j(x,h)에 res_h(N5,·) 무근(Sturm) + 끝점/내부 부호 — nonvanishing crossing-to-crease-line distances — for each numerator C_j(x,h): res_h(N5,·) root-free (Sturm) + endpoint/interior signs
-import sympy as sp, mpmath as mp
+import sympy as sp
+from mpmath import iv
+from exact_reach import HEIGHT_INTERVAL, SAMPLE, X_INTERVAL, enclosure, horner, isolate_root, require
+from ribbon_geometry import family_polynomial
 
 x,h=sp.symbols('x h', positive=True)
-N5 = sp.expand(8*h**3*x**3+4*h**2*x**4+4*h**2*x**2+2*h*x**5-4*h*x**3-6*h*x+x**6+3*x**4+3*x**2+1)
+N5 = family_polynomial(x, h)
 g=(1-x**2)/(2*x); b=(x**2+1)/(2*x); a=h; q=sp.together(g-h)
 E=sp.Matrix([0,0]); F=sp.Matrix([-x,1]); G=sp.Matrix([g,1]); H=sp.Matrix([h,0])
 W0u=sp.Matrix([sp.together((q**2-1)/(q**2+1)), sp.together(2*q/(q**2+1))])
@@ -77,55 +80,42 @@ for name,expr in COND.items():
 for nm,st in results: print(f"  {nm:14} {st}")
 print("[판정]","전부 무근 — 가지 데이터가 구간 전체에서 불변 ✓" if allok else "잔근 — 개별 검토 필요")
 
-# ============ 2부: 부호 앵커 — 내부 크라우칙 상자 + 오각형(모드 q4) + θ†(모드 p_x) ============ — Part 2: sign anchors — interior Krawczyk box + pentagon (mod q4) + θ† (mod p_x) ============
+# Isolate each sign anchor over the rationals before interval evaluation.
 print("\n[부호 앵커]")
-mp.mp.dps=50
-from mpmath import iv, mpf, findroot
-iv.dps=50
-# (i) 내부점 x_m=1293/4000, 가지 h-상자 (exact_reach와 동일) — (i) interior point x_m=1293/4000, branch h-box (same as in exact_reach)
-N5f=sp.lambdify((x,h),N5,'mpmath')
-xm=sp.Rational(1293,4000)
-hm=findroot(lambda hh: N5f(mp.mpf(str(float(xm))),hh), mp.mpf('1.041'))
-H_=iv.mpf([str(hm-mp.mpf(10)**-20),str(hm+mp.mpf(10)**-20)])
-def iv_sign_bivar(P):
-    Ph=sp.Poly(P.subs(x,xm), h)
-    l=sp.ilcm(*[sp.denom(c) for c in Ph.all_coeffs()])
-    cs=[sp.Rational(c) for c in sp.Poly(sp.expand(P.subs(x,xm)*l),h).all_coeffs()]
-    v=iv.mpf(0)
-    for c in cs: v=v*H_+iv.mpf([str(c),str(c)])
-    return 1 if v.a>0 else (-1 if v.b<0 else 0)
-# (ii) 오각형: h0 유리식 (h0=(1-3x^2)/2x on slice), 모드 q4 + x0 구간 — (ii) pentagon: h0 as a rational function (h0=(1-3x^2)/2x on the slice), mod q4 + the x0 interval
-x0=findroot(lambda t:5*t**4-10*t**2+1, mpf('0.3249196962'))
-X0IV=iv.mpf([str(x0-mpf(10)**-30),str(x0+mpf(10)**-30)])
-h0e=sp.together((1-3*x**2)/(2*x))
-def q4_sign(P):
-    # P는 이변수 '분자 다항식' — h에 h0(x) 유리식 대입 후 분자만 (분모 (2x)^k>0) — P is a bivariate 'numerator polynomial' — after substituting the rational function h0(x) for h, keep only the numerator (the denominator (2x)^k>0)
-    e=sp.rem(sp.expand(sp.fraction(sp.together(P.subs(h,h0e)))[0]), 5*x**4-10*x**2+1, x)
-    if e==0: return 0
-    if not e.free_symbols: return 1 if e>0 else -1
-    l=sp.ilcm(*[sp.denom(c) for c in sp.Poly(e,x).all_coeffs()])
-    cs=[int(c) for c in sp.Poly(sp.expand(e*l),x).all_coeffs()]
-    v=iv.mpf(0)
-    for c in cs: v=v*X0IV+c
-    return 1 if v.a>0 else (-1 if v.b<0 else 0)
-# (iii) θ†: h† 다항 표현, 모드 p_x + x† 구간 — (iii) θ†: polynomial representation of h†, mod p_x + the x† interval
-xd=findroot(lambda t: t**12+4*t**10-7*t**4+20*t**2-2, mpf('0.32212749731122718'))
-XDIV=iv.mpf([str(xd-mpf(10)**-30),str(xd+mpf(10)**-30)])
-hde=sp.Rational(1,12)*(2*x**11+8*x**9-x**7-4*x**5-13*x**3+40*x)
-def px_sign(P):
-    e=sp.rem(sp.expand(P.subs(h,hde)), p_x, x)   # hde는 다항 — 대입 결과도 다항 — hde is a polynomial, so the result of the substitution is polynomial too
-    if e==0: return 0
-    if not e.free_symbols: return 1 if e>0 else -1
-    l=sp.ilcm(*[sp.denom(c) for c in sp.Poly(e,x).all_coeffs()])
-    cs=[int(c) for c in sp.Poly(sp.expand(e*l),x).all_coeffs()]
-    v=iv.mpf(0)
-    for c in cs: v=v*XDIV+c
-    return 1 if v.a>0 else (-1 if v.b<0 else 0)
+iv.dps = 60
+
+
+def root_box(poly, bounds):
+    low, high = isolate_root(poly, bounds)
+    return iv.mpf([enclosure(low).a, enclosure(high).b])
+
+
+def sign(value):
+    return 1 if value.a > 0 else (-1 if value.b < 0 else 0)
+
+
+def endpoint_sign(expr, height, modulus, box):
+    num, den = sp.fraction(sp.cancel(expr.subs(h, height)))
+    den_box = horner(sp.Poly(sp.rem(den, modulus, x), x), box)
+    require(0 not in den_box, "endpoint substitution has a singular denominator")
+    return sign(horner(sp.Poly(sp.rem(num, modulus, x), x), box) / den_box)
+
+
+Hmid = root_box(sp.Poly(N5.subs(x, SAMPLE), h), HEIGHT_INTERVAL)
+Xp = root_box(sp.Poly(q4, x), X_INTERVAL)
+Xd = root_box(sp.Poly(p_x, x), X_INTERVAL)
+hp = (1 - 3*x**2)/(2*x)
+hd = (2*x**11 + 8*x**9 - x**7 - 4*x**5 - 13*x**3 + 40*x)/12
 okall=True
-for name,expr in COND.items():
-    num=sp.expand(sp.fraction(sp.cancel(expr))[0])
-    s_in=iv_sign_bivar(num); s_p=q4_sign(num); s_d=px_sign(num)
+for name, expr in COND.items():
+    num = sp.fraction(sp.cancel(expr))[0]
+    s_in = sign(horner(sp.Poly(num.subs(x, SAMPLE), h), Hmid))
+    s_p = endpoint_sign(num, hp, q4, Xp)
+    s_d = endpoint_sign(num, hd, p_x, Xd)
     agree = (s_in==s_p==s_d) and s_in!=0
     if not agree: okall=False
     print(f"  {name:14} 내부:{s_in:+d} 오각형:{s_p:+d} θ†:{s_d:+d} {'✓' if agree else '⚠'}")
-print("[결론]","22조건 부호가 세 앵커에서 일치·비영 + 종결식 무근 ⟹ 가지 데이터 불변 [정확대수+구간]; θ†의 M(B) 소속 정확 인증 포함" if okall else "불일치 — 검토")
+final_ok = allok and okall
+print("[결론]","22조건 부호가 세 앵커에서 일치·비영 + 종결식 무근 ⟹ 가지 데이터 불변 [정확대수+구간]; θ†의 M(B) 소속 정확 인증 포함" if final_ok else "불일치 또는 구간 내 잔근 — 검토 필요")
+require(allok, "One or more branch-preservation resultants have a root on [0.322, 0.325]")
+require(okall, "One or more branch-preservation sign anchors failed or disagreed")

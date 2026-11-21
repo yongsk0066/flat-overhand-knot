@@ -1,6 +1,4 @@
-"""
-10 검증: theta†의 형식 증서 3종 + Lean 증서 계산.
-10 verification: the three formal certificates for theta† + computation of the Lean certificate.
+"""Certify the second-family stationary point, inactive walls and multipliers by interval arithmetic.
 
 C1 (가지 기약성): N5(x,h) 가 QQ 위 기약 다항식 => 항등식 a=h, b=g+x, ell=h+b 는
 C1 (irreducibility of the branch): N5(x,h) is irreducible over QQ => the identities a=h, b=g+x, ell=h+b

@@ -1,7 +1,7 @@
 # Reproducibility guide
 
-Every numerical, exact-algebraic, and machine-checked claim in the paper can be
-re-run from this repository. All commands are executed from the repository root;
+The exact certificates and the recorded numerical search procedures can be
+re-run from this repository. Numerical searches are not completeness proofs. All commands are executed from the repository root;
 the Python environment is managed by [uv](https://docs.astral.sh/uv/) from
 `pyproject.toml` + `uv.lock` (run scripts with `uv run python ...`).
 
@@ -9,119 +9,221 @@ the Python environment is managed by [uv](https://docs.astral.sh/uv/) from
 
 | Component | Pinned version |
 |---|---|
-| Python | 3.12+ (developed on 3.14; managed by uv) |
+| Python | 3.13.18 (pinned by `.python-version`; managed by uv) |
+| uv | 0.13.9 (tested with managed Python and used in CI) |
 | sympy / mpmath | 1.14.0 / 1.3.0 |
-| numpy / scipy / shapely | 2.5.1 / 1.18.0 / 2.1.2 |
+| numpy / scipy / shapely | 2.5.5 / 1.18.1 / 2.2.0 |
 | python-flint (Arb) | 0.9.0 |
-| Lean 4 | 4.33.0-rc1 (elan; Lake 5.0.0), Mathlib pinned in `formal/lake-manifest.json` |
+| Lean 4 | 4.36.0 (elan; Lake 5.0.0), Mathlib pinned in `formal/lake-manifest.json` |
 | Figures | `rsvg-convert` (librsvg) |
 | Paper | TeX Live (`pdflatex` + `bibtex`) |
 
 ```bash
-uv sync            # creates .venv from the committed uv.lock
+uv sync --locked   # creates .venv from the committed uv.lock
 # pip fallback:  python3 -m venv .venv && .venv/bin/pip install -r verify/requirements.txt
 ```
 
-## Quick verification (~3 minutes)
+## Current regression certificates
 
 ```bash
-uv run python verify/n4_exact_valid.py  # all 39 contact margins of the figure-eight tight state, exactly in Q(sqrt 15)
-uv run python verify/exact_taco.py      # taco entanglement identity, endpoint exclusions, family certificates
+sh scripts/verify-core.sh
 ```
 
-## Trefoil suite
+A successful run ends with `PASS: core certificates, mutation controls and figure checks`.
+All Python filenames below are in [verify/](verify/). The core command runs the
+entries marked **core**, then checks the shared geometry export and the paper's SVG
+generators. The Python CI workflow also compiles the scripts and checks the three
+integrity manifests.
 
-**Model and slice.** `check_slice.py`, `check_slice3.py`, `check_topology.py`, `exact_slice.py`.
+### Theorem-to-certificate guide
 
-**Walls and the pentagonal junction.** `check_layers.py`, `check_final.py`,
-`exact_farkas.py`, `exact_farkas2.py`, `check_taco.py`, `exact_taco.py` (~2 min).
+| Theorem and claim | Command or Python entry point | Method and expected result |
+|---|---|---|
+| A · Three-crease crossing rigidity and layer order | `check_gauss.py`, `check_gp.py` (extended), `exact_common_overlap.py` (core) | Diagram enumeration gives the alternating trefoil. The global order is B > D > A > C. The rational loose example realizes cyclic local orders. |
+| B · Slice, walls and chart | `exact_slice.py`, `exact_core_descent.py`, `exact_common_overlap.py` (core), `exact_taco.py` (extended) | Exact slice identities and the affine core gradient (1/2 in all five coordinates). Four-panel overlap fixes the order along the specified slices. |
+| C · Junction and reachability | `exact_core_descent.py`, `exact_reach.py`, `exact_branch.py` (core) | The inward ray has core slope −1/20. Five root-free resultants, endpoint identities and interval signs certify monotonicity. Twenty-two further conditions preserve the crossing branch. |
+| D · Algebraic state and notched outline | `exact_field.py`, `exact_unique_h.py`, `exact_kkt_dagger.py`, `exact_second.py`, `exact_outline.py`, `exact_notch.py` (core) | Degree 12, associated sextic group S₆, four positive multipliers, positive reduced curvature and a seven-edge outline. |
+| E · Kauffman truncation | `exact_kauffman2.py`, `exact_trunc_nbhd.py` (core) | Exact Farkas and flush-edge certificates give a strict local minimum at the regular pentagon. |
+| F · Realization on the globally ordered branch | `exact_opening.py`, `exact_common_overlap.py` (core), `check_realize.py` (numerical illustrations) | The proof in the paper gives necessity and handles open states. The certificates verify the opening hypothesis at the two zero-clearance optima and the local-order example. |
+| G · Saved census candidates | `exact_census_roots.py` (core), `recertify_census_pending.py` (four-row extended check) | 104 distinct saved candidates, 72 isolating boxes each violating a true geometric wall below −0.315, and 32 unconfirmed centres classified 4 / 6 / 18 / 4. |
+| H · Figure-eight state | `n4_exact_valid.py`, `n4_exact_opening.py`, `n4_exact_kkt.py`, `n4_exact_local.py`, `n4_krawczyk.py`, `n4_certify.py` (core) | Valid oblique panels, an opening and a local minimum on the eight-contact chamber. Core length 4√15/3 and truncation 32√15/15. |
+| H · Recorded search | `check_n4_geometry.py`, `check_n4_rerun.py` (core), `n4_cells3.py` (extended) | Checkpoints, source records, finite search counts and determinant-based enumeration. |
+| Regression controls | `test_guards.py` (core) | Ten fresh control scripts pass, and ten specific mathematical faults raise their expected diagnostic in both default and optimized Python. |
 
-**The tight state θ†.** `check_edge.py`, `family_trace.py`, `check_branch.py`,
-`exact_elim.py` (~1 min), `certify.py` (1–2 min), `exact_kkt_dagger.py`,
-`exact_second.py`, `exact_opening.py`, `exact_notch.py`, `exact_outline.py` (~1 min),
-`exact_reach.py` (~1 min; monotone feasible descent from the pentagon),
-`exact_branch.py` (~15 min; branch preservation along the second family),
-`exact_unique_h.py` (uniqueness of the critical height over x†).
+The [Lean guide](formal/README.md) identifies the 16 algebraic statements. The
+figure-eight chamber is defined by eight explicit contacts. Local necessity of
+those contacts throughout the geometric cell remains open.
 
-**Truncation length, realization, fold number.** `check_kauffman_compare.py`,
-`exact_kauffman.py`, `exact_kauffman2.py` (~2 min), `check_trunc.py`,
-`exact_trunc_nbhd.py`, `check_realize.py`, `check_global.py`, `check_gauss.py`, `check_gp.py`.
+## Further trefoil calculations
 
-**Blocked-state census** (order matters):
+- `exact_elim.py` derives the field equations. `certify.py` isolates the stationary point,
+  and `arb_recheck.py` independently checks the root bracket, Hessian, multipliers
+  and 71 saved wall-verdict rows using Arb ball arithmetic. `family_trace.py`
+  and `check_branch.py` are numerical traces of the same family.
+- `check_slice.py`, `check_slice3.py`, `check_topology.py`, `check_layers.py` and
+  `check_final.py` illustrate slice and wall geometry. `check_taco.py` and
+  `check_trunc.py` are numerical probes. `exact_taco.py` and
+  `exact_trunc_nbhd.py` provide the corresponding algebraic calculations.
 
-```bash
-uv run python verify/uniq_setup.py      # rational wall system, cross-validated
-uv run python verify/uniq_poly.py       # polynomialization (0/1600 mismatches)
-uv run python verify/uniq_strata.py     # KKT harvest, implementation 1 (215 strata x 30 seeds, ~1 min on 8 cores)
-uv run python verify/uniq_census.py     # harvest, implementation 2 (100 seeds, ~4 min)
-uv run python verify/uniq_certify2.py   # exclusion certificates (tens of minutes)
+### Census inputs and results
+
+Read the saved harvest (`verify/uniq_census.json`) and dispositions
+(`verify/uniq_certified.json`) in place with:
+
+```sh
+uv run python verify/exact_census_roots.py
+uv run python verify/recertify_census_pending.py
 ```
 
-Expected outcome: every script passes its assertions; θ† is the unique candidate
-passing all filters; the pentagon appears only with a negative multiplier; all 72
-regular candidates are excluded by interval certificates.
+The latter checks four specified W7 exclusions. Its optional `--write` flag
+updates their verdicts in the local copy. The 32 inconclusive centres have
+4 cases with `x < 0`, 6 with `|q + x| < 10⁻⁶`, 18 with `|1 − qx| < 10⁻⁶`,
+and 4 further cases with negative `h` and `a`. All 104 saved centres have a
+radius-10⁻¹² box violating a true sliver wall. The 72 regular roots have
+separate certified isolating boxes. Root existence for the other 32 centres,
+exhaustiveness of multistart and global MFCQ coverage remain open.
 
-**Independent re-verification in Arb.** `arb_recheck.py` (~15 min): the root
-bracket of p_x, the reduced Hessian, the KKT multipliers, and the 67 sliver-sign
-census exclusions, re-evaluated in ball arithmetic independently of mpmath.
+To **regenerate** the harvest, extract the ancillary archive into a new directory,
+change into that directory, and run the following commands there. They write
+JSON results under that copy's `verify/` directory.
+
+```sh
+uv sync --locked
+uv run python verify/uniq_setup.py
+uv run python verify/uniq_poly.py
+uv run python verify/uniq_strata.py
+uv run python verify/uniq_census.py
+uv run python verify/uniq_certify2.py
+```
+
+The two harvests cover 215 strata using their documented start sets.
+`uniq_poly.py` compares 1,600 wall evaluations. The root-box checks in the
+core suite refer to the saved candidates in this distribution.
 
 ## Figure-eight suite
 
+The full-size numerical protocol was rerun on 2026-10-23 with the actual
+oblique crease caps, unbounded tails, layer axiom and centreline GP checks.
+The archived search retains its original environment records. The current Python lock reproduces the eight seeded streams, all 42 descent
+endpoints, and the coordinates, multipliers and residuals of the 56 recorded
+Newton solutions. Wall-clock fields depend on the machine.
+The final evidence is in `verify/artifacts/n4-rerun-20261023/final/`:
+
+| Stage | Recorded result | Status |
+|---|---|---|
+| Blind sweep | 8,000,000 configurations; 21 distinct accepted states, 42 state/layer records | numerical |
+| Boundary probes | 4,000 attempts; 3,995 boundaries, all assigned to 8 contact labels; 5 invalid starts | numerical |
+| Descent | All 42 starts completed; 31 endpoints within 0.01 of the exact core value | numerical proximity, not a convergence proof |
+| KKT harvest | 254 subsets × 7 seeds = 1,778 attempts; 56 convergence records, 14 nonnegative-multiplier records at the same candidate | numerical; repeated roots are not distinct solutions |
+| Other abstract cells | 8 cells × 60 restarts; four with shadow hits, none with valid-state hits | finite search, not an emptiness proof |
+| Code/length margins | 15 targets × 4 starts, 56,270 trials; observed minimum 0.5252598788 | not a global lower bound |
+| Remaining descent endpoints | Sampled decreasing rays at all 11 endpoints outside the 0.01 threshold | 101 checks per ray, not a continuous-interval certificate |
+
+Each stage retains input hashes, source snapshots, tolerances and checkpoints.
+The top-level `sweep/`, `walls/` and `descent/` are explicitly marked interim
+runs from before the endpoint-GP correction. The geometry-independent
+`strata/` contains all 1,778 raw Newton attempts; `final/strata_filter/` applies
+the final predicate to every raw convergence record. Original historical JSON
+files are preserved in `baseline/` and are not relabelled as new results.
+
+Audit the stored evidence without repeating the large searches:
+
 ```bash
-uv run python verify/n4_tighten2.py --test      # Fox 5-coloring oracle unit tests
-uv run python verify/n4_cells3.py               # cell enumeration by exact determinants
-uv run python verify/n4_tighten2.py --harvest   # 3M-sample harvest (~2 min on 8 cores)
-uv run python verify/n4_tighten2.py --tighten2  # exact-axiom tightening
-uv run python verify/n4_reduce2.py              # closed form via 60-digit Newton + integer relations
-uv run python verify/n4_certify.py              # exact certification in Q(sqrt 15), incl. the hexagon tiling 24 = 24
-uv run python verify/n4_exact_kkt.py            # exact KKT multipliers, L_trunc = 32 sqrt(15)/15, opening direction
-uv run python verify/n4_exact_valid.py          # all 39 candidate contact margins, exactly
-uv run python verify/n4_census.py               # 8M-sample sweep + 42 descents (~12 min on 8 cores)
-uv run python verify/n4_walls.py                # wall classification, 3995 boundary probes (~6 min)
-uv run python verify/n4_codewall_probe.py       # code/length wall margins >= 0.525 (~4 min)
-uv run python verify/n4_chart.py                # tangent half-angle chart; 8 wall polynomials vanish at θ*
-uv run python verify/n4_krawczyk.py             # existence/uniqueness enclosure (radius 1e-25)
-uv run python verify/n4_strata2.py              # 254-strata KKT harvest (~8 min on 8 cores)
-uv run python verify/n4_cells_probe.py          # exclusion probes for the 8 abstract cells (~15 min)
-uv run python verify/n4_straggler.py --stalls   # Farkas rejection of descent stalls
+uv run python verify/check_n4_rerun.py
 ```
 
-Expected outcome: cos τ₁ = −1/4 exactly, L* = (6,8,6)/√15, core length 4√15/3,
-truncation 32√15/15 with ratio 8/5; KKT residual identically zero; the Krawczyk
-box isolates θ*; all strata survivors coincide with θ*.
+Repeat the entire numerical protocol in a **new** output directory:
+
+```bash
+sh scripts/reproduce-n4-search.sh build/n4-reproduction
+```
+
+This copies the archived starting inputs, uses the original eight seeds
+7000–7007 with one million samples each, runs all 42 descents and all 254 × 7
+KKT attempts, and then runs the supplementary cell and margin probes. It uses
+four workers. Sweep, descent and KKT checkpoints can be resumed with unchanged
+inputs and settings. Existing receipts reject source/configuration mismatches;
+use a new directory after changing the inputs. The final recorded sweep used
+two workers and the final descent used four; the random streams are independent
+of worker scheduling.
+
+The pointwise and local mathematical certificates are separate:
+
+```bash
+uv run python verify/n4_tighten2.py --test      # Fox colouring truth-table checks
+uv run python verify/n4_cells3.py              # exact combinatorial enumeration
+uv run python verify/n4_reduce2.py             # algebraic candidate identification
+uv run python verify/n4_certify.py             # exact hexagon union, with overlap
+uv run python verify/n4_exact_kkt.py            # exact multipliers and opening direction
+uv run python verify/n4_exact_valid.py          # all actual-panel forbidden pairs
+uv run python verify/n4_exact_opening.py        # continuous valid opening interval
+uv run python verify/n4_exact_local.py          # minimum on the stated contact chamber
+uv run python verify/n4_chart.py               # rational half-angle contact equations
+uv run python verify/n4_krawczyk.py             # existence/uniqueness in the root box
+```
+
+Expected exact values: cos τ₁ = −1/4, L* = (6,8,6)/√15, core length 4√15/3,
+truncation 32√15/15 with ratio 8/5. The numerical rerun does not prove exhaustive
+root/cell coverage or local optimality beyond the specified contact chamber.
 
 ## Implementation discipline
 
-- `sympy.lambdify` is always called with `cse=True` (raw-tree evaluation is ~570× slower).
-- Expanded polynomials are never evaluated in floating point (catastrophic cancellation);
-  numerics use structured forms, exact algebra uses expanded forms at ≥40 digits.
+- The census KKT evaluators use `sympy.lambdify(..., cse=True)` to reuse common subexpressions in the multistart loop. Smaller symbolic checks also use the default evaluator.
+- The numerical census uses structured expressions to limit cancellation. Quotient-field identities are decided by exact reduction.
 - Census exclusion certificates prefer the unconditionally scaled walls
   (w1, w4, w6, w7, w8); conditionally scaled walls (w5, w9, w10) are used only
   with a co-certified scale factor.
 
 ## Historical-record scripts
 
-`check_walls.py`, `check_descent.py`, `n4_tighten.py`, `n4_cells2.py`, and
-`n4_kkt.py` are retained deliberately: they reproduce defects that were found and
-repaired during the internal adversarial-referee cycles described in the paper's
-methods appendix. Their outputs are superseded by the scripts listed above.
-`verify/referee/` contains the sixteen adversarial-referee scripts themselves.
+The following names remain available to reproduce earlier calculations.
+
+| Historical entry | Interpretation and current counterpart |
+|---|---|
+| `check_walls.py`, `check_descent.py` | Sampled-interior probes can miss a sliver near a crease endpoint. Use the analytic walls and `exact_core_descent.py` for the junction. |
+| `exact_farkas.py` | Six-wall multiplier search. The current eight-wall descent certificate is `exact_core_descent.py`. The command `exact_farkas2.py` is a compatibility entry point to that same function. |
+| `n4_cells.py`, `n4_cells2.py` | Historical determinant-one mask pair. Use `n4_cells3.py` for the figure-eight (determinant five). |
+| `n4_tighten.py`, `n4_kkt.py`, `n4_straggler.py` | Exploratory optimization and stalled endpoints. Use `n4_exact_local.py` for the certified chamber and `check_n4_rerun.py` for the recorded search. |
+| `n4_fig.py`, `n4_fig_loose.py` | Historical single-panel SVG and loose-state JSON. Each takes a new output filename. `n4_pair.py` owns the two paper illustrations. |
+| [Historical figure-eight probes](verify/referee/README.md) | Data-generation order, inputs, output location and the corrected clipping example. |
 
 ## Certificate logs and hashes
 
-`logs/` contains the recorded output of every exact and interval certificate.
+`logs/` contains selected recorded certificate outputs. Superseded logs for the reachability, census-root and mutation checks are retained under `logs/history/`. Source snapshots in `verify/artifacts/n4-rerun-20261023/` are checked byte for byte against their original receipts. The current search modules also match those files, with a syntax-tree comparison for three comment-only edits. The runner has separately documented archive and resume handling.
 Integrity check:
 
 ```bash
-sha256sum -c logs/hashes-verify.txt && sha256sum -c logs/hashes-logs.txt
+shasum -a 256 -c logs/hashes-verify.txt
+shasum -a 256 -c logs/hashes-logs.txt
+shasum -a 256 -c logs/hashes-artifacts.txt
 ```
+
+## Figures and exported geometry data
+
+`verify/ribbon_geometry.py` is the common width-one geometric source used by
+the trefoil renderer, exact outline/notch certificates, and JSON geometry
+exporter. The `e_B` edge is the slanted line through `F`, not the horizontal
+line `y = 1`, and the flush-cut silhouette includes all four panels.
+
+```bash
+uv run python verify/export_figure_geometry.py
+uv run python verify/export_figure_geometry.py --check
+```
+
+`verify/artifacts/figure_geometry.json` exports the two distinguished states
+(`P*` and `θ†`), notch measurements, and sampled standard/second-family curves
+for external interactive visualizations. To refresh a downstream copy under its own filename, pass
+`--output PATH` to the exporter, then add `--check` to verify that copy. The path arrays are sampled numerical
+curves; the continuum path proofs are `exact_reach.py` and `exact_branch.py`.
 
 ## Figures (SVG → PDF)
 
 ```bash
 uv run python verify/tref_render.py        # fig1-pentagon.svg, theta-dagger-heptagon.svg
-uv run python verify/n4_pair.py            # fig41-loose.svg, fig41-tight.svg
-uv run python verify/make_fig_notation.py  # fig0-notation.svg
+uv run python verify/render_families.py --pdf  # computed family curves and vertical zoom
+uv run python verify/n4_pair.py --pdf      # fig41-loose/tight SVG and PDF
+uv run python verify/make_fig_notation.py --pdf  # fig0-notation SVG and PDF
+uv run python verify/render_junction.py --pdf   # fig3-mountain-pass SVG and PDF
 for f in fig0-notation fig1-pentagon fig3-mountain-pass fig4-two-families fig5-slab-ramp fig41-code fig41-loose fig41-tight; do
   rsvg-convert -f pdf paper/figs/$f.svg -o paper/figs/$f.pdf; done
 rsvg-convert -f pdf paper/figs/theta-dagger-heptagon.svg -o paper/figs/fig2-heptagon.pdf
@@ -136,10 +238,10 @@ cd paper && pdflatex main && bibtex main && pdflatex main && pdflatex main
 ## Lean formalization
 
 ```bash
-cd formal && lake exe cache get && lake build Formal.Pentagon Formal.ThetaDagger
+cd formal && lake exe cache get && lake build Formal
 ```
 
 ## Packaging the archived version
 
 `scripts/make-ancillary.sh` regenerates the hash manifests and produces
-`ancillary.tar.gz`, the archive deposited alongside the paper.
+`ancillary.tar.gz` with the PDF, bibliography, figure sources and computational evidence. It can be unpacked without Git. Rebuilding from identical inputs preserves the archive bytes.

@@ -1,9 +1,6 @@
-"""
-03-moduli.md의 구조적 주장에 대한 수치 검증.
-Numerical verification of the structural claims in 03-moduli.md.
+"""Numerical verification of the standard symmetric slice equations (Section 4.1).
 
-검증 대상 (asset-1.md의 표준 옭매듭 가지, 폭 1 정규화):
-Verification targets (the standard overhand-knot branch of asset-1.md, width-1 normalization):
+Verification targets (standard width-one overhand-knot slice):
   V1. 크리스2 = 선분 GH 가설: H는 pass-2의 한 모서리 위, G는 다른 모서리 위.
   V1. hypothesis crease2 = segment GH: H lies on one edge of pass-2, G on the other edge.
   V2. l2 (pass-3 모서리) = G + R*r 이고 방향이 r과 평행.

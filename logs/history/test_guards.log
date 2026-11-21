@@ -1,0 +1,10 @@
+[GUARD OK (-O)] exact_slice.py (wrong pentagon interior angle) failed closed with exit code 1
+[GUARD OK (-O)] exact_unique_h.py (perturbed h-dagger polynomial) failed closed with exit code 1
+[GUARD OK (-O)] exact_trunc_nbhd.py (wrong truncation-cut midpoint) failed closed with exit code 1
+[GUARD OK (-O)] exact_kauffman2.py (corrupted Farkas multiplier lambda_w4) failed closed with exit code 1
+[GUARD OK (-O)] exact_kkt_dagger.py (corrupted KKT multiplier lambda_w6) failed closed with exit code 1
+[GUARD OK (-O)] exact_opening.py (negated opening direction at P*) failed closed with exit code 1
+[GUARD OK (-O)] exact_branch.py (injected interior root at x=0.323 in branch preservation) failed closed with exit code 1
+[GUARD OK (-O)] exact_census_roots.py (impossible geometric sliver threshold in census root certification) failed closed with exit code 1
+[GUARD OK (-O)] n4_exact_kkt.py (corrupted figure-eight KKT multiplier) failed closed with exit code 1
+PASS: all 9 mutation guard tests failed closed under PYTHONOPTIMIZE=1

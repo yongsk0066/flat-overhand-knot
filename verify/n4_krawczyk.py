@@ -42,23 +42,31 @@ RAD=mp.mpf(10)**-25
 iv=mp.iv
 iv.dps=60
 X=[iv.mpf([str(c-RAD),str(c+RAD)]) for c in ctr]
-# 크라우칙: K = y - Y f(y) + (I - Y J(X))(X - y) — Krawczyk operator
-Yc=mp.matrix([[mp.mpf(str(Jf[r][c](*ctr))) for c in range(7)] for r in range(7)])
-Y=Yc**-1
-fy=mp.matrix([mp.mpf(str(Pf[r](*ctr))) for r in range(7)])
-Yfy=Y*fy
-JX=[[iv.mpf(str(Jf[r][c](*ctr)))*0 for c in range(7)] for r in range(7)]
-# 구간 야코비안: iv 평가 — interval Jacobian: evaluate with iv
-def iv_eval(fn):
-    return fn(*X)
-JXiv=[[Jf[r][c](*X) for c in range(7)] for r in range(7)]
-# I - Y*J(X) (구간) — (interval)
-IY=[[ (1 if r==c else 0) - sum(iv.mpf(mp.nstr(Y[r,q],40))*JXiv[q][c] for q in range(7)) for c in range(7)] for r in range(7)]
-Xy=[X[c]-iv.mpf(mp.nstr(ctr[c],50)) for c in range(7)]
-K=[ iv.mpf(mp.nstr(ctr[r],50)) - iv.mpf(mp.nstr(Yfy[r],40)) + sum(IY[r][c]*Xy[c] for c in range(7)) for r in range(7)]
-inside=all(K[r].a>X[r].a and K[r].b<X[r].b for r in range(7))
-wid=[mp.nstr(mp.mpf(K[r].b)-mp.mpf(K[r].a),3) for r in range(7)]
-print(f"[크라우칙] K(X) ⊂ int X: {inside}")
-print("  상자 반경 1e-25, K 폭:", wid)
-if inside:
-    print("  ⟹ 상자 내 근 존재+유일 [구간 엄밀] — θ*(u-차트) 증서 완료")
+root15 = iv.sqrt(15)
+exact_point = [root15/3, root15, -root15, -root15/3,
+               2*root15/5, 8*root15/15, 2*root15/5]
+assert all(box.a < point.a and point.b < box.b
+           for box, point in zip(X, exact_point))
+# All quantities in the Krawczyk expression use one consistent, exactly
+# represented mpf centre and preconditioner. In particular, F(m) is evaluated
+# in outward-rounded interval arithmetic, not converted from a rounded mpf.
+assert all(sp.simplify(p.subs(SUB)) == 0 for p in POLYS)
+Yc = mp.matrix([[Jf[r][c](*ctr) for c in range(7)] for r in range(7)])
+Y = Yc ** -1
+m = [iv.mpf(v) for v in ctr]
+Yi = [[iv.mpf(Y[r, c]) for c in range(7)] for r in range(7)]
+Fm = [f(*m) for f in Pf]
+JX = [[Jf[r][c](*X) for c in range(7)] for r in range(7)]
+IY = [[(1 if r == c else 0) - sum(Yi[r][q] * JX[q][c] for q in range(7))
+       for c in range(7)] for r in range(7)]
+K = [m[r] - sum(Yi[r][q] * Fm[q] for q in range(7))
+     + sum(IY[r][c] * (X[c] - m[c]) for c in range(7)) for r in range(7)]
+inside = all(K[r].a > X[r].a and K[r].b < X[r].b for r in range(7))
+# A strict contraction also establishes nonsingularity of the square Y.
+row_bounds = [sum(abs(entry).b for entry in row) for row in IY]
+contractive = all(bound.b < 1 for bound in row_bounds)
+print(f"[Krawczyk] outward-rounded K(X) in int(X): {inside}")
+print(f"[Krawczyk] interval infinity-norm bound below one: {contractive}")
+assert inside and contractive
+print("  radius 1e-25; widths:", [mp.nstr(mp.mpf(k.b)-mp.mpf(k.a), 4) for k in K])
+print("PASS: existence and uniqueness in the stated box for the seven-wall polynomial system")

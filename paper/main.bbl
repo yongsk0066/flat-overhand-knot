@@ -47,10 +47,6 @@ Elizabeth Denne, John~Carr Haden, Troy Larsen, and Emily Meehan,
   \emph{Ribbonlength of families of folded ribbon knots}, Involve \textbf{15}
   (2022), 591--628, arXiv:2010.04188.
 
-\bibitem[DM96]{dixonmortimer1996}
-John~D. Dixon and Brian Mortimer, \emph{Permutation groups}, Graduate Texts in
-  Mathematics, vol. 163, Springer, 1996.
-
 \bibitem[DO07]{demaine2007}
 Erik~D. Demaine and Joseph O'Rourke, \emph{Geometric folding algorithms:
   Linkages, origami, polyhedra}, Cambridge University Press, 2007.
@@ -80,10 +76,12 @@ Tetsuo Ida, Fadoua Ghourabi, and Kazuko Takahashi, \emph{Formalizing polygonal
 \bibitem[Jan26]{anc}
 Yongseok Jang, \emph{Ancillary material: verification suite, exact
   certificates, and {L}ean formalization}, Public repository:
-  \url{https://github.com/yongsk0066/flat-overhand-knot}, 2026, Public
-  repository with pinned dependencies, SHA-256 manifests, and step-by-step
-  reproduction instructions; Zenodo DOI and archived Git commit to be fixed at
-  submission.
+  \url{https://github.com/yongsk0066/flat-overhand-knot}, 2026, Source code,
+  recorded computations and reproducibility guide.
+
+\bibitem[Jon14]{jones2014}
+Gareth~A. Jones, \emph{Primitive permutation groups containing a cycle},
+  Bulletin of the Australian Mathematical Society \textbf{89} (2014), 159--165.
 
 \bibitem[Jus97]{justin1997}
 Jacques Justin, \emph{Toward a mathematical theory of origami}, Origami Science

@@ -14,5 +14,4 @@
      2차 차분(80자리): 618.2483209709700707604289560727217869456
      |차|            : 4.7415e-34
 
-결론: ℓ''(x†) > 0 [정확대수 + 구간산술] — 명제 11.3의 2계 충분조건 승격 완료.
-      (LICQ 랭크4 + KKT 정확 + λ>0 구간 + 본 증서 ⇒ θ† 엄격 국소 최소, SOSC)
+PASS: ell''(x-dagger) > 0 certified in Q[x]/(p_x) and interval arithmetic (strict local minimum)

@@ -1,8 +1,9 @@
-# ref9_confirm.py — REFEREE: settle the ASSIGNS question on REAL planar diagrams,
-# and cross-validate the abstract cell list against the geometric harvest.
+"""Compare the abstract cell list to computed planar diagrams."""
+from probe_files import VERIFY
+
 import sys, random, collections, itertools
 import sympy as sp
-sys.path.insert(0,'/Users/yongseok/dev/pentagon/verify')
+sys.path.insert(0, str(VERIFY))
 from n4_tighten2 import (config, crossings, code_str, canon, events, ev_over_of,
                          fox5_events, orders_making_41, linear_extensions, axiom_exact_ok, TARGET_CANON)
 
@@ -70,7 +71,7 @@ print(f"  n4_cells2.py hardcodes ASSIGNS = [(1,-1,-1,1), (-1,1,1,-1)]  -> observ
       f"{[k for k in pat if k in [(1,-1,-1,1),(-1,1,1,-1)]] or 'NEVER'}")
 print("  NOTE: the relabelled word of a realised diagram is a ROTATION of ABCADCBD, so the")
 print("  pattern is stated per-rotation; the decisive invariant is ALTERNATION, which is")
-print("  rotation-independent, and the authors' pair is non-alternating in every rotation.")
+print("  rotation-independent, and the n4_cells2 pair is non-alternating in every rotation.")
 for r in range(8):
     w="ABCADCBD"[r:]+"ABCADCBD"[:r]
     for asg0 in [(1,-1,-1,1),(-1,1,1,-1)]:
@@ -80,7 +81,7 @@ for r in range(8):
             k="ABCD".index(ch)
             s+="O" if ((asg0[k]==1)==first) else "U"
         assert not all(s[i]!=s[(i+1)%8] for i in range(8))
-print("  verified: for all 8 rotations, both authors' ASSIGNS give NON-alternating sequences.")
+print("  verified: for all 8 rotations, both legacy ASSIGNS give NON-alternating sequences.")
 
 print()
 print("="*76)
@@ -112,19 +113,19 @@ def enum_cells(pair):
     return out
 cA=enum_cells([(1,-1,-1,1),(-1,1,1,-1)]); cR=enum_cells([(-1,1,-1,-1),(1,-1,1,1)])
 distinctA=[k for k in cA if len(set(k))==4]; distinctR=[k for k in cR if len(set(k))==4]
-print(f"  authors' (wrong) pair: {len(cA)} cells, of which {len(distinctA)} have 4 DISTINCT pass pairs")
+print(f"  determinant-one pair: {len(cA)} cells, of which {len(distinctA)} have 4 DISTINCT pass pairs")
 print(f"  true 4_1 pair        : {len(cR)} cells, of which {len(distinctR)} have 4 DISTINCT pass pairs")
 print("  (two straight passes meet at most once, so only 4-distinct-pair cells are realisable;")
 print("   neither script applies that second geometric necessary condition)")
 print(f"  the realisable-shape list under the TRUE pair: {sorted(distinctR)}")
 HARVEST={((0,2),(0,3),(1,4),(2,4)):2426, ((0,3),(0,4),(1,4),(2,4)):475, ((0,2),(0,3),(0,4),(1,4)):444,
          ((0,2),(0,3),(0,4),(2,4)):0, ((0,2),(0,4),(1,4),(2,4)):0}
-print("\n  doc-18 harvest table ('4_1 layer exists' column) vs the two abstract lists:")
-print(f"  {'pairing':38}{'harvest':>9}{'authors 72':>12}{'referee 17':>12}")
+print("\n  recorded harvest ('4_1 layer exists' column) vs the two abstract lists:")
+print(f"  {'pairing':38}{'harvest':>9}{'old masks':>12}{'det=5':>12}")
 for k,v in HARVEST.items():
     kk=tuple(sorted(k))
     print(f"  {str(k):38}{v:>9}{str(kk in cA):>12}{str(kk in cR):>12}")
 ok=all((v>0)==(tuple(sorted(k)) in cR) for k,v in HARVEST.items())
 okA=all((v>0)==(tuple(sorted(k)) in cA) for k,v in HARVEST.items())
 print(f"\n  harvest agrees with the TRUE abstract list : {ok}")
-print(f"  harvest agrees with the AUTHORS' 72 list   : {okA}")
+print(f"  harvest agrees with the determinant-one list   : {okA}")

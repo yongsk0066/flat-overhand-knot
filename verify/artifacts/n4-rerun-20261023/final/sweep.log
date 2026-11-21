@@ -1,0 +1,9 @@
+sweep stream 0: 1,000,000 samples, 8 state/layer records, 10.6s
+sweep stream 1: 1,000,000 samples, 6 state/layer records, 10.8s
+sweep stream 2: 1,000,000 samples, 6 state/layer records, 10.5s
+sweep stream 3: 1,000,000 samples, 8 state/layer records, 10.7s
+sweep stream 4: 1,000,000 samples, 2 state/layer records, 10.5s
+sweep stream 5: 1,000,000 samples, 8 state/layer records, 10.7s
+sweep stream 6: 1,000,000 samples, 2 state/layer records, 10.6s
+sweep stream 7: 1,000,000 samples, 2 state/layer records, 10.4s
+COMPLETE sweep: 8,000,000 samples; 21 distinct states; 42 state/layer records; 2 cells with layer order

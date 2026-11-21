@@ -1,0 +1,13 @@
+[guard] exact_global_core.py: original passed and wrong global length envelope rejected in both modes
+[guard] n4_exact_cell.py: original passed and wrong coupled cap orientation rejected in both modes
+[guard] exact_slice.py: original passed and wrong pentagon interior angle rejected in both modes
+[guard] exact_unique_h.py: original passed and perturbed h-dagger polynomial rejected in both modes
+[guard] exact_trunc_nbhd.py: original passed and wrong truncation-cut midpoint rejected in both modes
+[guard] exact_kauffman2.py: original passed and corrupted Farkas multiplier lambda_w4 rejected in both modes
+[guard] exact_kkt_dagger.py: original passed and corrupted KKT multiplier lambda_w6 rejected in both modes
+[guard] exact_opening.py: original passed and negated opening direction at P* rejected in both modes
+[guard] exact_reach.py: original passed and reversed core-derivative numerator rejected in both modes
+[guard] exact_branch.py: original passed and injected interior root at x=0.323 in branch preservation rejected in both modes
+[guard] exact_census_roots.py: original passed and impossible geometric sliver threshold in census root certification rejected in both modes
+[guard] n4_exact_kkt.py: original passed and corrupted figure-eight KKT multiplier rejected in both modes
+PASS: all 12 mathematical mutations rejected in default and optimized Python

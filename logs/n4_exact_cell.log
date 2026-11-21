@@ -1,0 +1,3 @@
+PASS: upper coupled corner, cap normals and all four directional slopes
+PASS: lower coupled corner, cap normals and all four directional slopes
+PASS: six actual panel pairs and lateral/cap signs for full-cell local minimality

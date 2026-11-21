@@ -16,10 +16,13 @@ for certificate in \
   exact_opening \
   exact_unique_h \
   exact_common_overlap \
+  exact_global_core \
   exact_census_roots \
   exact_outline \
   exact_notch \
   n4_exact_kkt \
+  n4_exact_cell \
+  n4_cell_crosscheck \
   n4_exact_valid \
   n4_exact_opening \
   n4_exact_local \

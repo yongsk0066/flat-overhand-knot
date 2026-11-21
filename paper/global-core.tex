@@ -1,0 +1,68 @@
+\subsection{The global core-length minimum}
+
+\begin{theorem}[Sharp global lower bound]\label{thm:globalcore}
+In the width-one working chart of Definition~\ref{def:chart}, with layer order $B>D>A>C$, every valid state satisfies
+\[
+  \core(\theta)\ge\ell^\dagger=2.74963048749\ldots ,
+  \qquad \core(\theta)=\ell^\dagger\ \Longleftrightarrow\ \theta=\td .
+\]
+The same bound and equality case hold on the Euclidean closure of these states. Every sequence of valid states whose core lengths tend to $\ell^\dagger$ converges to $\td$ in the normalized coordinates.
+\end{theorem}
+
+\begin{proof}
+Put $z=b-a-q=-p$, $n=1+q^2$, $T_y=(q+y)(1-qy)$ and $A_y=ny/T_y$. The two centreline lengths are $L_1=h+(q+x)/2$ and $L_2=a+(q+z)/2$. We first obtain four necessary inequalities directly from the panels,
+\begin{equation}\label{eq:global-four}
+\begin{aligned}
+  2x(h+q)+x^2&\ge1, & 2z(a+q)+z^2&\ge1,\\
+  a&\ge A_x(h+q+x), & h&\ge A_z(a+q+z).
+\end{aligned}
+\end{equation}
+Indeed, write $\sigma(P)=\det(P,d_2)$ for the transverse coordinate of the incoming strip. Its interior has $0<\sigma<1$ and $X+xY>0$, where $P=(X,Y)$ and $X+xY=(1+x^2)(Y-\sigma)/(2x)$. The $A,C$ centreline crossing occurs at parameter $xnL_1/T_x>0$ on $C$, giving $T_x>0$. Along $C$, $\sigma$ increases at rate $2T_x/[n(1+x^2)]$. The chord $HG$ lies on the inner side of the incoming cap and $\sigma(H)<0$. Thus $\sigma(G)\le0$, giving the first inequality. At $Q_1$ the height exceeds $1$, and at the third crease midpoint $M_3$ it exceeds $1/2$. Also $\sigma(M_3)>1/2$ since $M_3$ is beyond the centreline crossing. If $0<\sigma(Q_1)<1$, a neighbourhood of $Q_1$ on its crease lies inside $A$. If $\sigma(Q_1)\le0$, the segment $Q_1M_3$ instead crosses $\sigma=1/2$ at height greater than $1/2$, again inside $A$. Consequently $\sigma(Q_1)\ge1$, which gives the third inequality. Material reversal with origin $Q_1$ and orthonormal axes $(-w_0,Jw_0)$ exchanges $(x,h)$ with $(z,a)$ and fixes $q$, where $J$ is rotation by $\pi/2$. It gives $T_z>0$ and the other two inequalities.
+
+Set $m=2L_1+q$ and $k=2L_2+q$. Then $mx,kz\ge1$, and $m>2q+x\ge2q+1/m$ implies $m-q>\sqrt n$, as also holds for $k$. The last two inequalities of \eqref{eq:global-four} read $k-2q-z\ge A_x(m+x)$ and its reversal. Since $A_y'=qn(1+y^2)/T_y^2>0$, substituting the lower bounds $x=1/m,\ z=1/k$ relaxes them to
+\[
+ \begin{gathered}
+ L(k)\ge F(m),\qquad L(m)\ge F(k),\\
+ L(v)=v-2q-1/v,\qquad F(v)=n\left(\frac1{v-q}+\frac{v}{qv+1}\right).
+ \end{gathered}
+\]
+This substitution is only an inequality on the lengths. For $v-q\ge\sqrt n$ we have $qv+1>\sqrt n$ and hence
+\[
+ -1<F'(v)=n\big[(qv+1)^{-2}-(v-q)^{-2}\big]<1,\qquad L'(v)>1 .
+\]
+Write $d=(m+k)/2$. If $m<k$, then $L(d)>L(m)+(d-m)$ and $F(k)>F(d)-(k-d)$, so $L(d)>F(d)$. Reversal covers $k<m$. If $m=k$, equality in $L(d)\ge F(d)$ requires $x=z=1/d$, by strictness of the angle relaxation above.
+
+Write $s=d-q=\core$. Multiplication of $L(d)-F(d)$ by $d(qd+1)(d-q)>0$ gives
+\begin{equation}\label{eq:global-envelope}
+ P(s,q)=-q^5-4sq^4-(4s^2+2)q^3-6sq^2+(s^4-4s^2-1)q-2s\ge0 .
+\end{equation}
+For $s_0=\ell^\dagger$ and $q_0=g^\dagger-h^\dagger>0$, the exact coordinates \eqref{eq:hdagger}--\eqref{eq:elldagger} give $s_0+q_0=1/x^\dagger$ and $P(s_0,q_0)=P_q(s_0,q_0)=0$. All three identities have zero remainder modulo $p_x$. For positive $s,q$ one has
+\[
+ -P_{qq}=20q^3+48s q^2+(24s^2+12)q+12s>0 .
+\]
+Thus $P(s_0,q)\le0$ for every $q>0$, with equality only at $q_0$. If a feasible point had $s<s_0$, increasing $d$ to $s_0+q$ at fixed $q$ would strictly increase $L(d)-F(d)$ and give $P(s_0,q)>0$. At equality we must have $q=q_0$, $m=k=s_0+q_0$, $x=z=1/m$ and $h=a=(m-2q_0-x)/2$. These are precisely the coordinates of the valid state $\td$.
+
+Finally $s=h+a+q+(x+z)/2$ bounds all five nonnegative coordinates on each sublevel set. At a limiting point with $s=s_0$, \eqref{eq:global-envelope} excludes $q=0$ because $P(s_0,0)=-2s_0$. The inequalities $mx,kz\ge1$ give $x,z>0$. The cleared inequality $T_x(k-2q-z)\ge nx(m+x)>0$ and its reversal keep $T_x,T_z$ positive. The derivative bounds above hold also at $m-q,k-q=\sqrt n$. Hence the equality argument still identifies the limiting point as $\td$. Boundedness and uniqueness of the accumulation point give the asserted convergence.
+\end{proof}
+
+An independent lower-bound check uses $\operatorname{disc}_qP=-16s^4p_\ell(s)$, with $p_\ell$ of Theorem~\ref{thm:field}. A Sturm count gives exactly one positive zero of $p_\ell$, namely $\ell^\dagger\in(2,3)$. On $0<s<\ell^\dagger$, the leading coefficient of $P$ in $q$ is $-1$, its constant term is $-2s$ and its discriminant is nonzero. Its positive real root count is constant there. At $s=1$ all coefficients are negative. Thus \eqref{eq:global-envelope} excludes every length below $\ell^\dagger$. The field and Sturm calculations are recorded by \texttt{exact\_global\_core}.
+
+\begin{lemma}[Regularity on the working chart]\label{lem:global-opening}
+The carrier determinant $D=\det(F-E,Q_0-Q_1)$ and the census scales $c_5,c_9,c_{10}$ are positive on the valid working chart. On each incident taco branch MFCQ holds. The honest segment prohibition and the computational disjunction define the same admissible set there.
+\end{lemma}
+\begin{proof}
+By \eqref{eq:global-four}, $a>A_xh$ and $h>A_z a$, hence $T_xT_z>xzn^2$. If $xz\ge1$, the positive numbers $T_x/(xn),T_z/(zn)$ have sum $[2(1-q^2)+q(x+z)(1/(xz)-1)]/n<2$ and product greater than one, a contradiction. Thus $xz<1$. Direct evaluation gives
+\[
+ T_xT_z-xzn^2=q[(1-xz)nD-q(1+x^2)(1+z^2)],
+\]
+so $D>0$ and $c_5=T_x,\ c_9=n^2D,\ c_{10}=nD$ are positive. Put $S_y=(q^2+2qy-1)/n$. Then $-1<S_x,S_z<1$. Cramer's rule gives
+\[
+ \begin{aligned}
+ Dt&=a+q+z+S_z h, &D(t-1)&=a+S_z(h+q+x),\\
+ Du&=h+q+x+S_x a, &D(u-1)&=h+S_x(a+q+z).
+ \end{aligned}
+\]
+Thus $t\le0$ forces $h>a+q+z$ and $u>1$. Likewise $u\le0$ forces $t>1$. This proves the claim about the disjunction.
+
+Keep $x,q,z$ fixed and give $(h,a)$ velocity $(h,a)$. The derivatives of $w_1,w_4$ are $2xh/(1+x^2),2za/(1+z^2)>0$. For $w_5,w_7$ they are positive multiples of $a-A_xh$ and for $w_6,w_8$ positive multiples of $h-A_z a$. At $t=1$, $a=-S_z(h+q+x)>0$ and $D\dot t=-S_z(q+x)>0$. At $u=1$, $D\dot u=-S_x(q+z)>0$. This single velocity strictly increases every active wall.
+\end{proof}

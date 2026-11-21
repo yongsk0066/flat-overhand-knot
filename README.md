@@ -2,7 +2,7 @@
 
 [Read the paper (PDF)](paper/main.pdf) · [Reproduce the results](REPRODUCE.md) · [Cite the manuscript](CITATION.cff)
 
-An overhand knot folded flat in a strip has two ways to measure tightness. On the three-crease branch with layer order **B > D > A > C**, the regular pentagon strictly minimizes truncation length locally. A certified path decreases core length from the pentagon to a different strict local minimum, the notched state θ†.
+An overhand knot folded flat in a strip has two ways to measure tightness. On the three-crease branch with layer order **B > D > A > C**, the regular pentagon strictly minimizes truncation length locally. The notched state θ† uniquely minimizes core length throughout the width-one positive working chart. A certified pulling path reaches it from the pentagon.
 
 [![Four folded ribbon panels form a seven-sided outline. The inset enlarges the V-shaped notch on its left edge.](paper/figs/theta-dagger-heptagon.svg)](paper/figs/theta-dagger-heptagon.svg)
 
@@ -23,10 +23,10 @@ A successful run ends with `PASS: core certificates, mutation controls and figur
 |---|---|
 | The three-crease trefoil has crossing word `XYZXYZ`, alternating crossings and slope signs unique up to mirror. A compatible global order is uniquely B > D > A > C. Loose configurations can realize cyclic local orders. | Combinatorial enumeration, an explicit realization, and a common four-panel overlap near the two optima and along the certified paths. |
 | Kauffman's pentagon is a strict local minimum of truncation length. Core length has a feasible descent direction there. | Exact Farkas certificate for truncation and an eight-wall descent certificate for core length. |
-| θ† is a strict local minimum of core length. Its coordinate field has degree 12 and the associated sextic has Galois group S₆. | Exact elimination and stationarity, interval curvature bounds and an exact four-panel outline. |
-| The figure-eight state has core length 4√15/3 and truncation length 32√15/15. | Exact panel validity and a strict local minimum on the stated eight-contact chamber. |
+| θ† is the unique global minimum of core length in this chart, with equality only at θ†. Its coordinate field has degree 12 and the associated sextic has Galois group S₆. | Four necessary contact inequalities, strict averaging and an exact polynomial bound. The equality case agrees with the degree-12 state. |
+| The figure-eight state has core length 4√15/3 and truncation length 32√15/15. | The eight contact inequalities characterize actual panel nonpenetration near the hexagon. Exact cap geometry and positive KKT multipliers prove strict local minimality of core length in the specified geometric cell. |
 
-The model uses zero-thickness ribbons and movable complete creases. Global optimality across all branches, full census root coverage and finite-thickness pulling dynamics are open. The [Lean project](formal/README.md) proves 16 supporting algebraic statements.
+The model uses zero-thickness ribbons and movable complete creases. It remains open whether every slack trefoil state in this chart admits a branch-preserving path to θ† with non-increasing core length. Higher blocked states, comparisons across branches and finite-thickness dynamics are separate questions. The [Lean project](formal/README.md) proves 16 supporting algebraic statements.
 
 ## Materials
 

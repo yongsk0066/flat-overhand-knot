@@ -15,6 +15,20 @@ def _require(cond, msg="guard check failed"):
 
 MUTATIONS = [
     (
+        "exact_global_core.py",
+        "-6*s*q**2+(s**4-4*s**2-1)*q",
+        "-5*s*q**2+(s**4-4*s**2-1)*q",
+        "wrong global length envelope",
+        "reduced length polynomial",
+    ),
+    (
+        "n4_exact_cell.py",
+        "(4*v_value-2*u_value)/root",
+        "(4*v_value+2*u_value)/root",
+        "wrong coupled cap orientation",
+        "upper tail cap",
+    ),
+    (
         "exact_slice.py",
         "cos108 = -(sqrt(5) - 1) / 4",
         "cos108 = 0",

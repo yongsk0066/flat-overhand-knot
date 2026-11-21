@@ -1,0 +1,43 @@
+\begin{lemma}[Local equivalence with capped-panel nonpenetration]\label{lem:hex-cell}
+In a neighbourhood of $\theta^*_{4_1}$, the six forbidden crease/pass pairs for the specified layer order satisfy nonpenetration exactly when all eight displayed contact functions are nonnegative.
+\end{lemma}
+
+\begin{proof}
+The forbidden pairs (crease numbered from one, pass from zero) are $(1,4),(4,0),(2,4),(3,0),(1,2),(4,2)$. At the endpoints defining $g_1,g_1',g_{3b},g_{3b}'$, all half-planes of the relevant panel except the contact side are strictly satisfied. If the corresponding exterior side value were negative nearby, the endpoint and then a relative-interior piece of its crease would be inside the panel. These four inequalities are necessary.
+
+The other four inequalities occur in pairs. Let $K,T$ and $U,V$ denote the near and far endpoints of the two chords in each row. Write $u,v$ for the corresponding exterior side values.
+\[
+\begin{array}{c|cc|cc|cc}
+ &K&T&U&V&u&v\\ \hline
+ \text{upper}&V_2^+&V_2^-&V_4^-&V_4^+&g_{3a}&g_2'\\
+ \text{lower}&V_3^+&V_3^-&V_1^-&V_1^+&g_{3a}'&g_2
+\end{array}
+\]
+At the hexagon $K=U$ in each row. Put $w=K-U$, and let $N_j$ be the unit normal of $f_j$. In the upper row $u=N_4\cdot w,\ v=N_2\cdot w$, and in the lower row $u=-N_0\cdot w,\ v=-N_2\cdot w$. These identities follow because each moving endpoint lies on its own strip side. At the hexagon $N_0=N_4=(0,1)$ and $N_2=(\sqrt{15}/4,-1/4)$, so $u,v$ are independent linear coordinates for $w$ in both rows.
+
+Let $C$ be the inward tail cap based at $U$, with normal having horizontal component of absolute value one. Let $B$ be the inward pass-$2$ cap based at $K$, with normal having vertical component of absolute value one. The remaining panel half-planes are strict near these endpoints. At the hexagon the upper tail normal is $(1,-\sqrt{15}/5)$ and the lower is its negative. The upper pass-$2$ cap points down and the lower one up. Substitution of the signed vertices gives the following coefficients in both rows, with stars denoting the functionals and directional slopes at the hexagon:
+\[
+\begin{aligned}
+ C_*(w)&=(4v-2u)/\sqrt{15}, & B_*(-w)&=u,\\
+ (\dot u,\dot C)_{K\to T}&=(0,4\sqrt{15}/15),&
+ (\dot v,\dot B)_{U\to V}&=(1/2,1).
+\end{aligned}
+\]
+Here a dot is the derivative in the affine parameter $t\in[0,1]$ along the indicated chord, with its exterior lateral and inward cap functionals. All coefficients vary continuously with the state. The exact signs at the other endpoints and these coefficients are checked by \texttt{n4\_exact\_cell}. An independent calculation in $(X,Y)=(x/\sqrt{15},y)$ and angle coordinates $\cot(\tau_i/2)/\sqrt{15}$ recovers both cap tables and the seven positive multipliers using rational arithmetic (\texttt{n4\_cell\_crosscheck}).
+
+Suppose a sequence of valid states tends to the hexagon with $u_i<0$ or $v_i<0$. Write $r_i=|K_i-U_i|>0$ and take a subsequence on which $w_i/r_i$ tends to a unit vector. Let $\bar u,\bar v$ be the limits of $u_i/r_i,v_i/r_i$. If $\bar u<0$, take a point of $K_iT_i$ at $t_i=\eta r_i$. As $C(K_i)/r_i$ stays bounded and $\dot C$ has a positive limit, a sufficiently large fixed $\eta>0$ puts the point inside the cap. Its scaled exterior lateral value tends to $\bar u$ because $\dot u\to0$. This gives a forbidden relative-interior point. Thus $\bar u\ge0$. If $\bar v<0$, take $t_i=\eta r_i$ on $U_iV_i$ with $0<\eta<-2\bar v$. The scaled exterior lateral value tends to $\bar v+\eta/2<0$ and the inward cap value to $\bar u+\eta>0$, again giving penetration. Thus $\bar v\ge0$.
+
+The two limits cannot both vanish, by independence of the lateral normals. On any subsequence with $u_i<0$ one would have $\bar u=0,\bar v>0$, whence $C(K_i)/r_i\to4\bar v/\sqrt{15}>0$. The endpoint $K_i$ would itself be inside the tail panel. On a subsequence with $v_i<0$, one would have $\bar v=0,\bar u>0$ and $B(U_i)/r_i\to\bar u>0$, placing $U_i$ inside pass $2$. Both contradict nonpenetration. This proves necessity in a neighbourhood, including displacements $K_i-U_i$ arbitrarily small relative to the change of state.
+
+Conversely, on each forbidden pair the two endpoints satisfy the same closed exterior lateral half-plane. For the four pairs with only one tested endpoint, the other is strictly exterior at the hexagon and remains so nearby. For the two edge-aligned pairs both inequalities are among the eight. The affine side values on the chords therefore exclude penetration of all six actual panels.
+\end{proof}
+
+\begin{corollary}[Strict growth in the geometric cell]\label{cor:hex-growth}
+For some $c,\delta>0$, every valid state $\theta$ of the specified cell with $\|\theta-\theta^*_{4_1}\|<\delta$ satisfies
+\[
+ \core(\theta)-4\sqrt{15}/3\ \ge\ c\|\theta-\theta^*_{4_1}\|.
+\]
+\end{corollary}
+\begin{proof}
+Let $J$ contain the seven independent contact rows displayed above. A limit $d$ of normalized secants of valid states at the hexagon satisfies $Jd\ge0$ by Lemma~\ref{lem:hex-cell}. Since $\|d\|=1$ and $J$ is invertible, at least one entry is positive. Thus $\nabla\core\cdot d=\lambda^\top Jd>0$. Compactness of the unit sphere and the first-order expansion give a uniform positive $c$ in a sufficiently small neighbourhood.
+\end{proof}

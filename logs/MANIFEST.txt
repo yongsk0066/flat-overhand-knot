@@ -26,4 +26,8 @@ The trefoil pending-row log refreshes four rows only; other stored trefoil
 census rows retain their earlier evidence. The figure-eight rerun does not
 claim exhaustive roots or a full-cell local-optimality proof.
 
+Global core and full-cell cap certificates have their own logs. The extended
+mutation receipt is test_guards_global_cell.log. The ten-case receipt remains
+at its original path.
+
 Earlier reachability, census-root and mutation logs are preserved in logs/history/.

@@ -45,14 +45,13 @@ integrity manifests. CI also rebuilds the archive and compares its bytes with th
 | D · Algebraic state and notched outline | `exact_field.py`, `exact_unique_h.py`, `exact_kkt_dagger.py`, `exact_second.py`, `exact_outline.py`, `exact_notch.py` (core) | Degree 12, associated sextic group S₆, four positive multipliers, positive reduced curvature and a seven-edge outline. |
 | E · Kauffman truncation | `exact_kauffman2.py`, `exact_trunc_nbhd.py` (core) | Exact Farkas and flush-edge certificates give a strict local minimum at the regular pentagon. |
 | F · Realization on the globally ordered branch | `exact_opening.py`, `exact_common_overlap.py` (core), `check_realize.py` (numerical illustrations) | The proof in the paper gives necessity and handles open states. The certificates verify the opening hypothesis at the two zero-clearance optima and the local-order example. |
+| G · Unique global core minimum in the positive chart | `exact_global_core.py` (core) | Necessary panel inequalities, strict averaging, a supporting double root in the dagger field and an independent discriminant/Sturm lower bound. |
 | G · Saved census candidates | `exact_census_roots.py` (core), `recertify_census_pending.py` (four-row extended check) | 104 distinct saved candidates, 72 isolating boxes each violating a true geometric wall below −0.315, and 32 unconfirmed centres classified 4 / 6 / 18 / 4. |
-| H · Figure-eight state | `n4_exact_valid.py`, `n4_exact_opening.py`, `n4_exact_kkt.py`, `n4_exact_local.py`, `n4_krawczyk.py`, `n4_certify.py` (core) | Valid oblique panels, an opening and a local minimum on the eight-contact chamber. Core length 4√15/3 and truncation 32√15/15. |
+| H · Figure-eight state | `n4_exact_valid.py`, `n4_exact_opening.py`, `n4_exact_cell.py`, `n4_cell_crosscheck.py`, `n4_exact_kkt.py`, `n4_exact_local.py`, `n4_krawczyk.py`, `n4_certify.py` (core) | Valid oblique panels, an opening and a strict local minimum in the geometric cell, including both double-corner contacts. Core length 4√15/3 and truncation 32√15/15. |
 | H · Recorded search | `check_n4_geometry.py`, `check_n4_rerun.py` (core), `n4_cells3.py` (extended) | Checkpoints, source records, finite search counts and determinant-based enumeration. |
-| Regression controls | `test_guards.py` (core) | Ten fresh control scripts pass, and ten specific mathematical faults raise their expected diagnostic in both default and optimized Python. |
+| Regression controls | `test_guards.py` (core) | Twelve fresh control scripts pass, and twelve specific mathematical faults raise their expected diagnostic in both default and optimized Python. |
 
-The [Lean guide](formal/README.md) identifies the 16 algebraic statements. The
-figure-eight chamber is defined by eight explicit contacts. Local necessity of
-those contacts throughout the geometric cell remains open.
+The [Lean guide](formal/README.md) identifies the 16 algebraic statements. Near the figure-eight hexagon, the eight explicit contacts are equivalent to nonpenetration against the actual crease caps. The global classification of figure-eight cells remains open.
 
 ## Further trefoil calculations
 
@@ -81,7 +80,7 @@ updates their verdicts in the local copy. The 32 inconclusive centres have
 and 4 further cases with negative `h` and `a`. All 104 saved centres have a
 radius-10⁻¹² box violating a true sliver wall. The 72 regular roots have
 separate certified isolating boxes. Root existence for the other 32 centres,
-exhaustiveness of multistart and global MFCQ coverage remain open.
+exhaustiveness of multistart remains open. The length dilation in the global-core proof establishes MFCQ at every valid point of the positive trefoil chart.
 
 To **regenerate** the harvest, extract the ancillary archive into a new directory,
 change into that directory, and run the following commands there. They write
@@ -166,14 +165,15 @@ uv run python verify/n4_certify.py             # exact hexagon union, with overl
 uv run python verify/n4_exact_kkt.py            # exact multipliers and opening direction
 uv run python verify/n4_exact_valid.py          # all actual-panel forbidden pairs
 uv run python verify/n4_exact_opening.py        # continuous valid opening interval
-uv run python verify/n4_exact_local.py          # minimum on the stated contact chamber
+uv run python verify/n4_exact_local.py          # first-order growth on the contact cone
+uv run python verify/n4_exact_cell.py           # actual two-corner cap and side conditions
+uv run python verify/n4_cell_crosscheck.py      # independent rational cap and KKT data
 uv run python verify/n4_chart.py               # rational half-angle contact equations
 uv run python verify/n4_krawczyk.py             # existence/uniqueness in the root box
 ```
 
 Expected exact values: cos τ₁ = −1/4, L* = (6,8,6)/√15, core length 4√15/3,
-truncation 32√15/15 with ratio 8/5. The numerical rerun does not prove exhaustive
-root/cell coverage or local optimality beyond the specified contact chamber.
+truncation 32√15/15 with ratio 8/5. The geometric-cell proof combines the two-corner cap data with the independent rank and positive-multiplier certificate. Exhaustive root and cell coverage remains open.
 
 ## Implementation discipline
 
@@ -192,13 +192,14 @@ The following names remain available to reproduce earlier calculations.
 | `check_walls.py`, `check_descent.py` | Sampled-interior probes can miss a sliver near a crease endpoint. Use the analytic walls and `exact_core_descent.py` for the junction. |
 | `exact_farkas.py` | Six-wall multiplier search. The current eight-wall descent certificate is `exact_core_descent.py`. The command `exact_farkas2.py` is a compatibility entry point to that same function. |
 | `n4_cells.py`, `n4_cells2.py` | Historical determinant-one mask pair. Use `n4_cells3.py` for the figure-eight (determinant five). |
-| `n4_tighten.py`, `n4_kkt.py`, `n4_straggler.py` | Exploratory optimization and stalled endpoints. Use `n4_exact_local.py` for the certified chamber and `check_n4_rerun.py` for the recorded search. |
+| `n4_tighten.py`, `n4_kkt.py`, `n4_straggler.py` | Exploratory optimization and stalled endpoints. Use `n4_exact_local.py` for the contact cone, `n4_exact_cell.py` for the capped panels and `check_n4_rerun.py` for the recorded search. |
 | `n4_fig.py`, `n4_fig_loose.py` | Historical single-panel SVG and loose-state JSON. Each takes a new output filename. `n4_pair.py` owns the two paper illustrations. |
 | [Historical figure-eight probes](verify/referee/README.md) | Data-generation order, inputs, output location and the corrected clipping example. |
 
 ## Certificate logs and hashes
 
 `logs/` contains selected recorded certificate outputs. Superseded logs for the reachability, census-root and mutation checks are retained under `logs/history/`. Source snapshots in `verify/artifacts/n4-rerun-20261023/` are checked byte for byte against their original receipts. The current search modules also match those files, with a syntax-tree comparison for three comment-only edits. The runner has separately documented archive and resume handling.
+The ten-case mutation receipt remains in `logs/test_guards.log`. The twelve-case receipt is `logs/test_guards_global_cell.log`.
 Integrity check:
 
 ```bash

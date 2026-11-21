@@ -48,7 +48,7 @@ def check_archive(files):
 def build_archive(files):
     with tempfile.TemporaryDirectory(dir=ROOT, prefix=".ancillary-") as tmp:
         output = Path(tmp) / ARCHIVE.name
-        with output.open("wb") as target, gzip.GzipFile(filename="", mode="wb", fileobj=target, mtime=0) as stream:
+        with output.open("wb") as target, gzip.GzipFile(filename="", mode="wb", compresslevel=6, fileobj=target, mtime=0) as stream:
             with tarfile.open(mode="w|", fileobj=stream, format=tarfile.PAX_FORMAT) as archive:
                 for name, path in files.items():
                     member = tarfile.TarInfo(name)

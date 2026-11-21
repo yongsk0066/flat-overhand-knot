@@ -33,7 +33,7 @@ A successful run ends with `PASS: core certificates, mutation controls and figur
 All Python filenames below are in [verify/](verify/). The core command runs the
 entries marked **core**, then checks the shared geometry export and the paper's SVG
 generators. The Python CI workflow also compiles the scripts and checks the three
-integrity manifests.
+integrity manifests. CI also rebuilds the archive and compares its bytes with the published file.
 
 ### Theorem-to-certificate guide
 
@@ -118,6 +118,15 @@ The final evidence is in `verify/artifacts/n4-rerun-20261023/final/`:
 | Other abstract cells | 8 cells × 60 restarts; four with shadow hits, none with valid-state hits | finite search, not an emptiness proof |
 | Code/length margins | 15 targets × 4 starts, 56,270 trials; observed minimum 0.5252598788 | not a global lower bound |
 | Remaining descent endpoints | Sampled decreasing rays at all 11 endpoints outside the 0.01 threshold | 101 checks per ray, not a continuous-interval certificate |
+
+Each boundary record contains the starting point, a unit direction, the final
+45-step bisection bracket and its contact distances. At double precision the last
+bit of a bracket endpoint can depend on the platform's trigonometric library.
+The replay reconstructs the saved endpoint, verifies validity on the inner side
+and invalidity on the outer side within a parameter padding of 10⁻¹² along that
+ray, then recomputes the near contacts and their histogram. The geometric
+distance, crease-parameter and general-position tolerances are those of the
+recorded search.
 
 Each stage retains input hashes, source snapshots, tolerances and checkpoints.
 The top-level `sweep/`, `walls/` and `descent/` are explicitly marked interim
@@ -230,6 +239,17 @@ rsvg-convert -f pdf paper/figs/theta-dagger-heptagon.svg -o paper/figs/fig2-hept
 ```
 
 ## Building the paper
+
+For the distributed PDF and bibliography, run the same pinned TeX Live image
+as the paper CI job. The command requires Docker and writes `paper/main.pdf`
+and `paper/main.bbl`. Intermediates stay inside the container.
+
+```sh
+sh scripts/build-paper.sh
+```
+
+With a local TeX installation, the manuscript also builds with the usual sequence.
+Different TeX Live package versions can change glyph mappings and PDF bytes.
 
 ```bash
 cd paper && pdflatex main && bibtex main && pdflatex main && pdflatex main

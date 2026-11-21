@@ -23,5 +23,8 @@ jobs:
           sha256sum -c logs/hashes-logs.txt
           sha256sum -c logs/hashes-artifacts.txt
 
-      - name: Compare the published archive with this checkout
-        run: sh scripts/make-ancillary.sh --check
+      - name: Compare and reproduce the published archive
+        run: |
+          sh scripts/make-ancillary.sh --check
+          sh scripts/make-ancillary.sh
+          git diff --exit-code -- ancillary.tar.gz logs/hashes-*.txt

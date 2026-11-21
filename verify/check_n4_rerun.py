@@ -4,14 +4,16 @@ This validates the numerical evidence used by the paper. It is not a proof
 of cell coverage, root completeness, or full-cell local optimality.
 """
 import ast
+from collections import Counter
 import hashlib
 import itertools
 import json
+import math
 from pathlib import Path
 
 from n4_tighten2 import valid_fixed2
 from n4_strata2 import actual_closure_ok
-from n4_walls import ORDER
+from n4_walls import ORDER, all_margins
 
 ROOT = Path(__file__).resolve().parent.parent
 RUN = ROOT / "verify/artifacts/n4-rerun-20261023"
@@ -34,6 +36,35 @@ COMMENTS_ONLY = {"n4_census.py", "n4_walls.py", "n4_cells3.py"}
 
 def syntax(path):
     return ast.dump(ast.parse(path.read_text(encoding="utf-8"), type_comments=True))
+
+
+def replay_boundary(record):
+    attempt = record["attempt"]
+    start, direction = record["start"], record["direction"]
+    low, high = record["bracket"]
+
+    def point(t):
+        return [a + t*v for a, v in zip(start, direction, strict=True)]
+
+    assert len(start) == len(direction) == 7 and abs(math.hypot(*direction) - 1) < 1e-15, attempt
+    assert 0 < high - low <= 0.05 / 2**45 + math.ulp(3.0), (attempt, "bisection width")
+    assert point(low) == record["theta"], (attempt, "stored endpoint")
+
+    # The last bisection straddles a floating-point threshold. Different libm
+    # implementations may put its last bit on either side. Test both sides on
+    # the recorded unit ray without changing the original panel/GP tolerances.
+    padding = 1e-12
+    assert padding < low < high < 3, attempt
+    assert valid_fixed2(point(low - padding), ORDER), (attempt, "inside of bracket")
+    assert not valid_fixed2(point(high + padding), ORDER), (attempt, "outside of bracket")
+
+    margins = {k: abs(v) for k, v in all_margins(record["theta"]).items() if abs(v) < 5e-4}
+    saved = {label: distance for distance, label in record["near"]}
+    assert len(saved) == len(record["near"]) and saved.keys() == margins.keys(), (attempt, "contact set")
+    assert all(abs(margins[k] - saved[k]) < 1e-12 for k in saved), (attempt, "contact distances")
+    recorded_label = record["near"][0][1]
+    assert recorded_label == min(margins, key=margins.get), (attempt, "nearest contact")
+    return recorded_label
 
 
 if not __debug__:
@@ -65,7 +96,9 @@ assert walls["actual_attempts"] == walls["requested_attempts"] == 4000
 assert len(walls["records"]) == walls["reached_boundaries"] == walls["classified"] == 3995
 assert sum(walls["histogram"].values()) == 3995 and len(walls["histogram"]) == 8
 assert len(walls["records"]) + sum(walls["skipped"].values()) == 4000
-assert all(valid_fixed2(r["theta"], ORDER) for r in walls["records"])
+attempts = [r["attempt"] for r in walls["records"]]
+assert attempts == sorted(set(attempts)) and all(0 <= i < 4000 for i in attempts)
+assert Counter(replay_boundary(r) for r in walls["records"]) == walls["histogram"]
 
 descent = read(FINAL / "descent/result.json")
 assert descent["n_starts"] == descent["n_finished"] == len(descent["endpoints"]) == 42
